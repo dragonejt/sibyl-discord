@@ -1,0 +1,24 @@
+{
+  "name": "sibyl",
+  "version": "0.1.0",
+  "description": "Content Moderation and Toxicity Profiles using Machine Learning",
+  "main": "discord.js",
+  "scripts": {
+    "start": "node discord.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dragonejt/sibyl-discord.git"
+  },
+  "author": "dragonejt",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/dragonejt/sibyl-discord/issues"
+  },
+  "homepage": "https://github.com/dragonejt/sibyl-discord#readme",
+  "dependencies": {
+    "discord.js": "^14.7.1",
+    "dotenv": "^16.0.3"
+  }
+}
