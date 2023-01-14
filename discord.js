@@ -10,17 +10,17 @@ const commands = [
 
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_BOT_TOKEN);
 
-(async () => {
+async function registerCommands() {
     try {
-        console.log('started refreshing application (/) commands.');
+        console.log('Started Refreshing Application (/) Commands.');
 
         await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID), { body: commands });
 
-        console.log('successfully reloaded application (/) commands.');
+        console.log('Successfully Reloaded Application (/) Commands.');
     } catch (error) {
         console.error(error);
     }
-})();
+}
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -36,4 +36,5 @@ client.on('interactionCreate', async interaction => {
     }
 });
 
+registerCommands();
 client.login(process.env.DISCORD_BOT_TOKEN);
