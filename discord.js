@@ -1,10 +1,10 @@
 require("dotenv").config();
-const { REST, Routes } = require("discord.js");
+const { REST, Routes, Client, GatewayIntentBits } = require("discord.js");
 
 const commands = [
     {
         name: "sibyl",
-        description: "access all sibyl utils"
+        description: "Access All Sibyl Utils"
     }
 ];
 
@@ -22,7 +22,6 @@ const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_BOT_TOKEN)
     }
 })();
 
-const { Client, GatewayIntentBits } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.on('ready', () => {
@@ -33,7 +32,7 @@ client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
 
     if (interaction.commandName === 'sibyl') {
-        await interaction.reply('Pong!');
+        await interaction.reply('Sibyl Pong!');
     }
 });
 
