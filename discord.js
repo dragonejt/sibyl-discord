@@ -4,7 +4,7 @@ const { REST, Routes, Client, GatewayIntentBits } = require("discord.js");
 const commands = [
     {
         name: "sibyl",
-        description: "Access All Sibyl Utils"
+        description: "Access all Sibyl utils"
     }
 ];
 
@@ -12,11 +12,11 @@ const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_BOT_TOKEN)
 
 async function registerCommands() {
     try {
-        console.log('Started Refreshing Application (/) Commands.');
+        console.log('Started refreshing application (/) commands.');
 
         await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID), { body: commands });
 
-        console.log('Successfully Reloaded Application (/) Commands.');
+        console.log('Successfully reloaded application (/) commands.');
     } catch (error) {
         console.error(error);
     }
