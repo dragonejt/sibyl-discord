@@ -35,6 +35,7 @@ for (const command of commands) {
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
+    client.user.setPresence({ activities: [{ name: "1 servers", type: 3}] })
 });
 
 client.on('interactionCreate', async interaction => {
