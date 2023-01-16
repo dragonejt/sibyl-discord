@@ -5,7 +5,7 @@ const data = new SlashCommandBuilder()
     .setDescription("Get the Psycho-Pass of a User or Server")
     .addUserOption(option =>
         option.setName("user")
-            .setDescription("This User's Psycho-Pass will be returned.")
+            .setDescription("Gets this User's Psycho-Pass")
         )
 
 const execute = async (interaction) => {
