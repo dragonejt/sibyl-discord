@@ -4,9 +4,10 @@
   "description": "Content Moderation and Toxicity Profiles using Machine Learning",
   "main": "discord.js",
   "scripts": {
-    "start": "node discord.js",
+    "start": "node sibyl-discord.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "type":"module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dragonejt/sibyl-discord.git"
@@ -17,7 +18,6 @@
     "url": "https://github.com/dragonejt/sibyl-discord/issues"
   },
   "homepage": "https://github.com/dragonejt/sibyl-discord#readme",
-  "type":"module",
   "dependencies": {
     "discord.js": "^14.7.1"
   }

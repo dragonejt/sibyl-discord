@@ -1,4 +1,4 @@
-import { REST, Routes, Client, GatewayIntentBits, SlashCommandBuilder, Collection, InteractionResponse } from "discord.js";
+import { REST, Routes, Client, GatewayIntentBits, Collection } from "discord.js";
 import sibylCommand from "./commands/sibyl.js";
 import dominatorCommand from "./commands/dominator.js";
 import psychopassCommand from "./commands/psychopass.js";
