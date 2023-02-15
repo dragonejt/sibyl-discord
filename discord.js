@@ -1,19 +1,15 @@
-const { REST, Routes, Client, GatewayIntentBits, SlashCommandBuilder, Collection, InteractionResponse } = require("discord.js");
-const sibylCommand = require("./commands/sibyl");
-const dominatorCommand = require("./commands/dominator");
-const psychopassCommand = require("./commands/psychopass");
+import { REST, Routes, Client, GatewayIntentBits, SlashCommandBuilder, Collection, InteractionResponse } from "discord.js";
+import sibylCommand from "./commands/sibyl.js";
+import dominatorCommand from "./commands/dominator.js";
+import psychopassCommand from "./commands/psychopass.js";
 
 const commands = [sibylCommand, dominatorCommand, psychopassCommand];
-const commandData = [sibylCommand.data, dominatorCommand.data, psychopassCommand.data];
 
-const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_BOT_TOKEN);
-
-async function registerCommands() {
+const registerCommands = async () => {
     try {
+        const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_BOT_TOKEN);
         console.log('Started refreshing application (/) commands.');
-
-        await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID), { body: commandData });
-
+        await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID), { body: commands.map(command => command.data) });
         console.log('Successfully reloaded application (/) commands.');
     } catch (error) {
         console.error(error);
@@ -34,7 +30,7 @@ for (const command of commands) {
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    client.user.setPresence({ activities: [{ name: "1 servers", type: 3}] })
+    client.user.setPresence({ activities: [{ name: "1 servers", type: 3 }] })
 });
 
 client.on('interactionCreate', async interaction => {

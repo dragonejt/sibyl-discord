@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require("discord.js");
+import { SlashCommandBuilder } from "discord.js";
 
 const data = new SlashCommandBuilder()
     .setName("psychopass")
@@ -14,4 +14,4 @@ const execute = async (interaction) => {
     console.warn(`${interaction.user.username}#${interaction.user.discriminator} (${interaction.user.id}) has requested the Psycho-Pass of ${user.username}#${user.discriminator} (${user.id})`);
 }
 
-module.exports = { data, execute };
+export default { data, execute };

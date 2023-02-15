@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require("discord.js");
+import { SlashCommandBuilder } from "discord.js";
 
 const data = new SlashCommandBuilder()
     .setName("sibyl")
@@ -8,4 +8,4 @@ const execute = async (interaction) => {
     await interaction.reply("Sibyl Pong!");
 }
 
-module.exports = { data, execute };
+export default { data, execute };

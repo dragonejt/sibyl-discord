@@ -17,6 +17,7 @@
     "url": "https://github.com/dragonejt/sibyl-discord/issues"
   },
   "homepage": "https://github.com/dragonejt/sibyl-discord#readme",
+  "type":"module",
   "dependencies": {
     "discord.js": "^14.7.1"
   }
