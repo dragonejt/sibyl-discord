@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/dragonejt/sibyl-discord#readme",
   "dependencies": {
-    "discord.js": "^14.7.1",
-    "dotenv": "^16.0.3"
+    "discord.js": "^14.7.1"
   }
 }

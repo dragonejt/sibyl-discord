@@ -1,4 +1,3 @@
-require("dotenv").config();
 const { REST, Routes, Client, GatewayIntentBits, SlashCommandBuilder, Collection, InteractionResponse } = require("discord.js");
 const sibylCommand = require("./commands/sibyl");
 const dominatorCommand = require("./commands/dominator");
