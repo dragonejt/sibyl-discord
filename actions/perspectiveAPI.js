@@ -24,7 +24,7 @@ export const analyzeMessage = async message => {
                 languages: ["en"]
             }
         });
-        console.log(analysis);
+        console.log(analysis.data);
     } catch (error) {
         console.error(error);
     }
