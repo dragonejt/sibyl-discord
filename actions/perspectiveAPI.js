@@ -1,10 +1,9 @@
 import { google } from "googleapis";
 
-const PERSPECTIVE_API_URL = "https://commentanalyzer.googleapis.com/$discovery/rest?version=v1alpha1";
-const perspectiveAPI = await google.discoverAPI(PERSPECTIVE_API_URL);
+const perspectiveAPI = await google.discoverAPI("https://commentanalyzer.googleapis.com/$discovery/rest?version=v1alpha1");
 
 export const analyzeMessage = async message => {
-    if (message.isChatInputCommand || message.guildId != "1063590532711972945") return;
+    if (message.author.id == process.env.DISCORD_CLIENT_ID || message.guildId != "1063590532711972945") return;
 
     try {
         const analysis = await perspectiveAPI.comments.analyze({
@@ -25,7 +24,7 @@ export const analyzeMessage = async message => {
                 languages: ["en"]
             }
         });
-        console.log(analysis.data);
+        console.log(analysis);
     } catch (error) {
         console.error(error);
     }

@@ -11,7 +11,7 @@ const data = new SlashCommandBuilder()
 const execute = async (interaction) => {
     const user = interaction.options.getUser("user");
     interaction.reply(`Generating Psycho-Pass of <@${user.id}> ...`);
-    console.warn(`${interaction.user.username}#${interaction.user.discriminator} (${interaction.user.id}) has requested the Psycho-Pass of ${user.username}#${user.discriminator} (${user.id})`);
+    console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of ${user.tag} (${user.id})`);
 }
 
 export default { data, execute };
