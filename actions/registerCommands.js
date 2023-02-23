@@ -1,10 +1,9 @@
 import { REST, Routes, Collection } from "discord.js";
-const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_BOT_TOKEN);
-
 import sibylCommand from "../commands/sibyl.js";
 import dominatorCommand from "../commands/dominator.js";
 import psychopassCommand from "../commands/psychopass.js";
 
+const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_BOT_TOKEN);
 const commands = [sibylCommand, dominatorCommand, psychopassCommand];
 
 const registerCommands = async client => {

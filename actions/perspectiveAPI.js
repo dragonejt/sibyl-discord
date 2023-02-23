@@ -1,5 +1,4 @@
 import { google } from "googleapis";
-
 const perspectiveAPI = await google.discoverAPI("https://commentanalyzer.googleapis.com/$discovery/rest?version=v1alpha1");
 
 export const analyzeMessage = async message => {
