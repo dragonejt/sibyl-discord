@@ -14,7 +14,13 @@ export const analyzeMessage = async message => {
                     text: message.content
                 },
                 requestedAttributes: {
-                    TOXICITY: {}
+                    TOXICITY: {},
+                    SEVERE_TOXICITY: {},
+                    IDENTITY_ATTACK: {},
+                    INSULT: {},
+                    PROFANITY: {},
+                    THREAT: {},
+                    SEXUALLY_EXPLICIT: {}
                 }
             }
         });
