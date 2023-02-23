@@ -6,7 +6,6 @@ import psychopassCommand from "./commands/psychopass.js";
 
 import { analyzeMessage } from "./actions/perspectiveAPI.js";
 
-const commands = [sibylCommand, dominatorCommand, psychopassCommand];
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_BOT_TOKEN);
 const client = new Client({
     intents: [
@@ -15,13 +14,20 @@ const client = new Client({
         GatewayIntentBits.MessageContent
     ]
 });
+const commands = [sibylCommand, dominatorCommand, psychopassCommand];
 
-console.log('Started refreshing application (/) commands.');
-await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID), { body: commands.map(command => command.data) });
-console.log('Successfully reloaded application (/) commands.');
+const registerCommands = async () => {
+    try {
+        await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID), { body: commands.map(command => command.data) });
+        console.log('Successfully reloaded application (/) commands.');
 
-client.commands = new Collection();
-commands.map(command => client.commands.set(command.data.name, command));
+        client.commands = new Collection();
+        commands.map(command => client.commands.set(command.data.name, command));
+        console.log("Successfully register application (/) command actions.")
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 client.on(Events.ClientReady, () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -46,4 +52,5 @@ client.on(Events.InteractionCreate, async interaction => {
     }
 });
 
+registerCommands();
 client.login(process.env.DISCORD_BOT_TOKEN);

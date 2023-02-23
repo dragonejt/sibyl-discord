@@ -6,7 +6,7 @@ const data = new SlashCommandBuilder()
     .addUserOption(option =>
         option.setName("user")
             .setDescription("Gets this User's Psycho-Pass")
-        )
+    )
 
 const execute = async (interaction) => {
     const user = interaction.options.getUser("user");
