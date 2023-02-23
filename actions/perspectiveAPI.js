@@ -21,7 +21,8 @@ export const analyzeMessage = async message => {
                     PROFANITY: {},
                     THREAT: {},
                     SEXUALLY_EXPLICIT: {}
-                }
+                },
+                languages: ["en"]
             }
         });
         console.log(analysis.data);
