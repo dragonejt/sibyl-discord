@@ -11,6 +11,7 @@ const client = new Client({
         GatewayIntentBits.MessageContent
     ]
 });
+const commands = await registerCommands(client);
 
 client.on(Events.ClientReady, () => {
     console.log(`Logged In as ${client.user.tag}!`);
@@ -24,5 +25,4 @@ client.on(Events.GuildCreate, () => {
 client.on(Events.MessageCreate, analyzeMessage);
 client.on(Events.InteractionCreate, processCommand);
 
-registerCommands(client);
 client.login(process.env.DISCORD_BOT_TOKEN);

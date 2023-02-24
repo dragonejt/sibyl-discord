@@ -17,6 +17,8 @@ const registerCommands = async client => {
     } catch (error) {
         console.error(error);
     }
+
+    return commands;
 }
 
 export default registerCommands;
