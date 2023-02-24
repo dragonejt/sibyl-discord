@@ -1,4 +1,3 @@
-
 export default async function interactionCreate(interaction) {
     if (!interaction.isChatInputCommand()) return;
     const command = interaction.client.commands.get(interaction.commandName);
