@@ -8,7 +8,7 @@ const data = new SlashCommandBuilder()
             .setDescription("Gets this User's Psycho-Pass")
     )
 
-const execute = async (interaction) => {
+const execute = async interaction => {
     const user = interaction.options.getUser("user");
     interaction.reply(`Generating Psycho-Pass of <@${user.id}> ...`);
     console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of ${user.tag} (${user.id})`);

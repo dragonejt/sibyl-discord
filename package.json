@@ -5,8 +5,7 @@
   "main": "discord.js",
   "scripts": {
     "start": "node sibyl-discord.js",
-    "test": "jest --passWithNoTests",
-    "lint": "eslint ."
+    "test": "jest --passWithNoTests"
   },
   "type": "module",
   "repository": {
