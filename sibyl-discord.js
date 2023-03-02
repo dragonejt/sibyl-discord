@@ -6,7 +6,9 @@ import psychopassCommand from "./commands/psychopass.js";
 
 import messageCreate from "./events/messageCreate.js";
 import interactionCreate from "./events/interactionCreate.js";
-import updatePresence from "./events/updatePresence.js";
+import ready from "./events/ready.js";
+import guildDelete from "./events/guildDelete.js";
+import guildCreate from "./events/guildCreate.js";
 
 const client = new Client({
     intents: [
@@ -24,12 +26,9 @@ client.commands = new Collection();
 commands.map(command => client.commands.set(command.data.name, command));
 console.log("Successfully Registered Application (/) Command Actions.")
 
-client.on(Events.ClientReady, eventClient => {
-    console.log(`Logged In as ${eventClient.user.tag}!`);
-    updatePresence(eventClient)
-});
-client.on(Events.GuildCreate, updatePresence);
-client.on(Events.GuildDelete, updatePresence);
+client.on(Events.ClientReady, ready);
+client.on(Events.GuildCreate, guildCreate);
+client.on(Events.GuildDelete, guildDelete);
 client.on(Events.MessageCreate, messageCreate);
 client.on(Events.InteractionCreate, interactionCreate);
 
