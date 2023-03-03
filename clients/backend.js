@@ -14,7 +14,7 @@ export const ingestMessage = async message => {
     }
 }
 
-export const getUser = async userID => {
+export const getUserProfile = async userID => {
     try {
         const response = await fetch(`${process.env.BACKEND_URL}/profiles/user?id=${userID}`, {
             method: "GET",
@@ -30,7 +30,7 @@ export const getUser = async userID => {
     }
 }
 
-export const getCommunity = async communityID => {
+export const getCommunityProfile = async communityID => {
     try {
         const response = await fetch(`${process.env.BACKEND_URL}/profiles/community?id=${communityID}`, {
             method: "GET",
@@ -46,7 +46,7 @@ export const getCommunity = async communityID => {
     }
 }
 
-export const createCommunity = async communityID => {
+export const createCommunityProfile = async communityID => {
     try {
         const response = await fetch(`${process.env.BACKEND_URL}/profiles/community`, {
             method: "POST",
@@ -62,7 +62,7 @@ export const createCommunity = async communityID => {
     }
 }
 
-export const deleteCommunity = async communityID => {
+export const deleteCommunityProfile = async communityID => {
     try {
         const response = await fetch(`${process.env.BACKEND_URL}/profiles/community?id=${communityID}`, {
             method: "DELETE",

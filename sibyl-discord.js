@@ -30,6 +30,8 @@ client.on(Events.ClientReady, ready);
 client.on(Events.GuildCreate, guildCreate);
 client.on(Events.GuildDelete, guildDelete);
 client.on(Events.MessageCreate, messageCreate);
-client.on(Events.InteractionCreate, interactionCreate);
+client.on(Events.InteractionCreate, async interaction => {
+    interaction.guild.nam
+});
 
 client.login(process.env.DISCORD_BOT_TOKEN);

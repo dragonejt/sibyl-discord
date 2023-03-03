@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "discord.js";
-import { getUser, getCommunity } from "../clients/backend.js";
+import { getUserProfile, getCommunityProfile } from "../clients/backend.js";
 
 const data = new SlashCommandBuilder()
     .setName("psychopass")
@@ -10,19 +10,23 @@ const data = new SlashCommandBuilder()
     )
 
 const execute = async interaction => {
+    await interaction.deferReply();
     const user = interaction.options.getUser("user");
     if (user == null) {
-        await interaction.reply("Generating Psycho-Pass of this Server...")
         console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of Server ${interaction.guildId}`);
-        const psychoPass = await getCommunity(interaction.guildId);
-        await interaction.followUp(JSON.stringify(psychoPass));
+        const psychoPass = await getCommunityProfile(interaction.guildId);
+        await interaction.editReply(`
+        Psycho-Pass of Server ${interaction.guild.name} (${interaction.guildId})
+        ${JSON.stringify(psychoPass)}
+        `);
     }
     else {
-        await interaction.reply(`Generating Psycho-Pass of <@${user.id}>...`)
         console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of ${user.tag} (${user.id})`);
-        const psychoPass = await getUser(user.id);
-        await interaction.followUp(JSON.stringify(psychoPass));
-
+        const psychoPass = await getUserProfile(user.id);
+        await interaction.editReply(`
+        Psycho-Pass of User <@${user.id}>
+        ${JSON.stringify(psychoPass)}
+        `);
     }
 }
 
