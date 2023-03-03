@@ -18,7 +18,7 @@ const execute = async interaction => {
         await interaction.followUp(JSON.stringify(psychoPass));
     }
     else {
-        await interaction.reply(`Generating Psycho-Pass of <@${user.id}>`)
+        await interaction.reply(`Generating Psycho-Pass of <@${user.id}>...`)
         console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of ${user.tag} (${user.id})`);
         const psychoPass = await getUser(user.id);
         await interaction.followUp(JSON.stringify(psychoPass));
