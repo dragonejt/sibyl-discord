@@ -10,17 +10,18 @@ const data = new SlashCommandBuilder()
     )
 
 const execute = async interaction => {
-    await interaction.deferReply()
     const user = interaction.options.getUser("user");
     if (user == null) {
+        await interaction.reply("Generating Psycho-Pass of this Server...")
         console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of Server ${interaction.guildId}`);
         const psychoPass = await getCommunity(interaction.guildId);
-        await interaction.editReply(JSON.stringify(psychoPass));
+        await interaction.followUp(JSON.stringify(psychoPass));
     }
     else {
+        await interaction.reply(`Generating Psycho-Pass of <@${user.id}>`)
         console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of ${user.tag} (${user.id})`);
         const psychoPass = await getUser(user.id);
-        await interaction.editReply(JSON.stringify(psychoPass));
+        await interaction.followUp(JSON.stringify(psychoPass));
 
     }
 }
