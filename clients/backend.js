@@ -14,6 +14,38 @@ export const ingestMessage = async message => {
     }
 }
 
+export const getUser = async userID => {
+    try {
+        const response = await fetch(`${process.env.BACKEND_URL}/profiles/user?id=${userID}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "User-Agent": `sibyl-discord/${process.env.npm_package_version} node.js/${process.version}`,
+                "Authorization": `Token ${process.env.BACKEND_API_KEY}`
+            }
+        });
+        return response.json();
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const getCommunity = async communityID => {
+    try {
+        const response = await fetch(`${process.env.BACKEND_URL}/profiles/community?id=${communityID}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "User-Agent": `sibyl-discord/${process.env.npm_package_version} node.js/${process.version}`,
+                "Authorization": `Token ${process.env.BACKEND_API_KEY}`
+            }
+        });
+        return response.json();
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export const createCommunity = async communityID => {
     try {
         const response = await fetch(`${process.env.BACKEND_URL}/profiles/community`, {

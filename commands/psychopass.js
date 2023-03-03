@@ -1,4 +1,5 @@
 import { SlashCommandBuilder } from "discord.js";
+import { getUser, getCommunity } from "../clients/backend.js";
 
 const data = new SlashCommandBuilder()
     .setName("psychopass")
@@ -9,9 +10,19 @@ const data = new SlashCommandBuilder()
     )
 
 const execute = async interaction => {
+    await interaction.deferReply()
     const user = interaction.options.getUser("user");
-    interaction.reply(`Generating Psycho-Pass of <@${user.id}> ...`);
-    console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of ${user.tag} (${user.id})`);
+    if (user == null) {
+        console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of Server ${interaction.guildId}`);
+        const psychoPass = await getCommunity(interaction.guildId);
+        await interaction.editReply(JSON.stringify(psychoPass));
+    }
+    else {
+        console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of ${user.tag} (${user.id})`);
+        const psychoPass = await getUser(user.id);
+        await interaction.editReply(JSON.stringify(psychoPass));
+
+    }
 }
 
 export default { data, execute };
