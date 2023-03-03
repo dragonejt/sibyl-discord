@@ -26,6 +26,7 @@ const execute = async interaction => {
         const psychoPass = await getUserProfile(user.id);
         await interaction.editReply(`
         Psycho-Pass of User <@${user.id}>
+        
         ${JSON.stringify(psychoPass)}
         `);
     }
