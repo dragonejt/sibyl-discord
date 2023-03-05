@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
-import { getUserProfile, getCommunityProfile } from "../clients/backend.js";
+import UserProfile from "../clients/backend/profiles/userProfile.js";
+import CommunityProfile from "../clients/backend/profiles/communityProfile.js";
 
 const data = new SlashCommandBuilder()
     .setName("psychopass")
@@ -9,12 +10,15 @@ const data = new SlashCommandBuilder()
             .setDescription("Gets this User's Psycho-Pass")
     )
 
+const userProfile = new UserProfile();
+const communityProfile = new CommunityProfile();
+
 const execute = async interaction => {
     await interaction.deferReply();
     const user = interaction.options.getUser("user");
     if (user == null) {
         console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of Server ${interaction.guild.name} (${interaction.guildId})`);
-        const psychoPass = await getCommunityProfile(interaction.guildId);
+        const psychoPass = await userProfile.get(this.guildId);
         await interaction.editReply(`
         Psycho-Pass of Server ${interaction.guild.name} (${interaction.guildId})
 
@@ -23,7 +27,7 @@ const execute = async interaction => {
     }
     else {
         console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of User ${user.tag} (${user.id})`);
-        const psychoPass = await getUserProfile(user.id);
+        const psychoPass = await communityProfile.get(user.id);
         await interaction.editReply(`
         Psycho-Pass of User <@${user.id}>
         
