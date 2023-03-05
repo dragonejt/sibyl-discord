@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
-import UserProfile from "../clients/backend/profiles/userProfile.js";
-import CommunityProfile from "../clients/backend/profiles/communityProfile.js";
+import userProfile from "../clients/backend/profiles/userProfile.js";
+import communityProfile from "../clients/backend/profiles/communityProfile.js";
 
 const data = new SlashCommandBuilder()
     .setName("psychopass")
@@ -9,9 +9,6 @@ const data = new SlashCommandBuilder()
         option.setName("user")
             .setDescription("Gets this User's Psycho-Pass")
     )
-
-const userProfile = new UserProfile();
-const communityProfile = new CommunityProfile();
 
 const execute = async interaction => {
     await interaction.deferReply();

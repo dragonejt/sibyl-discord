@@ -1,4 +1,4 @@
-export default class UserProfile {
+class UserProfile {
     url;
     constructor(url = `${process.env.BACKEND_URL}/profiles/user`) {
         this.url = url;
@@ -21,3 +21,6 @@ export default class UserProfile {
         }
     }
 }
+
+const userProfile = new UserProfile();
+export default userProfile;

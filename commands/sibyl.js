@@ -1,11 +1,9 @@
 import { SlashCommandBuilder } from "discord.js";
-import CommunityProfile from "../clients/backend/profiles/communityProfile.js";
+import communityProfile from "../clients/backend/profiles/communityProfile.js";
 
 const data = new SlashCommandBuilder()
     .setName("sibyl")
     .setDescription("Admin Utilities for Sibyl")
-
-const communityProfile = new CommunityProfile();
 
 const execute = async interaction => {
     await communityProfile.get(interaction.guildId);

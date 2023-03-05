@@ -1,4 +1,4 @@
-export default class CommunityProfile {
+class CommunityProfile {
     url;
     constructor(url = `${process.env.BACKEND_URL}/profiles/community`) {
         this.url = url;
@@ -55,3 +55,6 @@ export default class CommunityProfile {
     }
 
 }
+
+const communityProfile = new CommunityProfile();
+export default communityProfile;

@@ -1,6 +1,4 @@
-import CommunityProfile from "../clients/backend/profiles/communityProfile.js";
-
-const communityProfile = new CommunityProfile();
+import communityProfile from "../clients/backend/profiles/communityProfile.js";
 
 export default async function guildDelete(guild) {
     await communityProfile.delete(guild.id);
