@@ -18,7 +18,7 @@ const execute = async interaction => {
     const user = interaction.options.getUser("user");
     if (user == null) {
         console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of Server ${interaction.guild.name} (${interaction.guildId})`);
-        const psychoPass = await userProfile.get(this.guildId);
+        const psychoPass = await communityProfile.get(interaction.guildId);
         await interaction.editReply(`
         Psycho-Pass of Server ${interaction.guild.name} (${interaction.guildId})
 
@@ -27,7 +27,7 @@ const execute = async interaction => {
     }
     else {
         console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of User ${user.tag} (${user.id})`);
-        const psychoPass = await communityProfile.get(user.id);
+        const psychoPass = await userProfile.get(user.id);
         await interaction.editReply(`
         Psycho-Pass of User <@${user.id}>
         
