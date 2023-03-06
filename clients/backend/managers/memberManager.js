@@ -1,6 +1,6 @@
-class CommunityProfile {
+class MemberManager {
     url;
-    constructor(url = `${process.env.BACKEND_URL}/profiles/community`) {
+    constructor(url = `${process.env.BACKEND_URL}/managers/member`) {
         this.url = url;
     }
 
@@ -53,8 +53,7 @@ class CommunityProfile {
             console.error(error);
         }
     }
-
 }
 
-const communityProfile = new CommunityProfile();
-export default communityProfile;
+const memberManager = new MemberManager();
+export default memberManager;
