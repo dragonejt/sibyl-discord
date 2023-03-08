@@ -1,33 +1,33 @@
-import userProfile from "../clients/backend/profiles/userProfile.js";
-import memberManager from "../clients/backend/managers/memberManager.js";
+import psychoPasses from "../clients/backend/psychopass/psychoPasses.js";
+import memberDominators from "../clients/backend/dominators/memberDominators.js";
 import { ATTRIBUTES, ACTIONS, DEFAULT_MUTE_PERIOD } from "../clients/constants.js";
 
 export default async function guildMemberAdd(member) {
-    const profile = userProfile.get(member.user.id);
-    const manager = await memberManager.get(member.guild.id);
+    const psychoPass = psychoPasses.get(member.user.id);
+    const dominator = await memberDominators.get(member.guild.id);
     let max_action = ACTIONS.indexOf("NOOP");
     const reasons = [];
     for (const attribute of ATTRIBUTES) {
-        const score = profile[attribute];
-        const trigger = manager[`${attribute}_trigger`];
+        const score = psychoPass[attribute];
+        const trigger = dominator[`${attribute}_trigger`];
         if (score >= trigger) {
-            const action = manager[`${attribute}_action`];
+            const action = dominator[`${attribute}_action`];
             max_action = Math.max(max_action, action);
             reasons.push(`${attribute}: ${score} >= ${trigger}`)
         }
     }
-    if (profile.crime_coefficient >= 300) {
-        max_action = Math.max(max_action, manager.crime_coefficient_300_action);
-        reasons.push(`crime_coefficient: ${profile.crime_coefficient} >= 300`);
+    if (psychoPass.crime_coefficient >= 300) {
+        max_action = Math.max(max_action, dominator.crime_coefficient_300_action);
+        reasons.push(`crime_coefficient: ${psychoPass.crime_coefficient} >= 300`);
     }
-    else if (profile.crime_coefficient >= 100) {
-        max_action = Math.max(max_action, manager.crime_coefficient_100_action);
-        reasons.push(`crime_coefficient: ${profile.crime_coefficient} >= 100`);
+    else if (psychoPass.crime_coefficient >= 100) {
+        max_action = Math.max(max_action, dominator.crime_coefficient_100_action);
+        reasons.push(`crime_coefficient: ${psychoPass.crime_coefficient} >= 100`);
     }
-    await manageMember(member, manager, max_action, reasons)
+    await moderate(member, dominator, max_action, reasons)
 }
 
-const manageMember = async (member, triggers, max_action, reasons) => {
+const moderate = async (member, triggers, max_action, reasons) => {
     if (max_action == ACTIONS.indexOf("NOOP")) return;
 
     let notifyTarget = triggers.discord_notify_target || member.guild.ownerId;

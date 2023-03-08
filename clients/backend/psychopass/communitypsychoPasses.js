@@ -1,6 +1,6 @@
-class MessageManager {
+class CommunityPsychoPasses {
     url;
-    constructor(url = `${process.env.BACKEND_URL}/managers/message`) {
+    constructor(url = `${process.env.BACKEND_URL}/psychopass/community`) {
         this.url = url;
     }
 
@@ -53,7 +53,8 @@ class MessageManager {
             console.error(error);
         }
     }
+
 }
 
-const messageManager = new MessageManager();
-export default messageManager;
+const communityPsychoPasses = new CommunityPsychoPasses();
+export default communityPsychoPasses;

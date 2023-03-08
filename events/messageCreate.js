@@ -1,6 +1,6 @@
 import { analyzeComment } from "../clients/perspectiveAPI.js";
 import ingestMessage from "../clients/backend/ingestMessage.js";
-import messageManager from "../clients/backend/managers/messageManager.js";
+import messageDominators from "../clients/backend/dominators/messageDominators.js";
 import { ACTIONS, DEFAULT_MUTE_PERIOD } from "../clients/constants.js";
 
 export default async function messageCreate(message) {
@@ -12,25 +12,25 @@ export default async function messageCreate(message) {
         data["userID"] = message.author.id;
         data["communityID"] = message.guildId;
         await ingestMessage(data);
-        const manager = await messageManager.get(message.guildId);
+        const dominator = await messageDominators.get(message.guildId);
         let max_action = ACTIONS.indexOf("NOOP");
         const reasons = [];
         for (const attribute in data.attributeScores) {
             const score = data.attributeScores[attribute].summaryScore.value;
-            const trigger = manager[`${attribute.toLowerCase()}_trigger`];
+            const trigger = dominator[`${attribute.toLowerCase()}_trigger`];
             if (score >= trigger) {
-                const action = manager[`${attribute.toLowerCase()}_action`];
+                const action = dominator[`${attribute.toLowerCase()}_action`];
                 max_action = Math.max(max_action, action);
                 reasons.push(`${attribute}: ${score} >= ${trigger}`)
             }
         }
-        await manageMessage(message, manager, max_action, reasons);
+        await moderate(message, dominator, max_action, reasons);
     } catch (error) {
         console.error(error);
     }
 }
 
-const manageMessage = async (message, triggers, max_action, reasons) => {
+const moderate = async (message, triggers, max_action, reasons) => {
     if (max_action == ACTIONS.indexOf("NOOP")) return;
 
     let notifyTarget = triggers.discord_notify_target || message.guild.ownerId;

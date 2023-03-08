@@ -1,6 +1,6 @@
 export default async function ingestMessage(message) {
     try {
-        const response = await fetch(`${process.env.BACKEND_URL}/profiles/message`, {
+        const response = await fetch(`${process.env.BACKEND_URL}/psychopass/message`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json",

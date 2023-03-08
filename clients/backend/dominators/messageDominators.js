@@ -1,6 +1,6 @@
-class MemberManager {
+class MessageDominators {
     url;
-    constructor(url = `${process.env.BACKEND_URL}/managers/member`) {
+    constructor(url = `${process.env.BACKEND_URL}/dominator/message`) {
         this.url = url;
     }
 
@@ -55,5 +55,5 @@ class MemberManager {
     }
 }
 
-const memberManager = new MemberManager();
-export default memberManager;
+const messageDominators = new MessageDominators();
+export default messageDominators;
