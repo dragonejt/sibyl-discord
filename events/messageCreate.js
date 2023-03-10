@@ -4,7 +4,10 @@ import messageManager from "../clients/backend/managers/messageManager.js";
 import actions from "../clients/backend/managers/actions.js";
 
 export default async function messageCreate(message) {
-    if (message.author.id == process.env.DISCORD_CLIENT_ID || message.guildId != "1063590532711972945" || message.channel.nsfw) return;
+    if (message.author.id == process.env.DISCORD_CLIENT_ID ||
+        message.guildId != "1063590532711972945" ||
+        message.channel.nsfw ||
+        message.content == "") return;
 
     const analysis = await analyzeComment(message.content);
     let data = analysis.data;
