@@ -3,7 +3,8 @@ import memberDominators from "../clients/backend/dominators/memberDominators.js"
 import { ATTRIBUTES, ACTIONS, DEFAULT_MUTE_PERIOD } from "../clients/constants.js";
 
 export default async function guildMemberAdd(member) {
-    const psychoPass = psychoPasses.get(member.user.id);
+    console.log(`A new User: ${member.user.tag} (${member.user.id}) has join Server: ${member.guild.name} (${member.guild.id})`);
+    const psychoPass = await psychoPasses.get(member.user.id);
     const dominator = await memberDominators.get(member.guild.id);
     let max_action = ACTIONS.indexOf("NOOP");
     const reasons = [];
@@ -13,7 +14,7 @@ export default async function guildMemberAdd(member) {
         if (score >= trigger) {
             const action = dominator[`${attribute}_action`];
             max_action = Math.max(max_action, action);
-            reasons.push(`${attribute}: ${score} >= ${trigger}`)
+            reasons.push(`${attribute}: ${score} >= ${trigger}`);
         }
     }
     if (psychoPass.crime_coefficient >= 300) {
@@ -46,4 +47,5 @@ const moderate = async (member, triggers, max_action, reasons) => {
     else if (max_action == ACTIONS.indexOf("KICK")) await member.kick(reasons.toString());
     else if (max_action == ACTIONS.indexOf("MUTE")) await member.timeout(DEFAULT_MUTE_PERIOD);
     await channel.send(notification);
+    console.log(`Action: ${ACTIONS[max_action]} has been taken on User: ${member.user.tag} (${member.user.id}) in Server: ${member.guild.name} (${member.guild.id}) because of: ${reasons}`);
 }

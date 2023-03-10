@@ -16,6 +16,7 @@ const client = new Client({
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.GuildBans,
+        GatewayIntentBits.GuildMembers,
         GatewayIntentBits.MessageContent
     ]
 });
@@ -23,10 +24,10 @@ const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_BOT_TOKEN)
 const commands = [sibylCommand, dominatorCommand, psychopassCommand];
 
 await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID), { body: commands.map(command => command.data) });
-console.log('Successfully Reloaded Application (/) Commands.');
+console.log('Successfully reloaded application (/) commands.');
 client.commands = new Collection();
 commands.map(command => client.commands.set(command.data.name, command));
-console.log("Successfully Registered Application (/) Command Actions.")
+console.log("Successfully registered application (/) command actions.")
 
 client.on(Events.ClientReady, ready);
 client.on(Events.GuildCreate, guildCreate);

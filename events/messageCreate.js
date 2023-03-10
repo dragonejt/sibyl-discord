@@ -10,7 +10,7 @@ export default async function messageCreate(message) {
         message.content == "") return;
 
     try {
-
+        console.log(`User: ${message.author.tag} (${message.author.id}) has posted a new message in Server: ${message.guild.name} (${message.guildId})`);
         const analysis = await analyzeComment(message.content);
         let data = analysis.data;
         data["userID"] = message.author.id;
@@ -25,7 +25,7 @@ export default async function messageCreate(message) {
             if (score >= trigger) {
                 const action = dominator[`${attribute.toLowerCase()}_action`];
                 max_action = Math.max(max_action, action);
-                reasons.push(`${attribute}: ${score} >= ${trigger}`)
+                reasons.push(`${attribute}: ${score} >= ${trigger}`);
             }
         }
         await moderate(message, dominator, max_action, reasons);
@@ -56,4 +56,5 @@ const moderate = async (message, triggers, max_action, reasons) => {
     await message.delete();
     await channel.send(notification);
     if (channel.id != message.channel.id) await message.channel.send(notification);
+    console.log(`Action: ${ACTIONS[max_action]} has been taken on User: ${message.user.tag} (${message.user.id}) in Server: ${message.guild.name} (${message}.guild.id}) because of: ${reasons}`);
 }
