@@ -3,7 +3,7 @@ import memberDominators from "../clients/backend/dominators/memberDominators.js"
 import { ATTRIBUTES, ACTIONS, DEFAULT_MUTE_PERIOD } from "../clients/constants.js";
 
 export default async function guildMemberAdd(member) {
-    console.log(`A new User: ${member.user.tag} (${member.user.id}) has join Server: ${member.guild.name} (${member.guild.id})`);
+    console.log(`A new User: ${member.user.tag} (${member.user.id}) has joined Server: ${member.guild.name} (${member.guild.id})`);
     const psychoPass = await psychoPasses.get(member.user.id);
     const dominator = await memberDominators.get(member.guild.id);
     let max_action = ACTIONS.indexOf("NOOP");

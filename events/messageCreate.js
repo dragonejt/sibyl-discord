@@ -10,7 +10,7 @@ export default async function messageCreate(message) {
         message.content == "") return;
 
     try {
-        console.log(`User: ${message.author.tag} (${message.author.id}) has posted a new message in Server: ${message.guild.name} (${message.guildId})`);
+        console.log(`User: ${message.author.tag} (${message.author.id}) has sent a new message in Server: ${message.guild.name} (${message.guildId}) in Channel: ${message.channel.name} (${message.channel.id})`);
         const analysis = await analyzeComment(message.content);
         let data = analysis.data;
         data["userID"] = message.author.id;
