@@ -56,5 +56,5 @@ const moderate = async (message, triggers, max_action, reasons) => {
     await message.delete();
     await channel.send(notification);
     if (channel.id != message.channel.id) await message.channel.send(notification);
-    console.log(`Action: ${ACTIONS[max_action]} has been taken on User: ${message.user.tag} (${message.user.id}) in Server: ${message.guild.name} (${message}.guild.id}) because of: ${reasons}`);
+    console.log(`Action: ${ACTIONS[max_action]} has been taken on User: ${message.author.tag} (${message.author.id}) in Server: ${message.guild.name} (${message}.guild.id}) because of: ${reasons}`);
 }
