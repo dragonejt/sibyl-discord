@@ -9,6 +9,7 @@ import interactionCreate from "./events/interactionCreate.js";
 import ready from "./events/ready.js";
 import guildDelete from "./events/guildDelete.js";
 import guildCreate from "./events/guildCreate.js";
+import guildMemberAdd from "./events/guildMemberAdd.js";
 
 const client = new Client({
     intents: [
@@ -30,6 +31,7 @@ console.log("Successfully Registered Application (/) Command Actions.")
 client.on(Events.ClientReady, ready);
 client.on(Events.GuildCreate, guildCreate);
 client.on(Events.GuildDelete, guildDelete);
+client.on(Events.GuildMemberAdd, guildMemberAdd);
 client.on(Events.MessageCreate, messageCreate);
 client.on(Events.InteractionCreate, interactionCreate);
 

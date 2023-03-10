@@ -1,6 +1,6 @@
-class UserProfile {
+class PsychoPasses {
     url;
-    constructor(url = `${process.env.BACKEND_URL}/profiles/user`) {
+    constructor(url = `${process.env.BACKEND_URL}/psychopass/user`) {
         this.url = url;
     }
 
@@ -22,5 +22,5 @@ class UserProfile {
     }
 }
 
-const userProfile = new UserProfile();
-export default userProfile;
+const psychoPasses = new PsychoPasses();
+export default psychoPasses;
