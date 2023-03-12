@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
 import communityPsychoPasses from "../clients/backend/psychopass/communitypsychoPasses.js"
 import memberDominators from "../clients/backend/dominators/memberDominators.js";
 import messageDominators from "../clients/backend/dominators/messageDominators.js";
@@ -17,7 +17,10 @@ const execute = async interaction => {
     await communityPsychoPasses.get(interaction.guildId);
     await interaction.reply(`Sibyl Pong! Response Time: ${Date.now() - interaction.createdTimestamp}ms`);
     if (interaction.options.get("log_channel") != null) {
-        if (!interaction.member.permissionsIn(interaction.channel).has("ADMINISTRATOR")) await interaction.followUp("You Do Not Have Permissions to Configure Notification Settings. You Must Have the Administrator Permission.");
+        if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) await interaction.followUp({
+            content: "You Do Not Have Permissions to Configure Notification Settings. You Must Have the Administrator Permission.",
+            ephemeral: true
+        });
         else {
             const data = {
                 communityID: interaction.guildId,
@@ -29,7 +32,10 @@ const execute = async interaction => {
         }
     }
     if (interaction.options.get("notify_role") != null) {
-        if (!interaction.member.permissionsIn(interaction.channel).has("ADMINISTRATOR")) await interaction.followUp("You Do Not Have Permissions to Configure Notification Settings. You Must Have the Administrator Permission.");
+        if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) await interaction.followUp({
+            content: "You Do Not Have Permissions to Configure Notification Settings. You Must Have the Administrator Permission.",
+            ephemeral: true
+        });
         else {
             const data = {
                 communityID: interaction.guildId,

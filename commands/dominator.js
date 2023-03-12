@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
 import { ACTIONS, ATTRIBUTES, buildChoice } from "../clients/constants.js";
 import messageDominators from "../clients/backend/dominators/messageDominators.js";
 import memberDominators from "../clients/backend/dominators/memberDominators.js";
@@ -43,8 +43,10 @@ const data = new SlashCommandBuilder()
 
 
 const execute = async interaction => {
-    if (!interaction.member.permissionsIn(interaction.channel).has("ADMINISTRATOR")) await interaction.reply("You Do Not Have Permissions to Configure the Dominator. You Must Have the Administrator Permission.");
-    
+    if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) await interaction.reply({
+        content: "You Do Not Have Permissions to Configure Notification Settings. You Must Have the Administrator Permission.",
+        ephemeral: true
+    });
     else {
         await interaction.deferReply();
 
