@@ -14,7 +14,7 @@ class MemberDominators {
                     "Authorization": `Token ${process.env.BACKEND_API_KEY}`
                 }
             });
-            if (!response.ok) return response.status
+            if (!response.ok) return response.status;
             return response.json();
         } catch (error) {
             console.error(error);
@@ -32,7 +32,24 @@ class MemberDominators {
                 },
                 body: JSON.stringify({ communityID })
             });
-            if (!response.ok) return response.status
+            if (!response.ok) return response.status;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async update(data) {
+        try {
+            const response = await fetch(this.url, {
+                method: "PUT",
+                headers: {
+                    "Content-type": "application/json",
+                    "User-Agent": `sibyl-discord/${process.env.npm_package_version} node.js/${process.version}`,
+                    "Authorization": `Token ${process.env.BACKEND_API_KEY}`
+                },
+                body: JSON.stringify(data)
+            });
+            if (!response.ok) return response.status;
         } catch (error) {
             console.error(error);
         }
@@ -48,7 +65,7 @@ class MemberDominators {
                     "Authorization": `Token ${process.env.BACKEND_API_KEY}`
                 }
             });
-            if (!response.ok) return response.status
+            if (!response.ok) return response.status;
         } catch (error) {
             console.error(error);
         }
