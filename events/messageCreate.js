@@ -50,11 +50,12 @@ const moderate = async (message, triggers, max_action, reasons) => {
     Action: ${ACTIONS[max_action]}
     URL: ${message.url}`
 
-    if (max_action == ACTIONS.indexOf("BAN")) await message.member.ban();
-    else if (max_action == ACTIONS.indexOf("KICK")) await message.member.kick(reasons.toString());
-    else if (max_action == ACTIONS.indexOf("MUTE")) await message.member.timeout(DEFAULT_MUTE_PERIOD);
-    await message.delete();
     await channel.send(notification);
     if (channel.id != message.channel.id) await message.channel.send(notification);
     console.log(`Action: ${ACTIONS[max_action]} has been taken on User: ${message.author.tag} (${message.author.id}) in Server: ${message.guild.name} (${message.guild.id}) because of: ${reasons}`);
+    await message.delete();
+    if (max_action == ACTIONS.indexOf("BAN")) await message.member.ban();
+    else if (max_action == ACTIONS.indexOf("KICK")) await message.member.kick(reasons.toString());
+    else if (max_action == ACTIONS.indexOf("MUTE")) await message.member.timeout(DEFAULT_MUTE_PERIOD);
+    
 }
