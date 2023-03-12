@@ -14,7 +14,7 @@ class PsychoPasses {
                     "Authorization": `Token ${process.env.BACKEND_API_KEY}`
                 }
             });
-            if (!response.ok) return response.status;
+            if (!response.ok) throw new Error(`GET ${this.url}?id=${userID}: ${response.status} ${response.statusText}`);
             return response.json();
         } catch (error) {
             console.error(error);

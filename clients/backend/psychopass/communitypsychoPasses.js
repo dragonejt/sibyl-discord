@@ -14,7 +14,7 @@ class CommunityPsychoPasses {
                     "Authorization": `Token ${process.env.BACKEND_API_KEY}`
                 }
             });
-            if (!response.ok) return response.status
+            if (!response.ok) throw new Error(`GET ${this.url}?id=${communityID}: ${response.status} ${response.statusText}`);
             return response.json();
         } catch (error) {
             console.error(error);
@@ -32,7 +32,7 @@ class CommunityPsychoPasses {
                 },
                 body: JSON.stringify({ communityID })
             });
-            if (!response.ok) return response.status
+            if (!response.ok) throw new Error(`POST ${this.url}: ${response.status} ${response.statusText}`);
         } catch (error) {
             console.error(error);
         }
@@ -48,7 +48,7 @@ class CommunityPsychoPasses {
                     "Authorization": `Token ${process.env.BACKEND_API_KEY}`
                 }
             });
-            if (!response.ok) return response.status
+            if (!response.ok) throw new Error(`DELETE ${this.url}?id=${communityID}: ${response.status} ${response.statusText}`);
         } catch (error) {
             console.error(error);
         }
