@@ -10,7 +10,7 @@ export default async function guildMemberAdd(member) {
     const reasons = [];
     for (const attribute of ATTRIBUTES) {
         const score = psychoPass[attribute];
-        const trigger = dominator[`${attribute}_trigger`];
+        const trigger = dominator[`${attribute}_threshold`];
         if (score >= trigger) {
             const action = dominator[`${attribute}_action`];
             max_action = Math.max(max_action, action);

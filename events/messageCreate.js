@@ -21,7 +21,7 @@ export default async function messageCreate(message) {
         const reasons = [];
         for (const attribute in data.attributeScores) {
             const score = data.attributeScores[attribute].summaryScore.value;
-            const trigger = dominator[`${attribute.toLowerCase()}_trigger`];
+            const trigger = dominator[`${attribute.toLowerCase()}_threshold`];
             if (score >= trigger) {
                 const action = dominator[`${attribute.toLowerCase()}_action`];
                 max_action = Math.max(max_action, action);
