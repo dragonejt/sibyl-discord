@@ -4,7 +4,7 @@ class PsychoPasses {
         this.url = url;
     }
 
-    async get(userID) {
+    async get(userID: string) {
         try {
             const response = await fetch(`${this.url}?id=${userID}`, {
                 method: "GET",

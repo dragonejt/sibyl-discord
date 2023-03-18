@@ -1,8 +1,9 @@
+import { GuildMember, TextChannel } from "discord.js";
 import psychoPasses from "../clients/backend/psychopass/psychoPasses.js";
 import memberDominators from "../clients/backend/dominators/memberDominators.js";
 import { ATTRIBUTES, ACTIONS, DEFAULT_MUTE_PERIOD } from "../clients/constants.js";
 
-export default async function guildMemberAdd(member) {
+export default async function guildMemberAdd(member: GuildMember) {
     console.log(`A new User: ${member.user.tag} (${member.user.id}) has joined Server: ${member.guild.name} (${member.guild.id})`);
     const psychoPass = await psychoPasses.get(member.user.id);
     const dominator = await memberDominators.get(member.guild.id);
@@ -28,7 +29,7 @@ export default async function guildMemberAdd(member) {
     await moderate(member, dominator, max_action, reasons)
 }
 
-const moderate = async (member, triggers, max_action, reasons) => {
+const moderate = async (member: GuildMember, triggers: any, max_action: number, reasons: Array<string>) => {
     if (max_action == ACTIONS.indexOf("NOOP")) return;
 
     let notifyTarget = triggers.discord_notify_target || member.guild.ownerId;
@@ -43,7 +44,7 @@ const moderate = async (member, triggers, max_action, reasons) => {
     Reasons: ${reasons}
     Action: ${ACTIONS[max_action]}`
 
-    await channel.send(notification);
+    await (channel as TextChannel).send(notification);
     console.log(`Action: ${ACTIONS[max_action]} has been taken on User: ${member.user.tag} (${member.user.id}) in Server: ${member.guild.name} (${member.guild.id}) because of: ${reasons}`);
     if (max_action == ACTIONS.indexOf("BAN")) await member.ban();
     else if (max_action == ACTIONS.indexOf("KICK")) await member.kick(reasons.toString());

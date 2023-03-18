@@ -1,6 +1,9 @@
-export default async function interactionCreate(interaction) {
+import SibylDiscordClient from "../clients/discord.js";
+import {Interaction} from "discord.js";
+
+export default async function interactionCreate(interaction: Interaction) {
     if (interaction.isChatInputCommand()) {
-        const command = interaction.client.commands.get(interaction.commandName);
+        const command = (interaction.client as SibylDiscordClient).commands.get(interaction.commandName);
 
         try {
             await command.execute(interaction);

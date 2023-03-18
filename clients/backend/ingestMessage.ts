@@ -1,4 +1,4 @@
-export default async function ingestMessage(message) {
+export default async function ingestMessage(message: object) {
     try {
         const response = await fetch(`${process.env.BACKEND_URL}/psychopass/message`, {
             method: "POST",

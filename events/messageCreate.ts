@@ -1,16 +1,17 @@
+import { Message, TextChannel } from "discord.js";
 import { analyzeComment } from "../clients/perspectiveAPI.js";
 import ingestMessage from "../clients/backend/ingestMessage.js";
 import messageDominators from "../clients/backend/dominators/messageDominators.js";
 import { ACTIONS, DEFAULT_MUTE_PERIOD } from "../clients/constants.js";
 
-export default async function messageCreate(message) {
+export default async function messageCreate(message: Message) {
     if (message.author.id == process.env.DISCORD_CLIENT_ID ||
         message.guildId != "1063590532711972945" ||
-        message.channel.nsfw ||
+        (message.channel as TextChannel).nsfw ||
         message.content == "") return;
 
     try {
-        console.log(`User: ${message.author.tag} (${message.author.id}) has sent a new message in Server: ${message.guild.name} (${message.guildId}) in Channel: ${message.channel.name} (${message.channel.id})`);
+        console.log(`User: ${message.author.tag} (${message.author.id}) has sent a new message in Server: ${message.guild!.name} (${message.guildId}) in Channel: ${(message.channel as TextChannel).name} (${message.channel.id})`);
         const analysis = await analyzeComment(message.content);
         let data = analysis.data;
         data["userID"] = message.author.id;
@@ -34,14 +35,14 @@ export default async function messageCreate(message) {
     }
 }
 
-const moderate = async (message, triggers, max_action, reasons) => {
+const moderate = async (message: Message, triggers: any, max_action: number, reasons: Array<string>) => {
     if (max_action == ACTIONS.indexOf("NOOP")) return;
 
-    let notifyTarget = triggers.discord_notify_target || message.guild.ownerId;
-    if (message.guild.roles.cache.get(notifyTarget) == null) notifyTarget = `<@${notifyTarget}>`;
+    let notifyTarget = triggers.discord_notify_target || message.guild!.ownerId;
+    if (message.guild!.roles.cache.get(notifyTarget) == null) notifyTarget = `<@${notifyTarget}>`;
     else notifyTarget = `<@&${notifyTarget}>`;
 
-    const notifyChannel = triggers.discord_log_channel || message.guild.systemChannelId;
+    const notifyChannel = triggers.discord_log_channel || message.guild!.systemChannelId;
     const channel = message.client.channels.cache.get(notifyChannel);
 
     const notification = `${notifyTarget}
@@ -50,12 +51,12 @@ const moderate = async (message, triggers, max_action, reasons) => {
     Action: ${ACTIONS[max_action]}
     URL: ${message.url}`
 
-    await channel.send(notification);
-    if (channel.id != message.channel.id) await message.channel.send(notification);
-    console.log(`Action: ${ACTIONS[max_action]} has been taken on User: ${message.author.tag} (${message.author.id}) in Server: ${message.guild.name} (${message.guild.id}) because of: ${reasons}`);
+    await (channel as TextChannel).send(notification);
+    if (channel?.id != message.channel.id) await message.channel.send(notification);
+    console.log(`Action: ${ACTIONS[max_action]} has been taken on User: ${message.author.tag} (${message.author.id}) in Server: ${message.guild!.name} (${message.guild!.id}) because of: ${reasons}`);
     await message.delete();
-    if (max_action == ACTIONS.indexOf("BAN")) await message.member.ban();
-    else if (max_action == ACTIONS.indexOf("KICK")) await message.member.kick(reasons.toString());
-    else if (max_action == ACTIONS.indexOf("MUTE")) await message.member.timeout(DEFAULT_MUTE_PERIOD);
-    
+    if (max_action == ACTIONS.indexOf("BAN")) await message.member!.ban();
+    else if (max_action == ACTIONS.indexOf("KICK")) await message.member!.kick(reasons.toString());
+    else if (max_action == ACTIONS.indexOf("MUTE")) await message.member!.timeout(DEFAULT_MUTE_PERIOD);
+
 }
