@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node sibyl-discord.js",
     "build": "npx tsc",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "postinstall": "npx tsc"
   },
-  "heroku-run-build-script": true,
   "type": "module",
   "repository": {
     "type": "git",
