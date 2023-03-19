@@ -6,6 +6,7 @@ import dominatorCommand from "./commands/dominator.js";
 import psychopassCommand from "./commands/psychopass.js";
 
 import messageCreate from "./events/messageCreate.js";
+import messageUpdate from "./events/messageUpdate.js";
 import interactionCreate from "./events/interactionCreate.js";
 import ready from "./events/ready.js";
 import guildDelete from "./events/guildDelete.js";
@@ -35,6 +36,7 @@ client.on(Events.GuildCreate, guildCreate);
 client.on(Events.GuildDelete, guildDelete);
 client.on(Events.GuildMemberAdd, guildMemberAdd);
 client.on(Events.MessageCreate, messageCreate);
+client.on(Events.MessageUpdate, messageUpdate);
 client.on(Events.InteractionCreate, interactionCreate);
 
 client.login(process.env.DISCORD_BOT_TOKEN);

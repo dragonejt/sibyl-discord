@@ -4,7 +4,8 @@
   "description": "Content Moderation and Toxicity Profiles using Machine Learning",
   "main": "discord.js",
   "scripts": {
-    "start": "tsc && node sibyl-discord.js",
+    "start": "node build/sibyl-discord.js",
+    "dev": "tsc --build && node build/sibyl-discord.js",
     "test": "jest --passWithNoTests"
   },
   "type": "module",
@@ -20,13 +21,13 @@
   "homepage": "https://github.com/dragonejt/sibyl-discord#readme",
   "dependencies": {
     "discord.js": "^14.8.0",
+    "tslib": "^2.5.0",
+    "typescript": "^5.0.2",
     "googleapis": "^112.0.0",
     "jest": "^29.4.3"
   },
   "devDependencies": {
     "@types/node": "^18.15.3",
-    "eslint": "^8.34.0",
-    "tslib": "^2.5.0",
-    "typescript": "^5.0.2"
+    "eslint": "^8.34.0"
   }
 }
