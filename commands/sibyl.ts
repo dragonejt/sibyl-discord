@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, PermissionFlagsBits, ChatInputCommandInteraction } from "discord.js";
-import communityPsychoPasses from "../clients/backend/psychopass/communityPsychoPasses.js"
+import { communityPsychoPasses } from "../clients/backend/psychopass/communityPsychoPasses.js"
 import { memberDominators } from "../clients/backend/dominator/memberDominators.js";
 import { messageDominators } from "../clients/backend/dominator/messageDominators.js";
 

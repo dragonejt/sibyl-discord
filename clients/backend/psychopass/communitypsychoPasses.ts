@@ -1,9 +1,9 @@
-type CommunityPsychoPass = {
+export type CommunityPsychoPass = {
     id: number,
     platform: string,
     platform_id: string,
     users: Array<number>,
-    
+
     area_stress_level: {
         toxicity: number,
         severe_toxicity: number,
@@ -73,5 +73,4 @@ class CommunityPsychoPasses {
 
 }
 
-const communityPsychoPasses = new CommunityPsychoPasses();
-export default communityPsychoPasses;
+export const communityPsychoPasses = new CommunityPsychoPasses();
