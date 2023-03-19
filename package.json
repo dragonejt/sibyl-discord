@@ -21,7 +21,6 @@
   "homepage": "https://github.com/dragonejt/sibyl-discord#readme",
   "dependencies": {
     "discord.js": "^14.8.0",
-    "googleapis": "^112.0.0",
     "jest": "^29.4.3"
   },
   "devDependencies": {

@@ -14,7 +14,7 @@ export default async function messageUpdate(oldMessage: Message | PartialMessage
     try {
         console.log(`User: ${newMessage.author.tag} (${newMessage.author.id}) has updated a message in Server: ${newMessage.guild!.name} (${newMessage.guildId}) in Channel: ${(newMessage.channel as TextChannel).name} (${newMessage.channel.id})`);
         const analysis = await analyzeComment(newMessage.content);
-        let data = analysis.data;
+        let data = analysis;
         data["userID"] = newMessage.author.id;
         data["communityID"] = newMessage.guildId;
         await ingestMessage(data);

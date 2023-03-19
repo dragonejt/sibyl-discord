@@ -9,7 +9,7 @@ export default async function ingestMessage(message: object) {
             },
             body: JSON.stringify(message),
         });
-        if (!response.ok) return response.status
+        if (!response.ok) throw new Error(`Ingest Message: ${response.status} ${response.statusText}`);
     } catch (error) {
         console.error(error);
     }

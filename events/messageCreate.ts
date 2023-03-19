@@ -13,7 +13,7 @@ export default async function messageCreate(message: Message) {
     try {
         console.log(`User: ${message.author.tag} (${message.author.id}) has sent a new message in Server: ${message.guild!.name} (${message.guildId}) in Channel: ${(message.channel as TextChannel).name} (${message.channel.id})`);
         const analysis = await analyzeComment(message.content);
-        let data = analysis.data;
+        let data = analysis;
         data["userID"] = message.author.id;
         data["communityID"] = message.guildId;
         await ingestMessage(data);
