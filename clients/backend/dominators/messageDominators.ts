@@ -1,10 +1,10 @@
-class MemberDominators {
+class MessageDominators {
     url;
-    constructor(url = `${process.env.BACKEND_URL}/dominator/member`) {
+    constructor(url = `${process.env.BACKEND_URL}/dominator/message`) {
         this.url = url;
     }
 
-    async get(communityID) {
+    async get(communityID: string) {
         try {
             const response = await fetch(`${this.url}?id=${communityID}`, {
                 method: "GET",
@@ -21,7 +21,7 @@ class MemberDominators {
         }
     }
 
-    async create(communityID) {
+    async create(communityID: string) {
         try {
             const response = await fetch(this.url, {
                 method: "POST",
@@ -38,7 +38,7 @@ class MemberDominators {
         }
     }
 
-    async update(data) {
+    async update(data: object) {
         try {
             const response = await fetch(this.url, {
                 method: "PUT",
@@ -55,7 +55,7 @@ class MemberDominators {
         }
     }
 
-    async delete(communityID) {
+    async delete(communityID: string) {
         try {
             const response = await fetch(`${this.url}?id=${communityID}`, {
                 method: "DELETE",
@@ -72,5 +72,5 @@ class MemberDominators {
     }
 }
 
-const memberDominators = new MemberDominators();
-export default memberDominators;
+const messageDominators = new MessageDominators();
+export default messageDominators;

@@ -1,10 +1,10 @@
-class MessageDominators {
+class CommunityPsychoPasses {
     url;
-    constructor(url = `${process.env.BACKEND_URL}/dominator/message`) {
+    constructor(url = `${process.env.BACKEND_URL}/psychopass/community`) {
         this.url = url;
     }
 
-    async get(communityID) {
+    async get(communityID: string) {
         try {
             const response = await fetch(`${this.url}?id=${communityID}`, {
                 method: "GET",
@@ -21,7 +21,7 @@ class MessageDominators {
         }
     }
 
-    async create(communityID) {
+    async create(communityID: string) {
         try {
             const response = await fetch(this.url, {
                 method: "POST",
@@ -38,24 +38,7 @@ class MessageDominators {
         }
     }
 
-    async update(data) {
-        try {
-            const response = await fetch(this.url, {
-                method: "PUT",
-                headers: {
-                    "Content-type": "application/json",
-                    "User-Agent": `sibyl-discord/${process.env.npm_package_version} node.js/${process.version}`,
-                    "Authorization": `Token ${process.env.BACKEND_API_KEY}`
-                },
-                body: JSON.stringify(data)
-            });
-            if (!response.ok) throw new Error(`PUT ${this.url}: ${response.status} ${response.statusText}`);
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    async delete(communityID) {
+    async delete(communityID: string) {
         try {
             const response = await fetch(`${this.url}?id=${communityID}`, {
                 method: "DELETE",
@@ -70,7 +53,8 @@ class MessageDominators {
             console.error(error);
         }
     }
+
 }
 
-const messageDominators = new MessageDominators();
-export default messageDominators;
+const communityPsychoPasses = new CommunityPsychoPasses();
+export default communityPsychoPasses;
