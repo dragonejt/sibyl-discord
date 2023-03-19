@@ -14,6 +14,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Git
+        run: |
+          git config --global user.email "hello@sibylmod.xyz"
+          git config --global user.name "Sibyl System"
+
       - name: Install Dependencies
         run: npm ci
 
