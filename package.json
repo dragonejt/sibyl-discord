@@ -8,6 +8,7 @@
     "build": "npx tsc",
     "test": "jest --passWithNoTests"
   },
+  "heroku-run-build-script": true,
   "type": "module",
   "repository": {
     "type": "git",
