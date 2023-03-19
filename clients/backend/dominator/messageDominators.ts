@@ -21,7 +21,7 @@ export type MessageDominator = {
 }
 
 class MessageDominators {
-    url;
+    url: string;
     constructor(url = `${process.env.BACKEND_URL}/dominator/message`) {
         this.url = url;
     }

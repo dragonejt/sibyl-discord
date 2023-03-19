@@ -16,7 +16,7 @@ export type CommunityPsychoPass = {
 }
 
 class CommunityPsychoPasses {
-    url;
+    url: string;
     constructor(url = `${process.env.BACKEND_URL}/psychopass/community`) {
         this.url = url;
     }

@@ -23,7 +23,7 @@ export type MemberDominator = {
 }
 
 class MemberDominators {
-    url;
+    url: string;
     constructor(url = `${process.env.BACKEND_URL}/dominator/member`) {
         this.url = url;
     }
