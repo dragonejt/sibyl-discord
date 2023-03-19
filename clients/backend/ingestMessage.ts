@@ -1,4 +1,6 @@
-export default async function ingestMessage(message: object) {
+import { MessageAnalysis } from "../perspectiveAPI.js";
+
+export default async function ingestMessage(message: MessageAnalysis) {
     try {
         const response = await fetch(`${process.env.BACKEND_URL}/psychopass/message`, {
             method: "POST",

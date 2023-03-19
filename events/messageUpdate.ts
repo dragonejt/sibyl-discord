@@ -1,7 +1,7 @@
 import { Message, PartialMessage, TextChannel } from "discord.js";
 import { analyzeComment } from "../clients/perspectiveAPI.js";
 import ingestMessage from "../clients/backend/ingestMessage.js";
-import messageDominators from "../clients/backend/dominators/messageDominators.js";
+import { messageDominators, MessageDominator } from "../clients/backend/dominator/messageDominators.js";
 import { ACTIONS, DEFAULT_MUTE_PERIOD } from "../clients/constants.js";
 
 export default async function messageUpdate(oldMessage: Message | PartialMessage, newMessage: Message | PartialMessage) {
@@ -14,13 +14,14 @@ export default async function messageUpdate(oldMessage: Message | PartialMessage
     try {
         console.log(`User: ${newMessage.author.tag} (${newMessage.author.id}) has updated a message in Server: ${newMessage.guild!.name} (${newMessage.guildId}) in Channel: ${(newMessage.channel as TextChannel).name} (${newMessage.channel.id})`);
         const analysis = await analyzeComment(newMessage.content);
+        const dominator = await messageDominators.get(newMessage.guildId);
+        if (!analysis || !dominator) throw new Error("MessageAnalysis or MessageDominator undefined!");
         let data = analysis;
         data["userID"] = newMessage.author.id;
         data["communityID"] = newMessage.guildId;
         await ingestMessage(data);
-        const dominator = await messageDominators.get(newMessage.guildId);
         let max_action = ACTIONS.indexOf("NOOP");
-        const reasons = [];
+        const reasons: string[] = [];
         for (const attribute in data.attributeScores) {
             const score = data.attributeScores[attribute].summaryScore.value;
             const trigger = dominator[`${attribute.toLowerCase()}_threshold`];
@@ -36,7 +37,7 @@ export default async function messageUpdate(oldMessage: Message | PartialMessage
     }
 }
 
-const moderate = async (message: Message, triggers: any, max_action: number, reasons: Array<string>) => {
+const moderate = async (message: Message, triggers: MessageDominator, max_action: number, reasons: Array<string>) => {
     if (max_action == ACTIONS.indexOf("NOOP")) return;
 
     let notifyTarget = triggers.discord_notify_target || message.guild!.ownerId;
@@ -44,7 +45,7 @@ const moderate = async (message: Message, triggers: any, max_action: number, rea
     else notifyTarget = `<@&${notifyTarget}>`;
 
     const notifyChannel = triggers.discord_log_channel || message.guild!.systemChannelId;
-    const channel = message.client.channels.cache.get(notifyChannel);
+    const channel = message.client.channels.cache.get(notifyChannel!);
 
     const notification = `${notifyTarget}
     A Message from <@${message.author.id}> in <#${message.channel.id}> has been flagged.

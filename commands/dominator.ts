@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, PermissionFlagsBits, ChatInputCommandInteraction } from "discord.js";
 import { ACTIONS, ATTRIBUTES, buildStringChoice, buildIntegerChoice } from "../clients/constants.js";
-import messageDominators from "../clients/backend/dominators/messageDominators.js";
-import memberDominators from "../clients/backend/dominators/memberDominators.js";
+import { messageDominators } from "../clients/backend/dominator/messageDominators.js";
+import { memberDominators } from "../clients/backend/dominator/memberDominators.js";
 
 const data = new SlashCommandBuilder()
     .setName("dominator")
@@ -51,7 +51,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
         await interaction.deferReply();
 
         const type = interaction.options.getSubcommand();
-        let dominator = null;
+        let dominator;
         if (type == "message") dominator = messageDominators;
         else if (type == "member") dominator = memberDominators;
 

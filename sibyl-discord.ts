@@ -1,4 +1,4 @@
-import SibylDiscordClient from "./clients/discord.js";
+import { SibylDiscordClient } from "./clients/discord.js";
 import { REST, Routes, Collection, GatewayIntentBits, Events } from "discord.js";
 
 import sibylCommand from "./commands/sibyl.js";

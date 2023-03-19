@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, PermissionFlagsBits, ChatInputCommandInteraction } from "discord.js";
-import communityPsychoPasses from "../clients/backend/psychopass/communitypsychoPasses.js"
-import memberDominators from "../clients/backend/dominators/memberDominators.js";
-import messageDominators from "../clients/backend/dominators/messageDominators.js";
+import communityPsychoPasses from "../clients/backend/psychopass/communityPsychoPasses.js"
+import { memberDominators } from "../clients/backend/dominator/memberDominators.js";
+import { messageDominators } from "../clients/backend/dominator/messageDominators.js";
 
 const data = new SlashCommandBuilder()
     .setName("sibyl")
@@ -24,7 +24,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
         else {
             const data = {
                 communityID: interaction.guildId,
-                discord_log_channel: interaction.options.get("log_channel")!.value
+                discord_log_channel: interaction.options.get("log_channel")!.value?.toString()
             }
             await memberDominators.update(data);
             await messageDominators.update(data);
@@ -39,7 +39,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
         else {
             const data = {
                 communityID: interaction.guildId,
-                discord_notify_target: interaction.options.get("notify_role")!.value
+                discord_notify_target: interaction.options.get("notify_role")!.value?.toString()
             }
             await memberDominators.update(data);
             await messageDominators.update(data);

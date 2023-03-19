@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
 import psychoPasses from "../clients/backend/psychopass/psychoPasses.js";
-import communityPsychoPasses from "../clients/backend/psychopass/communitypsychoPasses.js";
+import communityPsychoPasses from "../clients/backend/psychopass/communityPsychoPasses.js";
 
 const data = new SlashCommandBuilder()
     .setName("psychopass")
