@@ -14,9 +14,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Compile TypeScript
+        run: |
+        npm run build
+        git add .
+        git commit -m Dokku
+
+
       - name: Push to Dokku
         uses: dokku/github-action@master
         with:
           git_remote_url: ${{ secrets.GIT_REMOTE_URL }}
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           branch: 'main'
+          git_push_flags: --force

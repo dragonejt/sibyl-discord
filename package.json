@@ -5,9 +5,8 @@
   "main": "discord.js",
   "scripts": {
     "start": "node sibyl-discord.js",
-    "build": "npx tsc",
-    "test": "jest --passWithNoTests",
-    "postinstall": "npx tsc"
+    "build": "npx tsc --build",
+    "test": "jest --passWithNoTests"
   },
   "type": "module",
   "repository": {
