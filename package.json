@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node sibyl-discord.js",
     "dev": "tsc --build && node sibyl-discord.js",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "postinstall": "tsc"
   },
   "type": "module",
   "repository": {
@@ -21,13 +22,13 @@
   "homepage": "https://github.com/dragonejt/sibyl-discord#readme",
   "dependencies": {
     "discord.js": "^14.8.0",
-    "tslib": "^2.5.0",
-    "typescript": "^5.0.2",
     "googleapis": "^112.0.0",
     "jest": "^29.4.3"
   },
   "devDependencies": {
     "@types/node": "^18.15.3",
-    "eslint": "^8.34.0"
+    "eslint": "^8.34.0",
+    "tslib": "^2.5.0",
+    "typescript": "^5.0.2"
   }
 }
