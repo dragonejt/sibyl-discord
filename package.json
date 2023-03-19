@@ -4,8 +4,8 @@
   "description": "Content Moderation and Toxicity Profiles using Machine Learning",
   "main": "discord.js",
   "scripts": {
-    "start": "node build/sibyl-discord.js",
-    "dev": "tsc --build && node build/sibyl-discord.js",
+    "start": "node sibyl-discord.js",
+    "dev": "tsc --build && node sibyl-discord.js",
     "test": "jest --passWithNoTests"
   },
   "type": "module",
