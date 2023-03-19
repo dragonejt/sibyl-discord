@@ -25,7 +25,7 @@ jobs:
       - name: Compile TypeScript
         run: |
           npm run build
-          git add .
+          git add --all
           git commit -m Dokku
 
 
