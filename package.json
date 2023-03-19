@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node sibyl-discord.js",
     "build": "npx tsc --build",
+    "dev": "ts-node --esm sibyl-discord.ts",
     "test": "jest --passWithNoTests"
   },
   "type": "module",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@types/node": "^18.15.3",
     "eslint": "^8.34.0",
+    "ts-node": "^10.9.1",
     "tslib": "^2.5.0",
     "typescript": "^5.0.2"
   }
