@@ -15,3 +15,9 @@ export const buildIntegerChoice = (choiceName: string, choiceValue: number) => {
         value: choiceValue
     }
 }
+
+export type Reason = {
+    attribute: string,
+    score: number,
+    threshold: number
+}
