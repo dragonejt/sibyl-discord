@@ -4,7 +4,7 @@ import { ACTIONS, Reason } from "../clients/constants.js";
 
 export default async function embedMessageModeration(message: Message, reasons: Array<Reason>, action: number) {
     const embed = new EmbedBuilder()
-        .setTitle(`Flagged Message Sent by ${message.author.tag}`)
+        .setTitle(`Flagged Message from ${message.author.tag}`)
         .setURL(message.url)
         .setAuthor({ name: "Sibyl System", iconURL: message.client.user?.avatarURL()! })
         .setTimestamp()
