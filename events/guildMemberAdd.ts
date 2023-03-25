@@ -1,5 +1,5 @@
 import { GuildMember, TextChannel } from "discord.js";
-import psychoPasses from "../clients/backend/psychopass/psychoPasses.js";
+import { psychoPasses } from "../clients/backend/psychopass/psychoPasses.js";
 import { memberDominators, MemberDominator } from "../clients/backend/dominator/memberDominators.js";
 import { ATTRIBUTES, ACTIONS, DEFAULT_MUTE_PERIOD } from "../clients/constants.js";
 

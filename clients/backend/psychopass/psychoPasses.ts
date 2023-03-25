@@ -1,4 +1,4 @@
-type PsychoPass = {
+export type PsychoPass = {
     id: number,
     platform: string,
     platform_id: string,
@@ -41,5 +41,4 @@ class PsychoPasses {
     }
 }
 
-const psychoPasses = new PsychoPasses();
-export default psychoPasses;
+export const psychoPasses = new PsychoPasses();

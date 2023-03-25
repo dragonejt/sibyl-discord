@@ -1,6 +1,8 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
-import psychoPasses from "../clients/backend/psychopass/psychoPasses.js";
+import { psychoPasses } from "../clients/backend/psychopass/psychoPasses.js";
 import { communityPsychoPasses } from "../clients/backend/psychopass/communityPsychoPasses.js";
+import psychoPassEmbed from "../embeds/psychopass.js";
+import commnityPsychoPassEmbed from "../embeds/communityPsychoPass.js";
 
 const data = new SlashCommandBuilder()
     .setName("psychopass")
@@ -16,20 +18,12 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 
         console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of Server: ${interaction.guild!.name} (${interaction.guildId})`);
         const psychoPass = await communityPsychoPasses.get(interaction.guildId!);
-        await interaction.editReply(`
-        Psycho-Pass of Server: ${interaction.guild!.name} (${interaction.guildId})
-
-        ${JSON.stringify(psychoPass)}
-        `);
+        await interaction.editReply({ embeds: [await commnityPsychoPassEmbed(psychoPass!, interaction.client, interaction.user, interaction.guild!)] });
     }
     else {
         console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of User: ${user.tag} (${user.id})`);
         const psychoPass = await psychoPasses.get(user.id);
-        await interaction.editReply(`
-        Psycho-Pass of User: <@${user.id}>
-        
-        ${JSON.stringify(psychoPass)}
-        `);
+        await interaction.editReply({ embeds: [await psychoPassEmbed(psychoPass!, interaction.client, interaction.user, user)] });
     }
 }
 
