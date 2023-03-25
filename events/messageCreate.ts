@@ -2,7 +2,9 @@ import { Message, TextChannel } from "discord.js";
 import { analyzeComment } from "../clients/perspectiveAPI.js";
 import ingestMessage from "../clients/backend/ingestMessage.js";
 import { messageDominators, MessageDominator } from "../clients/backend/dominator/messageDominators.js";
-import { ACTIONS, DEFAULT_MUTE_PERIOD } from "../clients/constants.js";
+import { ACTIONS, DEFAULT_MUTE_PERIOD, Reason } from "../clients/constants.js";
+import guildMemberAdd from "../events/guildMemberAdd.js";
+import embedMessageModeration from "../embeds/messageModeration.js";
 
 export default async function messageCreate(message: Message) {
     if (message.author.id == process.env.DISCORD_CLIENT_ID ||
@@ -20,23 +22,27 @@ export default async function messageCreate(message: Message) {
         data["communityID"] = message.guildId;
         await ingestMessage(data);
         let max_action = ACTIONS.indexOf("NOOP");
-        const reasons: string[] = [];
+        const reasons: Array<Reason> = [];
         for (const attribute in data.attributeScores) {
             const score = data.attributeScores[attribute].summaryScore.value;
-            const trigger = dominator[`${attribute.toLowerCase()}_threshold`];
-            if (score >= trigger) {
+            const threshold = dominator[`${attribute.toLowerCase()}_threshold`];
+            if (score >= threshold) {
                 const action = dominator[`${attribute.toLowerCase()}_action`];
                 max_action = Math.max(max_action, action);
-                reasons.push(`${attribute}: ${score} >= ${trigger}`);
+                reasons.push({
+                    attribute: attribute.charAt(0).toUpperCase() + attribute.slice(1).toLowerCase(),
+                    score, threshold
+                });
             }
         }
         await moderate(message, dominator, max_action, reasons);
+        await guildMemberAdd(message.member!);
     } catch (error) {
         console.error(error);
     }
 }
 
-const moderate = async (message: Message, triggers: MessageDominator, max_action: number, reasons: Array<string>) => {
+const moderate = async (message: Message, triggers: MessageDominator, max_action: number, reasons: Array<Reason>) => {
     if (max_action == ACTIONS.indexOf("NOOP")) return;
 
     let notifyTarget = triggers.discord_notify_target || message.guild!.ownerId;
@@ -46,14 +52,10 @@ const moderate = async (message: Message, triggers: MessageDominator, max_action
     const notifyChannel = triggers.discord_log_channel || message.guild!.systemChannelId;
     const channel = message.client.channels.cache.get(notifyChannel!);
 
-    const notification = `${notifyTarget}
-    A Message from <@${message.author.id}> in <#${message.channel.id}> has been flagged.
-    Reasons: ${reasons}
-    Action: ${ACTIONS[max_action]}
-    URL: ${message.url}`
+    const notification = await embedMessageModeration(message, reasons, max_action);
 
-    await (channel as TextChannel).send(notification);
-    if (channel?.id != message.channel.id) await message.channel.send(notification);
+    await (channel as TextChannel).send({ content: notifyTarget, embeds: [notification] });
+    if (channel?.id != message.channel.id) await message.channel.send({ embeds: [notification] });
     console.log(`Action: ${ACTIONS[max_action]} has been taken on User: ${message.author.tag} (${message.author.id}) in Server: ${message.guild!.name} (${message.guild!.id}) because of: ${reasons}`);
     await message.delete();
     if (max_action == ACTIONS.indexOf("BAN")) await message.member!.ban();
