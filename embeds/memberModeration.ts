@@ -11,7 +11,7 @@ export default async function embedMemberModeration(member: GuildMember, reasons
     if (ACTIONS[action] == "NOTIFY") embed.setTitle("Notified Moderators");
     else if (ACTIONS[action] == "MUTE") embed.setTitle(`Muted ${member.user.tag}`);
     else if (ACTIONS[action] == "KICK") embed.setTitle(`Kicked ${member.user.tag}`);
-    else if (ACTIONS[action] == "BAN") embed.setTitle(`Baned ${member.user.tag}`);
+    else if (ACTIONS[action] == "BAN") embed.setTitle(`Banned ${member.user.tag}`);
 
     for (const reason of reasons) {
         embed.addFields(
