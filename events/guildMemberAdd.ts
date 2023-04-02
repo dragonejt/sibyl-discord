@@ -8,7 +8,8 @@ export default async function guildMemberAdd(member: GuildMember) {
     console.log(`A new User: ${member.user.tag} (${member.user.id}) has joined Server: ${member.guild.name} (${member.guild.id})`);
     const psychoPass = await psychoPasses.get(member.user.id);
     const dominator = await memberDominators.get(member.guild.id);
-    if (!psychoPass || !dominator) throw new Error("psychoPass or dominator undefined!");
+    if (!psychoPass || !dominator) throw new Error("Psycho-Pass or Dominator undefined!");
+    if (psychoPass.messages < 25) return;
     let max_action = ACTIONS.indexOf("NOOP");
     const reasons: Array<Reason> = [];
     for (const attribute of ATTRIBUTES) {
