@@ -3,7 +3,7 @@ import { analyzeComment } from "../clients/perspectiveAPI.js";
 import ingestMessage from "../clients/backend/ingestMessage.js";
 import { messageDominators, MessageDominator } from "../clients/backend/dominator/messageDominators.js";
 import { ACTIONS, DEFAULT_MUTE_PERIOD, Reason } from "../clients/constants.js";
-import guildMemberAdd from "../events/guildMemberAdd.js";
+import moderateMember from "../events/guildMemberAdd.js";
 import embedMessageModeration from "../embeds/messageModeration.js";
 
 export default async function messageCreate(message: Message) {
@@ -36,7 +36,7 @@ export default async function messageCreate(message: Message) {
             }
         }
         await moderate(message, dominator, max_action, reasons);
-        await guildMemberAdd(message.member!);
+        await moderateMember(message.member!);
     } catch (error) {
         console.error(error);
     }

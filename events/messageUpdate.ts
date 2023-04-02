@@ -4,7 +4,7 @@ import ingestMessage from "../clients/backend/ingestMessage.js";
 import { messageDominators, MessageDominator } from "../clients/backend/dominator/messageDominators.js";
 import { ACTIONS, DEFAULT_MUTE_PERIOD, Reason } from "../clients/constants.js";
 import embedMessageModeration from "../embeds/messageModeration.js";
-import guildMemberAdd from "./guildMemberAdd.js";
+import moderateMember from "./guildMemberAdd.js";
 
 export default async function messageUpdate(oldMessage: Message | PartialMessage, newMessage: Message | PartialMessage) {
     newMessage = newMessage as Message;
@@ -37,7 +37,7 @@ export default async function messageUpdate(oldMessage: Message | PartialMessage
             }
         }
         await moderate(newMessage, dominator, max_action, reasons);
-        await guildMemberAdd(newMessage.member!);
+        await moderateMember(newMessage.member!);
     } catch (error) {
         console.error(error);
     }
