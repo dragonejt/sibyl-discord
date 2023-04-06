@@ -1,8 +1,8 @@
 export type MemberDominator = {
     id: number,
     profile: number,
-    discord_log_channel: string | null,
-    discord_notify_target: string | null,
+    discord_log_channel?: string,
+    discord_notify_target?: string,
 
     crime_coefficient_100_action: number,
     crime_coefficient_300_action: number,
@@ -79,7 +79,7 @@ class MemberDominators {
         }
     }
 
-    async delete(communityID:string) {
+    async delete(communityID: string) {
         try {
             const response = await fetch(`${this.url}?id=${communityID}`, {
                 method: "DELETE",

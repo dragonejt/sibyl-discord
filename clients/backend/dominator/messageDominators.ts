@@ -1,8 +1,8 @@
 export type MessageDominator = {
     id: number,
     profile: number,
-    discord_log_channel: string | null,
-    discord_notify_target: string | null,
+    discord_log_channel?: string,
+    discord_notify_target?: string,
 
     toxicity_action: number,
     toxicity_threshold: number,
