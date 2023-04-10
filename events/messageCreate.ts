@@ -8,18 +8,17 @@ import embedMessageModeration from "../embeds/messageModeration.js";
 
 export default async function messageCreate(message: Message) {
     if (message.author.id == process.env.DISCORD_CLIENT_ID ||
-        message.guildId != "1063590532711972945" ||
         (message.channel as TextChannel).nsfw ||
         message.content == "") return;
 
     try {
         console.log(`User: ${message.author.tag} (${message.author.id}) has sent a new message in Server: ${message.guild!.name} (${message.guildId}) in Channel: ${(message.channel as TextChannel).name} (${message.channel.id})`);
         const analysis = await analyzeComment(message.content);
-        const dominator = await messageDominators.get(message.guildId);
+        const dominator = await messageDominators.get(message.guildId!);
         if (!analysis || !dominator) throw new Error("MessageAnalysis or MessageDominator undefined!");
         let data = analysis;
-        data["userID"] = message.author.id;
-        data["communityID"] = message.guildId;
+        data.userID = message.author.id;
+        data.communityID = message.guildId!;
         await ingestMessage(data);
         let max_action = ACTIONS.indexOf("NOOP");
         const reasons: Array<Reason> = [];
@@ -54,10 +53,10 @@ const moderate = async (message: Message, triggers: MessageDominator, max_action
 
     const notification = await embedMessageModeration(message, reasons, max_action);
 
+    await message.delete();
     await (channel as TextChannel).send({ content: notifyTarget, embeds: [notification] });
     if (channel?.id != message.channel.id) await message.channel.send({ embeds: [notification] });
     console.log(`Action: ${ACTIONS[max_action]} has been taken on User: ${message.author.tag} (${message.author.id}) in Server: ${message.guild!.name} (${message.guild!.id}) because of: ${reasons}`);
-    await message.delete();
     if (max_action == ACTIONS.indexOf("BAN")) await message.member!.ban();
     else if (max_action == ACTIONS.indexOf("KICK")) await message.member!.kick(reasons.toString());
     else if (max_action == ACTIONS.indexOf("MUTE")) await message.member!.timeout(DEFAULT_MUTE_PERIOD);
