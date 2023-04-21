@@ -26,10 +26,10 @@ const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_BOT_TOKEN!
 const commands = [sibylCommand, dominatorCommand, psychopassCommand];
 
 await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID!), { body: commands.map(command => command.data) });
-console.log('Successfully reloaded application (/) commands.');
+console.log("Successfully reloaded application (/) commands.");
 client.commands = new Collection();
 commands.map(command => client.commands.set(command.data.name, command));
-console.log("Successfully registered application (/) command actions.")
+console.log("Successfully registered application (/) command actions.");
 
 client.on(Events.ClientReady, ready);
 client.on(Events.GuildCreate, guildCreate);

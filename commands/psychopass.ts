@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
+import { SlashCommandBuilder, type ChatInputCommandInteraction } from "discord.js";
 import { psychoPasses } from "../clients/backend/psychopass/psychoPasses.js";
 import { communityPsychoPasses } from "../clients/backend/psychopass/communityPsychoPasses.js";
 import embedPsychoPass from "../embeds/psychoPass.js";
@@ -11,20 +11,18 @@ const data = new SlashCommandBuilder()
         option.setName("user")
             .setDescription("Gets this User's Psycho-Pass"));
 
-const execute = async (interaction: ChatInputCommandInteraction) => {
+const execute = async(interaction: ChatInputCommandInteraction) => {
     await interaction.deferReply();
     const user = interaction.options.getUser("user");
-    if (user == null) {
-
-        console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of Server: ${interaction.guild!.name} (${interaction.guildId})`);
+    if (user === null) {
+        console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of Server: ${interaction.guild!.name} (${interaction.guildId!})`);
         const psychoPass = await communityPsychoPasses.read(interaction.guildId!);
         await interaction.editReply({ embeds: [await embedCommunityPsychoPass(psychoPass!, interaction.client, interaction.user, interaction.guild!)] });
-    }
-    else {
+    } else {
         console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of User: ${user.tag} (${user.id})`);
         const psychoPass = await psychoPasses.read(user.id);
         await interaction.editReply({ embeds: [await embedPsychoPass(psychoPass!, interaction.client, interaction.user, user)] });
     }
-}
+};
 
 export default { data, execute };

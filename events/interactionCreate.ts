@@ -1,5 +1,5 @@
-import { SibylDiscordClient } from "../clients/discord.js";
-import {Interaction} from "discord.js";
+import { type SibylDiscordClient } from "../clients/discord.js";
+import { type Interaction } from "discord.js";
 
 export default async function interactionCreate(interaction: Interaction) {
     if (interaction.isChatInputCommand()) {
@@ -9,7 +9,7 @@ export default async function interactionCreate(interaction: Interaction) {
             await command?.execute(interaction);
         } catch (error) {
             console.error(error);
-            await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+            await interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
         }
     }
 }
