@@ -17,7 +17,7 @@ export default async function embedDominator(dominator: MessageDominator | Membe
                 { name: "Crime Coefficient 100 Action", value: ACTION_PRETTY[ACTIONS[dominator.crime_coefficient_100_action]], inline: true },
                 { name: "Crime Coefficient 300 Action", value: ACTION_PRETTY[ACTIONS[dominator.crime_coefficient_300_action]], inline: true }
             );
-    } else embed.setTitle(`Member Dominator Settings for Server: ${server.name}`);
+    } else embed.setTitle(`Message Dominator Settings for Server: ${server.name}`);
 
     for (const attribute of ATTRIBUTES) {
         embed.addFields(
