@@ -1,4 +1,4 @@
-import { Guild } from "discord.js";
+import { type Guild } from "discord.js";
 import communities from "../clients/backend/communities.js";
 
 export default async function guildCreate(guild: Guild) {

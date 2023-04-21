@@ -1,4 +1,4 @@
-import { Guild } from "discord.js";
+import { type Guild } from "discord.js";
 import communities from "../clients/backend/communities.js";
 
 export default async function guildDelete(guild: Guild) {
@@ -6,5 +6,4 @@ export default async function guildDelete(guild: Guild) {
     await guild.client.guilds.fetch();
     guild.client.user.setPresence({ activities: [{ name: `${guild.client.guilds.cache.size} Servers`, type: 3 }] });
     console.log(`Sibyl has been removed from Server: ${guild.name} (${guild.id})`);
-
 }

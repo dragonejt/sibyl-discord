@@ -11,6 +11,7 @@ import interactionCreate from "./events/interactionCreate.js";
 import ready from "./events/ready.js";
 import guildDelete from "./events/guildDelete.js";
 import guildCreate from "./events/guildCreate.js";
+import guildMemberRemove from "./events/guildMemberRemove.js";
 import guildMemberAdd from "./events/guildMemberAdd.js";
 
 const client = new SibylDiscordClient({
@@ -26,14 +27,15 @@ const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_BOT_TOKEN!
 const commands = [sibylCommand, dominatorCommand, psychopassCommand];
 
 await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID!), { body: commands.map(command => command.data) });
-console.log('Successfully reloaded application (/) commands.');
+console.log("Successfully reloaded application (/) commands.");
 client.commands = new Collection();
 commands.map(command => client.commands.set(command.data.name, command));
-console.log("Successfully registered application (/) command actions.")
+console.log("Successfully registered application (/) command actions.");
 
 client.on(Events.ClientReady, ready);
 client.on(Events.GuildCreate, guildCreate);
 client.on(Events.GuildDelete, guildDelete);
+client.on(Events.GuildMemberRemove, guildMemberRemove);
 client.on(Events.GuildMemberAdd, guildMemberAdd);
 client.on(Events.MessageCreate, messageCreate);
 client.on(Events.MessageUpdate, messageUpdate);

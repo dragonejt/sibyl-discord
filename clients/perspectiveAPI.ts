@@ -1,29 +1,29 @@
 type AttributeScore = {
     summaryScore: {
-        value: number;
-        type: string;
+        value: number
+        type: string
     }
-}
+};
 
 export type MessageAnalysis = {
     attributeScores: {
-        TOXICITY: AttributeScore,
-        SEVERE_TOXICITY: AttributeScore,
-        IDENTITY_ATTACK: AttributeScore,
-        INSULT: AttributeScore,
-        THREAT: AttributeScore,
-        PROFANITY: AttributeScore,
+        TOXICITY: AttributeScore
+        SEVERE_TOXICITY: AttributeScore
+        IDENTITY_ATTACK: AttributeScore
+        INSULT: AttributeScore
+        THREAT: AttributeScore
+        PROFANITY: AttributeScore
         SEXUALLY_EXPLICIT: AttributeScore
-    },
-    languages: Array<string>,
-    userID?: string,
+    }
+    languages: string[]
+    userID?: string
     communityID?: string
-}
+};
 
-export const analyzeComment = async (comment: string): Promise<MessageAnalysis | undefined> => {
+export const analyzeComment = async(comment: string): Promise<MessageAnalysis | undefined> => {
     try {
         const response = await fetch(
-            `https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=${process.env.PERSPECTIVE_API_KEY}`,
+            `https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=${process.env.PERSPECTIVE_API_KEY!}`,
             {
                 method: "POST",
                 headers: {
@@ -44,11 +44,10 @@ export const analyzeComment = async (comment: string): Promise<MessageAnalysis |
                     },
                     languages: ["en"]
                 })
-        });
+            });
         if (!response.ok) throw new Error(`Perspective API Analyze Comment:  ${response.status} ${response.statusText}`);
-        return response.json();
-        
+        return await response.json();
     } catch (error) {
         console.error(error);
     }
-}
+};
