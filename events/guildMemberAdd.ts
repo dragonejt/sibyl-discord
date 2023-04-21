@@ -1,4 +1,5 @@
 import { GuildMember, TextChannel } from "discord.js";
+import communities from "../clients/backend/communities.js";
 import { psychoPasses } from "../clients/backend/psychopass/psychoPasses.js";
 import { memberDominators, MemberDominator } from "../clients/backend/dominator/memberDominators.js";
 import { ATTRIBUTES, ACTIONS, DEFAULT_MUTE_PERIOD, Reason } from "../clients/constants.js";
@@ -6,8 +7,8 @@ import embedMemberModeration from "../embeds/memberModeration.js";
 
 export default async function guildMemberAdd(member: GuildMember) {
     console.log(`A new User: ${member.user.tag} (${member.user.id}) has joined Server: ${member.guild.name} (${member.guild.id})`);
-    const psychoPass = await psychoPasses.get(member.user.id);
-    const dominator = await memberDominators.get(member.guild.id);
+    const psychoPass = await psychoPasses.read(member.user.id);
+    const dominator = await memberDominators.read(member.guild.id);
     if (!psychoPass || !dominator) throw new Error("Psycho-Pass or Dominator undefined!");
     if (psychoPass.messages < 25) return;
     let max_action = ACTIONS.indexOf("NOOP");
@@ -46,11 +47,13 @@ export default async function guildMemberAdd(member: GuildMember) {
 const moderate = async (member: GuildMember, triggers: MemberDominator, max_action: number, reasons: Array<Reason>) => {
     if (max_action == ACTIONS.indexOf("NOOP")) return;
 
-    let notifyTarget = triggers.discord_notify_target || member.guild.ownerId;
+    const community = await communities.read(member.guild.id);
+
+    let notifyTarget = community?.discord_notify_target || member.guild.ownerId;
     if (member.guild.roles.cache.get(notifyTarget) == null) notifyTarget = `<@${notifyTarget}>`;
     else notifyTarget = `<@&${notifyTarget}>`;
 
-    const notifyChannel = triggers.discord_log_channel || member.guild.systemChannelId;
+    const notifyChannel = community?.discord_log_channel || member.guild.systemChannelId;
     const channel = member.client.channels.cache.get(notifyChannel!);
 
     const notification = await embedMemberModeration(member, reasons, max_action);
