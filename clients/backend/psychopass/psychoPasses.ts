@@ -1,7 +1,7 @@
 export type PsychoPass = {
     id: number,
     platform: string,
-    platform_id: string,
+    user_id: string,
     last_flag: string,
     messages: number,
     psycho_hazard: boolean,
@@ -18,12 +18,9 @@ export type PsychoPass = {
 }
 
 class PsychoPasses {
-    url: string;
-    constructor(url = `${process.env.BACKEND_URL}/psychopass/user`) {
-        this.url = url;
-    }
+    url: string = `${process.env.BACKEND_URL}/psychopass/user`;
 
-    async get(userID: string): Promise<PsychoPass | undefined> {
+    async read(userID: string): Promise<PsychoPass | undefined> {
         try {
             const response = await fetch(`${this.url}?id=${userID}`, {
                 method: "GET",

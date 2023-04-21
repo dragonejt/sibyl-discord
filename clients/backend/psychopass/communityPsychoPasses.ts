@@ -1,7 +1,6 @@
 export type CommunityPsychoPass = {
     id: number,
-    platform: string,
-    platform_id: string,
+    community: number,
     users: Array<number>,
 
     area_stress_level: {
@@ -16,12 +15,9 @@ export type CommunityPsychoPass = {
 }
 
 class CommunityPsychoPasses {
-    url: string;
-    constructor(url = `${process.env.BACKEND_URL}/psychopass/community`) {
-        this.url = url;
-    }
+    url: string = `${process.env.BACKEND_URL}/psychopass/community`;
 
-    async get(communityID: string): Promise<CommunityPsychoPass | undefined> {
+    async read(communityID: string): Promise<CommunityPsychoPass | undefined> {
         try {
             const response = await fetch(`${this.url}?id=${communityID}`, {
                 method: "GET",
@@ -37,40 +33,6 @@ class CommunityPsychoPasses {
             console.error(error);
         }
     }
-
-    async create(communityID: string) {
-        try {
-            const response = await fetch(this.url, {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json",
-                    "User-Agent": `sibyl-discord/${process.env.npm_package_version} node.js/${process.version}`,
-                    "Authorization": `Token ${process.env.BACKEND_API_KEY}`
-                },
-                body: JSON.stringify({ communityID })
-            });
-            if (!response.ok) throw new Error(`POST ${this.url}: ${response.status} ${response.statusText}`);
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    async delete(communityID: string) {
-        try {
-            const response = await fetch(`${this.url}?id=${communityID}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-type": "application/json",
-                    "User-Agent": `sibyl-discord/${process.env.npm_package_version} node.js/${process.version}`,
-                    "Authorization": `Token ${process.env.BACKEND_API_KEY}`
-                }
-            });
-            if (!response.ok) throw new Error(`DELETE ${this.url}?id=${communityID}: ${response.status} ${response.statusText}`);
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
 }
 
 export const communityPsychoPasses = new CommunityPsychoPasses();

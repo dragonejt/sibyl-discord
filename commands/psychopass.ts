@@ -17,12 +17,12 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
     if (user == null) {
 
         console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of Server: ${interaction.guild!.name} (${interaction.guildId})`);
-        const psychoPass = await communityPsychoPasses.get(interaction.guildId!);
+        const psychoPass = await communityPsychoPasses.read(interaction.guildId!);
         await interaction.editReply({ embeds: [await embedCommunityPsychoPass(psychoPass!, interaction.client, interaction.user, interaction.guild!)] });
     }
     else {
         console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of User: ${user.tag} (${user.id})`);
-        const psychoPass = await psychoPasses.get(user.id);
+        const psychoPass = await psychoPasses.read(user.id);
         await interaction.editReply({ embeds: [await embedPsychoPass(psychoPass!, interaction.client, interaction.user, user)] });
     }
 }

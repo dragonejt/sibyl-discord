@@ -1,6 +1,7 @@
 import { Message, PartialMessage, TextChannel } from "discord.js";
 import { analyzeComment } from "../clients/perspectiveAPI.js";
 import ingestMessage from "../clients/backend/ingestMessage.js";
+import communities from "../clients/backend/communities.js";
 import { messageDominators, MessageDominator } from "../clients/backend/dominator/messageDominators.js";
 import { ACTIONS, DEFAULT_MUTE_PERIOD, Reason } from "../clients/constants.js";
 import embedMessageModeration from "../embeds/messageModeration.js";
@@ -15,7 +16,7 @@ export default async function messageUpdate(oldMessage: Message | PartialMessage
     try {
         console.log(`User: ${newMessage.author.tag} (${newMessage.author.id}) has updated a message in Server: ${newMessage.guild!.name} (${newMessage.guildId}) in Channel: ${(newMessage.channel as TextChannel).name} (${newMessage.channel.id})`);
         const analysis = await analyzeComment(newMessage.content);
-        const dominator = await messageDominators.get(newMessage.guildId!);
+        const dominator = await messageDominators.read(newMessage.guildId!);
         if (!analysis || !dominator) throw new Error("MessageAnalysis or MessageDominator undefined!");
         let data = analysis;
         data.userID = newMessage.author.id;
@@ -45,11 +46,13 @@ export default async function messageUpdate(oldMessage: Message | PartialMessage
 const moderate = async (message: Message, triggers: MessageDominator, max_action: number, reasons: Array<Reason>) => {
     if (max_action == ACTIONS.indexOf("NOOP")) return;
 
-    let notifyTarget = triggers.discord_notify_target || message.guild!.ownerId;
+    const community = await communities.read(message.guildId!)
+
+    let notifyTarget = community?.discord_notify_target || message.guild!.ownerId;
     if (message.guild!.roles.cache.get(notifyTarget) == null) notifyTarget = `<@${notifyTarget}>`;
     else notifyTarget = `<@&${notifyTarget}>`;
 
-    const notifyChannel = triggers.discord_log_channel || message.guild!.systemChannelId;
+    const notifyChannel = community?.discord_log_channel || message.guild!.systemChannelId;
     const channel = message.client.channels.cache.get(notifyChannel!);
 
     const notification = await embedMessageModeration(message, reasons, max_action);

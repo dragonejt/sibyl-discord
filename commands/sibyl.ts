@@ -1,7 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits, ChatInputCommandInteraction } from "discord.js";
+import communities from "../clients/backend/communities.js";
 import { communityPsychoPasses } from "../clients/backend/psychopass/communityPsychoPasses.js"
-import { memberDominators } from "../clients/backend/dominator/memberDominators.js";
-import { messageDominators } from "../clients/backend/dominator/messageDominators.js";
 
 const data = new SlashCommandBuilder()
     .setName("sibyl")
@@ -14,7 +13,7 @@ const data = new SlashCommandBuilder()
             .setDescription("Role to Notify"));
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
-    await communityPsychoPasses.get(interaction.guildId!);
+    await communityPsychoPasses.read(interaction.guildId!);
     await interaction.reply(`Sibyl Pong! Response Time: ${Date.now() - interaction.createdTimestamp}ms`);
     if (interaction.options.get("log_channel") != null) {
         if (!interaction.memberPermissions!.has(PermissionFlagsBits.Administrator)) await interaction.followUp({
@@ -26,8 +25,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
                 communityID: interaction.guildId,
                 discord_log_channel: interaction.options.get("log_channel")!.value?.toString()
             }
-            await memberDominators.update(data);
-            await messageDominators.update(data);
+            communities.update(data)
             await interaction.followUp(`Log Channel Has Been Updated.`);
         }
     }
@@ -41,8 +39,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
                 communityID: interaction.guildId,
                 discord_notify_target: interaction.options.get("notify_role")!.value?.toString()
             }
-            await memberDominators.update(data);
-            await messageDominators.update(data);
+            await communities.update(data)
             await interaction.followUp(`Notification Target Has Been Updated.`);
         }
     }

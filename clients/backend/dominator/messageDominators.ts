@@ -1,8 +1,6 @@
 export type MessageDominator = {
     id: number,
-    profile: number,
-    discord_log_channel?: string,
-    discord_notify_target?: string,
+    community: number,
 
     toxicity_action: number,
     toxicity_threshold: number,
@@ -21,12 +19,9 @@ export type MessageDominator = {
 }
 
 class MessageDominators {
-    url: string;
-    constructor(url = `${process.env.BACKEND_URL}/dominator/message`) {
-        this.url = url;
-    }
+    url: string = `${process.env.BACKEND_URL}/dominator/message`;
 
-    async get(communityID: string): Promise<MessageDominator | undefined> {
+    async read(communityID: string): Promise<MessageDominator | undefined> {
         try {
             const response = await fetch(`${this.url}?id=${communityID}`, {
                 method: "GET",
@@ -43,24 +38,7 @@ class MessageDominators {
         }
     }
 
-    async create(communityID: string) {
-        try {
-            const response = await fetch(this.url, {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json",
-                    "User-Agent": `sibyl-discord/${process.env.npm_package_version} node.js/${process.version}`,
-                    "Authorization": `Token ${process.env.BACKEND_API_KEY}`
-                },
-                body: JSON.stringify({ communityID })
-            });
-            if (!response.ok) throw new Error(`POST ${this.url}: ${response.status} ${response.statusText}`);
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    async update(data: Partial<MessageDominator>) {
+    async update(data: Partial<MessageDominator>): Promise<MessageDominator | undefined> {
         try {
             const response = await fetch(this.url, {
                 method: "PUT",
@@ -72,6 +50,7 @@ class MessageDominators {
                 body: JSON.stringify(data)
             });
             if (!response.ok) throw new Error(`PUT ${this.url}: ${response.status} ${response.statusText}`);
+            return response.json();
         } catch (error) {
             console.error(error);
         }
