@@ -11,6 +11,7 @@ import interactionCreate from "./events/interactionCreate.js";
 import ready from "./events/ready.js";
 import guildDelete from "./events/guildDelete.js";
 import guildCreate from "./events/guildCreate.js";
+import guildMemberRemove from "./events/guildMemberRemove.js";
 import guildMemberAdd from "./events/guildMemberAdd.js";
 
 const client = new SibylDiscordClient({
@@ -34,6 +35,7 @@ console.log("Successfully registered application (/) command actions.");
 client.on(Events.ClientReady, ready);
 client.on(Events.GuildCreate, guildCreate);
 client.on(Events.GuildDelete, guildDelete);
+client.on(Events.GuildMemberRemove, guildMemberRemove);
 client.on(Events.GuildMemberAdd, guildMemberAdd);
 client.on(Events.MessageCreate, messageCreate);
 client.on(Events.MessageUpdate, messageUpdate);

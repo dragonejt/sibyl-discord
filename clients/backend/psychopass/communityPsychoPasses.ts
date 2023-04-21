@@ -33,6 +33,25 @@ class CommunityPsychoPasses {
             console.error(error);
         }
     }
+
+    // For Removing a User Psycho-Pass from a Community Psycho-Pass Only
+    async update(communityID: string, userID: string): Promise<CommunityPsychoPass | undefined> {
+        try {
+            const response = await fetch(this.url, {
+                method: "PUT",
+                headers: {
+                    "Content-type": "application/json",
+                    "User-Agent": `sibyl-discord/${process.env.npm_package_version!} node.js/${process.version}`,
+                    "Authorization": `Token ${process.env.BACKEND_API_KEY!}`
+                },
+                body: JSON.stringify({ communityID, userID })
+            });
+            if (!response.ok) throw new Error(`PUT ${this.url}: ${response.status} ${response.statusText}`);
+            return await response.json();
+        } catch (error) {
+            console.error(error);
+        }
+    }
 }
 
 export const communityPsychoPasses = new CommunityPsychoPasses();
