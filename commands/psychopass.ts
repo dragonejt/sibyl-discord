@@ -11,7 +11,7 @@ const data = new SlashCommandBuilder()
         option.setName("user")
             .setDescription("Gets this User's Psycho-Pass"));
 
-const execute = async(interaction: ChatInputCommandInteraction) => {
+const execute = async (interaction: ChatInputCommandInteraction) => {
     await interaction.deferReply();
     const user = interaction.options.getUser("user");
     if (user === null) {
@@ -21,7 +21,8 @@ const execute = async(interaction: ChatInputCommandInteraction) => {
     } else {
         console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of User: ${user.tag} (${user.id})`);
         const psychoPass = await psychoPasses.read(user.id);
-        await interaction.editReply({ embeds: [await embedPsychoPass(psychoPass!, interaction.client, interaction.user, user)] });
+        if (psychoPass === undefined) await interaction.editReply("The targeted User has not sent a message yet, and does not have a Psycho-Pass");
+        else await interaction.editReply({ embeds: [await embedPsychoPass(psychoPass, interaction.client, interaction.user, user)] });
     }
 };
 
