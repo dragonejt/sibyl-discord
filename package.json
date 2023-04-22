@@ -7,7 +7,8 @@
     "start": "node sibyl-discord.js",
     "build": "npx tsc --build",
     "dev": "ts-node --esm sibyl-discord.ts",
-    "test": "jest --help",
+    "test": "jest --passWithNoTests",
+    "lint": "npx eslint --fix .",
     "build:digitalocean": "npx tsc --build"
   },
   "type": "module",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "@types/node": "^18.15.3",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
     "eslint": "^8.39.0",
     "eslint-config-standard-with-typescript": "^34.0.1",
     "eslint-plugin-import": "^2.27.5",
