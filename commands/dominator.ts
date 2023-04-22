@@ -70,7 +70,7 @@ const execute = async(interaction: ChatInputCommandInteraction) => {
                 communityID: interaction.guildId,
                 crime_coefficient_300_action: action
             });
-        } else {
+        } else if (attribute in ATTRIBUTES) {
             const triggerData = { communityID: interaction.guildId };
             if (action !== null) triggerData[`${attribute}_action`] = action;
             if (threshold !== null) triggerData[`${attribute}_threshold`] = threshold;

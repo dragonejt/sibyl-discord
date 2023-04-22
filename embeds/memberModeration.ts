@@ -2,7 +2,7 @@ import { type GuildMember, EmbedBuilder } from "discord.js";
 
 import { ACTIONS, ATTR_PRETTY, type Reason } from "../clients/constants.js";
 
-export default async function embedMemberModeration(member: GuildMember, reasons: Reason[], action: number) {
+export default async function embedMemberModeration(member: GuildMember, action: number, reasons: Reason[]) {
     const embed = new EmbedBuilder()
         .setAuthor({ name: "Sibyl System", iconURL: member.client.user?.avatarURL()! })
         .setTimestamp()

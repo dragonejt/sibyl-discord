@@ -37,11 +37,11 @@ export default async function guildMemberAdd(member: GuildMember) {
             threshold: 100
         });
     }
-    await moderate(member, dominator!, maxAction, reasons);
+    await moderate(member, maxAction, reasons);
 }
 
-const moderate = async(member: GuildMember, triggers: MemberDominator, maxAction: number, reasons: Reason[]) => {
-    if (maxAction === ACTIONS.indexOf("NOOP")) return;
+const moderate = async (member: GuildMember, action: number, reasons: Reason[]) => {
+    if (action === ACTIONS.indexOf("NOOP")) return;
 
     const community = await communities.read(member.guild.id);
 
@@ -52,11 +52,11 @@ const moderate = async(member: GuildMember, triggers: MemberDominator, maxAction
     const notifyChannel = community?.discord_log_channel ?? member.guild.systemChannelId;
     const channel = member.client.channels.cache.get(notifyChannel!);
 
-    const notification = await embedMemberModeration(member, reasons, maxAction);
+    const notification = await embedMemberModeration(member, action, reasons);
 
     await (channel as TextChannel).send({ content: notifyTarget, embeds: [notification] });
-    console.log(`Action: ${ACTIONS[maxAction]} has been taken on User: ${member.user.tag} (${member.user.id}) in Server: ${member.guild.name} (${member.guild.id}) because of: ${reasons}`);
-    if (maxAction === ACTIONS.indexOf("BAN")) await member.ban();
-    else if (maxAction === ACTIONS.indexOf("KICK")) await member.kick(reasons.toString());
-    else if (maxAction === ACTIONS.indexOf("MUTE")) await member.timeout(DEFAULT_MUTE_PERIOD);
+    console.log(`Action: ${ACTIONS[action]} has been taken on User: ${member.user.tag} (${member.user.id}) in Server: ${member.guild.name} (${member.guild.id}) because of: ${reasons}`);
+    if (action === ACTIONS.indexOf("BAN")) await member.ban();
+    else if (action === ACTIONS.indexOf("KICK")) await member.kick(reasons.toString());
+    else if (action === ACTIONS.indexOf("MUTE")) await member.timeout(DEFAULT_MUTE_PERIOD);
 };

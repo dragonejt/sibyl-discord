@@ -2,7 +2,7 @@ import { type Message, EmbedBuilder } from "discord.js";
 
 import { ACTIONS, ATTR_PRETTY, type Reason } from "../clients/constants.js";
 
-export default async function embedMessageModeration(message: Message, reasons: Reason[], action: number) {
+export default async function embedMessageModeration(message: Message, action: number, reasons: Reason[]) {
     const embed = new EmbedBuilder()
         .setTitle(`Flagged Message from ${message.author.tag}`)
         .setURL(message.url)

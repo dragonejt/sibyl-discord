@@ -31,15 +31,15 @@ export default async function messageCreate(message: Message) {
                 reasons.push({ attribute: attribute.toLowerCase(), score, threshold });
             }
         }
-        await moderate(message, dominator!, maxAction, reasons);
+        await moderate(message, maxAction, reasons);
         await moderateMember(message.member!);
     } catch (error) {
         console.error(error);
     }
 }
 
-const moderate = async(message: Message, triggers: MessageDominator, maxAction: number, reasons: Reason[]) => {
-    if (maxAction === ACTIONS.indexOf("NOOP")) return;
+const moderate = async(message: Message, action: number, reasons: Reason[]) => {
+    if (action === ACTIONS.indexOf("NOOP")) return;
 
     const community = await communities.read(message.guildId!);
 
@@ -50,13 +50,13 @@ const moderate = async(message: Message, triggers: MessageDominator, maxAction: 
     const notifyChannel = community?.discord_log_channel ?? message.guild!.systemChannelId;
     const channel = message.client.channels.cache.get(notifyChannel!);
 
-    const notification = await embedMessageModeration(message, reasons, maxAction);
+    const notification = await embedMessageModeration(message, action, reasons);
 
     message.delete();
     (channel as TextChannel).send({ content: notifyTarget, embeds: [notification] });
     if (channel?.id !== message.channel.id) message.channel.send({ embeds: [notification] });
-    console.log(`Action: ${ACTIONS[maxAction]} has been taken on User: ${message.author.tag} (${message.author.id}) in Server: ${message.guild!.name} (${message.guild!.id}) because of: ${reasons.toString()}`);
-    if (maxAction === ACTIONS.indexOf("BAN")) message.member!.ban();
-    else if (maxAction === ACTIONS.indexOf("KICK")) message.member!.kick(reasons.toString());
-    else if (maxAction === ACTIONS.indexOf("MUTE")) message.member!.timeout(DEFAULT_MUTE_PERIOD);
+    console.log(`Action: ${ACTIONS[action]} has been taken on User: ${message.author.tag} (${message.author.id}) in Server: ${message.guild!.name} (${message.guild!.id}) because of: ${reasons.toString()}`);
+    if (action === ACTIONS.indexOf("BAN")) message.member!.ban();
+    else if (action === ACTIONS.indexOf("KICK")) message.member!.kick(reasons.toString());
+    else if (action === ACTIONS.indexOf("MUTE")) message.member!.timeout(DEFAULT_MUTE_PERIOD);
 };
