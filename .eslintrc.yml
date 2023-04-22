@@ -21,9 +21,6 @@ rules:
   "@typescript-eslint/semi":
   - error
   - always
-  "@typescript-eslint/space-before-function-paren":
-  - warn
-  - never
   "@typescript-eslint/consistent-type-definitions":
   - error
   - type
@@ -32,3 +29,4 @@ rules:
   "@typescript-eslint/explicit-function-return-type": off
   "@typescript-eslint/no-non-null-assertion": off
   "@typescript-eslint/no-floating-promises": warn
+  "@typescript-eslint/space-before-function-paren": off
