@@ -1,7 +1,7 @@
 import { type GuildMember, type TextChannel } from "discord.js";
 import communities from "../clients/backend/communities.js";
 import { psychoPasses } from "../clients/backend/psychopass/psychoPasses.js";
-import { memberDominators, type MemberDominator } from "../clients/backend/dominator/memberDominators.js";
+import { memberDominators } from "../clients/backend/dominator/memberDominators.js";
 import { ATTRIBUTES, ACTIONS, DEFAULT_MUTE_PERIOD, type Reason } from "../clients/constants.js";
 import embedMemberModeration from "../embeds/memberModeration.js";
 
@@ -40,7 +40,7 @@ export default async function guildMemberAdd(member: GuildMember) {
     await moderate(member, maxAction, reasons);
 }
 
-const moderate = async (member: GuildMember, action: number, reasons: Reason[]) => {
+const moderate = async(member: GuildMember, action: number, reasons: Reason[]) => {
     if (action === ACTIONS.indexOf("NOOP")) return;
 
     const community = await communities.read(member.guild.id);

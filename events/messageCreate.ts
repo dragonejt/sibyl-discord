@@ -2,7 +2,7 @@ import { type Message, type TextChannel } from "discord.js";
 import { analyzeComment } from "../clients/perspectiveAPI.js";
 import ingestMessage from "../clients/backend/ingestMessage.js";
 import communities from "../clients/backend/communities.js";
-import { messageDominators, type MessageDominator } from "../clients/backend/dominator/messageDominators.js";
+import { messageDominators } from "../clients/backend/dominator/messageDominators.js";
 import { ACTIONS, DEFAULT_MUTE_PERIOD, type Reason } from "../clients/constants.js";
 import moderateMember from "../events/guildMemberAdd.js";
 import embedMessageModeration from "../embeds/messageModeration.js";

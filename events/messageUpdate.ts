@@ -2,7 +2,7 @@ import { type Message, type PartialMessage, type TextChannel } from "discord.js"
 import { analyzeComment } from "../clients/perspectiveAPI.js";
 import ingestMessage from "../clients/backend/ingestMessage.js";
 import communities from "../clients/backend/communities.js";
-import { messageDominators, type MessageDominator } from "../clients/backend/dominator/messageDominators.js";
+import { messageDominators } from "../clients/backend/dominator/messageDominators.js";
 import { ACTIONS, DEFAULT_MUTE_PERIOD, type Reason } from "../clients/constants.js";
 import embedMessageModeration from "../embeds/messageModeration.js";
 import moderateMember from "./guildMemberAdd.js";
@@ -39,7 +39,7 @@ export default async function messageUpdate(oldMessage: Message | PartialMessage
     }
 }
 
-const moderate = async (message: Message, action: number, reasons: Reason[]) => {
+const moderate = async(message: Message, action: number, reasons: Reason[]) => {
     if (action === ACTIONS.indexOf("NOOP")) return;
 
     const community = await communities.read(message.guildId!);
