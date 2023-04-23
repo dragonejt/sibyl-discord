@@ -4,7 +4,7 @@ import ingestMessage from "../clients/backend/ingestMessage.js";
 import communities from "../clients/backend/communities.js";
 import { messageDominators } from "../clients/backend/dominator/messageDominators.js";
 import { ACTIONS, DEFAULT_MUTE_PERIOD, type Reason } from "../clients/constants.js";
-import moderateMember from "../events/guildMemberAdd.js";
+import { moderateMember } from "./guildMemberAdd.js";
 import embedMessageModeration from "../embeds/messageModeration.js";
 
 export default async function messageCreate(message: Message) {

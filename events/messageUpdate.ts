@@ -5,7 +5,7 @@ import communities from "../clients/backend/communities.js";
 import { messageDominators } from "../clients/backend/dominator/messageDominators.js";
 import { ACTIONS, DEFAULT_MUTE_PERIOD, type Reason } from "../clients/constants.js";
 import embedMessageModeration from "../embeds/messageModeration.js";
-import moderateMember from "./guildMemberAdd.js";
+import { moderateMember } from "./guildMemberAdd.js";
 
 export default async function messageUpdate(_: Message | PartialMessage, newMessage: Message | PartialMessage) {
     newMessage = newMessage as Message;

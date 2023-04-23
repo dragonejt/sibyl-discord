@@ -12,7 +12,7 @@ import ready from "./events/ready.js";
 import guildDelete from "./events/guildDelete.js";
 import guildCreate from "./events/guildCreate.js";
 import guildMemberRemove from "./events/guildMemberRemove.js";
-import guildMemberAdd from "./events/guildMemberAdd.js";
+import { guildMemberAdd } from "./events/guildMemberAdd.js";
 
 const client = new SibylDiscordClient({
     intents: [
