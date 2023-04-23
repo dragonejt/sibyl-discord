@@ -6,7 +6,7 @@ export default async function embedPsychoPass(psychoPass: PsychoPass, client: Cl
     return new EmbedBuilder()
         .setColor(parseInt(psychoPass.hue, 16))
         .setTitle(`Psycho-Pass of User: ${target.tag}`)
-        .setAuthor({ name: "Sibyl System", iconURL: client.user?.avatarURL()! })
+        .setAuthor({ name: "Sibyl System", iconURL: client.user!.avatarURL()! })
         .setDescription(`Requested by ${requester.tag}`)
         .setThumbnail(target.avatarURL())
         .addFields(

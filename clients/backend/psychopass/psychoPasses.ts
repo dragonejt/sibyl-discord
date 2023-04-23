@@ -18,7 +18,7 @@ export type PsychoPass = {
 };
 
 class PsychoPasses {
-    url: string = `${process.env.BACKEND_URL!}/psychopass/user`;
+    url = `${process.env.BACKEND_URL!}/psychopass/user`;
 
     async read(userID: string): Promise<PsychoPass | undefined> {
         try {

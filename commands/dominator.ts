@@ -42,8 +42,8 @@ const data = new SlashCommandBuilder()
                     .setMinValue(0)
                     .setMaxValue(1)));
 
-const execute = async(interaction: ChatInputCommandInteraction) => {
-    if (!interaction.memberPermissions!.has(PermissionFlagsBits.Administrator)) {
+const execute = async (interaction: ChatInputCommandInteraction) => {
+    if (!interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)) {
         await interaction.reply({
             content: "You Do Not Have Permissions to Configure Notification Settings. You Must Have the Administrator Permission.",
             ephemeral: true

@@ -6,7 +6,7 @@ export default async function embedMessageModeration(message: Message, action: n
     const embed = new EmbedBuilder()
         .setTitle(`Flagged Message from ${message.author.tag}`)
         .setURL(message.url)
-        .setAuthor({ name: "Sibyl System", iconURL: message.client.user?.avatarURL()! })
+        .setAuthor({ name: "Sibyl System", iconURL: message.client.user!.avatarURL()! })
         .setTimestamp()
         .setFooter({ text: `Message ${message.id}` });
 

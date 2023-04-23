@@ -21,7 +21,7 @@ export type MemberDominator = {
 };
 
 class MemberDominators {
-    url: string = `${process.env.BACKEND_URL!}/dominator/member`;
+    url = `${process.env.BACKEND_URL!}/dominator/member`;
 
     async read(communityID: string): Promise<MemberDominator | undefined> {
         try {

@@ -5,7 +5,7 @@ import { type CommunityPsychoPass } from "../clients/backend/psychopass/communit
 export default async function embedCommunityPsychoPass(psychoPass: CommunityPsychoPass, client: Client, requester: User, server: Guild) {
     return new EmbedBuilder()
         .setTitle(`Psycho-Pass of Server: ${server.name}`)
-        .setAuthor({ name: "Sibyl System", iconURL: client.user?.avatarURL()! })
+        .setAuthor({ name: "Sibyl System", iconURL: client.user!.avatarURL()!})
         .setDescription(`Requested by ${requester.tag}`)
         .setThumbnail(server.iconURL())
         .addFields({ name: "Toxicity", value: psychoPass.area_stress_level.toxicity.toString() })

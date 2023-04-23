@@ -19,7 +19,7 @@ export type MessageDominator = {
 };
 
 class MessageDominators {
-    url: string = `${process.env.BACKEND_URL!}/dominator/message`;
+    url = `${process.env.BACKEND_URL!}/dominator/message`;
 
     async read(communityID: string): Promise<MessageDominator | undefined> {
         try {

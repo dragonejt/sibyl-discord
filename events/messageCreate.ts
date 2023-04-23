@@ -38,7 +38,7 @@ export default async function messageCreate(message: Message) {
     }
 }
 
-const moderate = async(message: Message, action: number, reasons: Reason[]) => {
+const moderate = async (message: Message, action: number, reasons: Reason[]) => {
     if (action === ACTIONS.indexOf("NOOP")) return;
 
     const community = await communities.read(message.guildId!);

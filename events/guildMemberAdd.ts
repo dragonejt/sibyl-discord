@@ -40,7 +40,7 @@ export default async function guildMemberAdd(member: GuildMember) {
     await moderate(member, maxAction, reasons);
 }
 
-const moderate = async(member: GuildMember, action: number, reasons: Reason[]) => {
+const moderate = async (member: GuildMember, action: number, reasons: Reason[]) => {
     if (action === ACTIONS.indexOf("NOOP")) return;
 
     const community = await communities.read(member.guild.id);

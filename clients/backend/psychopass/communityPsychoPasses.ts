@@ -15,7 +15,7 @@ export type CommunityPsychoPass = {
 };
 
 class CommunityPsychoPasses {
-    url: string = `${process.env.BACKEND_URL!}/psychopass/community`;
+    url = `${process.env.BACKEND_URL!}/psychopass/community`;
 
     async read(communityID: string): Promise<CommunityPsychoPass | undefined> {
         try {

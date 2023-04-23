@@ -7,7 +7,7 @@ import { type MemberDominator } from "../clients/backend/dominator/memberDominat
 export default async function embedDominator(dominator: MessageDominator | MemberDominator, attribute: string, client: Client, server: Guild) {
     const embed = new EmbedBuilder()
         .setDescription(`${ATTR_PRETTY[attribute]} Updated`)
-        .setAuthor({ name: "Sibyl System", iconURL: client.user?.avatarURL()! })
+        .setAuthor({ name: "Sibyl System", iconURL: client.user!.avatarURL()! })
         .setThumbnail(server.iconURL());
 
     if ("crime_coefficient_100_action" in dominator && "crime_coefficient_300_action" in dominator) {

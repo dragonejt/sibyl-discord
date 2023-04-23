@@ -7,7 +7,7 @@ import { ACTIONS, DEFAULT_MUTE_PERIOD, type Reason } from "../clients/constants.
 import embedMessageModeration from "../embeds/messageModeration.js";
 import moderateMember from "./guildMemberAdd.js";
 
-export default async function messageUpdate(oldMessage: Message | PartialMessage, newMessage: Message | PartialMessage) {
+export default async function messageUpdate(_: Message | PartialMessage, newMessage: Message | PartialMessage) {
     newMessage = newMessage as Message;
     if (newMessage.author.id === process.env.DISCORD_CLIENT_ID ||
         (newMessage.channel as TextChannel).nsfw ||
@@ -39,7 +39,7 @@ export default async function messageUpdate(oldMessage: Message | PartialMessage
     }
 }
 
-const moderate = async(message: Message, action: number, reasons: Reason[]) => {
+const moderate = async (message: Message, action: number, reasons: Reason[]) => {
     if (action === ACTIONS.indexOf("NOOP")) return;
 
     const community = await communities.read(message.guildId!);
