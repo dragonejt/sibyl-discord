@@ -1,5 +1,5 @@
-import { type SibylDiscordClient } from "../clients/discord.js";
-import { type Interaction } from "discord.js";
+import { SibylDiscordClient } from "../clients/discord.js";
+import { Interaction } from "discord.js";
 
 export default async function interactionCreate(interaction: Interaction) {
     if (interaction.isChatInputCommand()) {

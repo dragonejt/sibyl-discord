@@ -1,9 +1,9 @@
-import { type Message, type TextChannel } from "discord.js";
+import { Message, TextChannel } from "discord.js";
 import { analyzeComment } from "../clients/perspectiveAPI.js";
 import ingestMessage from "../clients/backend/ingestMessage.js";
 import communities from "../clients/backend/communities.js";
 import { messageDominators } from "../clients/backend/dominator/messageDominators.js";
-import { ACTIONS, DEFAULT_MUTE_PERIOD, type Reason } from "../clients/constants.js";
+import { ACTIONS, DEFAULT_MUTE_PERIOD, Reason } from "../clients/constants.js";
 import { moderateMember } from "./guildMemberAdd.js";
 import embedMessageModeration from "../embeds/messageModeration.js";
 
@@ -38,7 +38,7 @@ export default async function messageCreate(message: Message) {
     }
 }
 
-const moderate = async (message: Message, action: number, reasons: Reason[]) => {
+async function moderate(message: Message, action: number, reasons: Reason[]) {
     if (action === ACTIONS.indexOf("NOOP")) return;
 
     const community = await communities.read(message.guildId!);
@@ -59,4 +59,4 @@ const moderate = async (message: Message, action: number, reasons: Reason[]) => 
     if (action === ACTIONS.indexOf("BAN")) message.member!.ban();
     else if (action === ACTIONS.indexOf("KICK")) message.member!.kick(reasons.toString());
     else if (action === ACTIONS.indexOf("MUTE")) message.member!.timeout(DEFAULT_MUTE_PERIOD);
-};
+}

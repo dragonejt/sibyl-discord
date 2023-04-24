@@ -1,8 +1,8 @@
-import { type GuildMember, type TextChannel } from "discord.js";
+import { GuildMember, TextChannel } from "discord.js";
 import communities from "../clients/backend/communities.js";
 import { psychoPasses } from "../clients/backend/psychopass/psychoPasses.js";
 import { memberDominators } from "../clients/backend/dominator/memberDominators.js";
-import { ATTRIBUTES, ACTIONS, DEFAULT_MUTE_PERIOD, type Reason } from "../clients/constants.js";
+import { ATTRIBUTES, ACTIONS, DEFAULT_MUTE_PERIOD, Reason } from "../clients/constants.js";
 import embedMemberModeration from "../embeds/memberModeration.js";
 
 export async function guildMemberAdd(member: GuildMember) {
@@ -44,7 +44,7 @@ export async function moderateMember(member: GuildMember) {
     await moderate(member, maxAction, reasons);
 }
 
-const moderate = async (member: GuildMember, action: number, reasons: Reason[]) => {
+async function moderate(member: GuildMember, action: number, reasons: Reason[]) {
     if (action === ACTIONS.indexOf("NOOP")) return;
 
     const community = await communities.read(member.guild.id);
@@ -63,4 +63,4 @@ const moderate = async (member: GuildMember, action: number, reasons: Reason[]) 
     if (action === ACTIONS.indexOf("BAN")) await member.ban();
     else if (action === ACTIONS.indexOf("KICK")) await member.kick(reasons.toString());
     else if (action === ACTIONS.indexOf("MUTE")) await member.timeout(DEFAULT_MUTE_PERIOD);
-};
+}

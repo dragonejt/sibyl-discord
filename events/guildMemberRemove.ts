@@ -1,4 +1,4 @@
-import { type PartialGuildMember, type GuildMember } from "discord.js";
+import { PartialGuildMember, GuildMember } from "discord.js";
 import { communityPsychoPasses } from "../clients/backend/psychopass/communityPsychoPasses.js";
 
 export default async function guildMemberRemove(member: GuildMember | PartialGuildMember) {

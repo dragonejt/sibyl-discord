@@ -22,19 +22,19 @@ export const ACTION_PRETTY = {
     BAN: "Ban"
 };
 
-export const buildStringChoice = (choiceName: string, choiceValue: string) => {
+export function buildStringChoice(choiceName: string, choiceValue: string) {
     return {
         name: choiceName,
         value: choiceValue
     };
-};
+}
 
-export const buildIntegerChoice = (choiceName: string, choiceValue: number) => {
+export function buildIntegerChoice(choiceName: string, choiceValue: number) {
     return {
         name: choiceName,
         value: choiceValue
     };
-};
+}
 
 export type Reason = {
     attribute: string

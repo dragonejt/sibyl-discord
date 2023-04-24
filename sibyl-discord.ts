@@ -1,5 +1,5 @@
 import { SibylDiscordClient } from "./clients/discord.js";
-import { REST, Routes, Collection, GatewayIntentBits, Events } from "discord.js";
+import { REST, Routes, GatewayIntentBits, Events } from "discord.js";
 
 import sibylCommand from "./commands/sibyl.js";
 import dominatorCommand from "./commands/dominator.js";
@@ -28,7 +28,6 @@ const commands = [sibylCommand, dominatorCommand, psychopassCommand];
 
 await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID!), { body: commands.map(command => command.data) });
 console.log("Successfully reloaded application (/) commands.");
-client.commands = new Collection();
 commands.map(command => client.commands.set(command.data.name, command));
 console.log("Successfully registered application (/) command actions.");
 

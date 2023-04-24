@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, PermissionFlagsBits, type ChatInputCommandInteraction } from "discord.js";
+import { SlashCommandBuilder, PermissionFlagsBits, ChatInputCommandInteraction } from "discord.js";
 import { ACTIONS, ATTRIBUTES, ATTR_PRETTY, ACTION_PRETTY, buildStringChoice, buildIntegerChoice } from "../clients/constants.js";
 import { messageDominators } from "../clients/backend/dominator/messageDominators.js";
 import { memberDominators } from "../clients/backend/dominator/memberDominators.js";
@@ -42,7 +42,7 @@ const data = new SlashCommandBuilder()
                     .setMinValue(0)
                     .setMaxValue(1)));
 
-const execute = async (interaction: ChatInputCommandInteraction) => {
+async function execute(interaction: ChatInputCommandInteraction) {
     if (!interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)) {
         await interaction.reply({
             content: "You Do Not Have Permissions to Configure Notification Settings. You Must Have the Administrator Permission.",
@@ -80,6 +80,6 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
         await interaction.editReply({ embeds: [await embedDominator(await dominators.read(interaction.guildId), attribute, interaction.client, interaction.guild!)] });
         console.log(`${attribute.toUpperCase()} trigger has been successfully updated for ${type} Dominator in Channel: ${interaction.guild!.name} (${interaction.guildId!})`);
     }
-};
+}
 
 export default { data, execute };

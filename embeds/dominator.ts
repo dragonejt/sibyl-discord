@@ -1,8 +1,8 @@
-import { type Client, type Guild, EmbedBuilder } from "discord.js";
+import { Client, Guild, EmbedBuilder } from "discord.js";
 
 import { ACTIONS, ATTRIBUTES, ATTR_PRETTY, ACTION_PRETTY } from "../clients/constants.js";
-import { type MessageDominator } from "../clients/backend/dominator/messageDominators.js";
-import { type MemberDominator } from "../clients/backend/dominator/memberDominators.js";
+import { MessageDominator } from "../clients/backend/dominator/messageDominators.js";
+import { MemberDominator } from "../clients/backend/dominator/memberDominators.js";
 
 export default async function embedDominator(dominator: MessageDominator | MemberDominator, attribute: string, client: Client, server: Guild) {
     const embed = new EmbedBuilder()

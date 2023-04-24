@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, PermissionFlagsBits, type ChatInputCommandInteraction } from "discord.js";
+import { SlashCommandBuilder, PermissionFlagsBits, ChatInputCommandInteraction } from "discord.js";
 import communities from "../clients/backend/communities.js";
 import { communityPsychoPasses } from "../clients/backend/psychopass/communityPsychoPasses.js";
 
@@ -12,7 +12,7 @@ const data = new SlashCommandBuilder()
         option.setName("notify_role")
             .setDescription("Role to Notify"));
 
-const execute = async (interaction: ChatInputCommandInteraction) => {
+async function execute(interaction: ChatInputCommandInteraction) {
     await communityPsychoPasses.read(interaction.guildId!);
     await interaction.reply(`Sibyl Pong! Response Time: ${Date.now() - interaction.createdTimestamp}ms`);
     if (interaction.options.get("log_channel") !== null) {
@@ -45,6 +45,6 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
             await interaction.followUp("Notification Target Has Been Updated.");
         }
     }
-};
+}
 
 export default { data, execute };

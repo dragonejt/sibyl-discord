@@ -1,6 +1,6 @@
-import { type Message, EmbedBuilder } from "discord.js";
+import { Message, EmbedBuilder } from "discord.js";
 
-import { ACTIONS, ATTR_PRETTY, type Reason } from "../clients/constants.js";
+import { ACTIONS, ATTR_PRETTY, Reason } from "../clients/constants.js";
 
 export default async function embedMessageModeration(message: Message, action: number, reasons: Reason[]) {
     const embed = new EmbedBuilder()

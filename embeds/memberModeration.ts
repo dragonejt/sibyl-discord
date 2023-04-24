@@ -1,10 +1,10 @@
-import { type GuildMember, EmbedBuilder } from "discord.js";
+import { GuildMember, EmbedBuilder } from "discord.js";
 
-import { ACTIONS, ATTR_PRETTY, type Reason } from "../clients/constants.js";
+import { ACTIONS, ATTR_PRETTY, Reason } from "../clients/constants.js";
 
 export default async function embedMemberModeration(member: GuildMember, action: number, reasons: Reason[]) {
     const embed = new EmbedBuilder()
-        .setAuthor({ name: "Sibyl System", iconURL: member.client.user.avatarURL()!})
+        .setAuthor({ name: "Sibyl System", iconURL: member.client.user.avatarURL()! })
         .setTimestamp()
         .setFooter({ text: `Member ${member.id}` });
 

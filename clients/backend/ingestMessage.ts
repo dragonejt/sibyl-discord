@@ -1,4 +1,4 @@
-import { type MessageAnalysis } from "../perspectiveAPI.js";
+import { MessageAnalysis } from "../perspectiveAPI.js";
 
 export default async function ingestMessage(message: MessageAnalysis) {
     try {

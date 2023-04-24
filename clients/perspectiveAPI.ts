@@ -20,7 +20,7 @@ export type MessageAnalysis = {
     communityID?: string
 };
 
-export const analyzeComment = async (comment: string): Promise<MessageAnalysis | undefined> => {
+export async function analyzeComment(comment: string): Promise<MessageAnalysis | undefined> {
     try {
         const response = await fetch(
             `https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=${process.env.PERSPECTIVE_API_KEY!}`,
@@ -50,4 +50,4 @@ export const analyzeComment = async (comment: string): Promise<MessageAnalysis |
     } catch (error) {
         console.error(error);
     }
-};
+}
