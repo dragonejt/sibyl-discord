@@ -47,7 +47,7 @@ async function moderate(message: Message, action: number, reasons: Reason[]) {
     if (!message.guild!.roles.cache.get(notifyTarget)) notifyTarget = `<@${notifyTarget}>`;
     else notifyTarget = `<@&${notifyTarget}>`;
 
-    const notifyChannel = community?.discord_log_channel ?? message.guild!.systemChannelId;
+    const notifyChannel = community?.discord_log_channel ?? message.channel.id;
     const channel = message.client.channels.cache.get(notifyChannel!);
 
     const notification = await embedMessageModeration(message, action, reasons);
