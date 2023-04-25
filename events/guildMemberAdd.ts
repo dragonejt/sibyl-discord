@@ -7,13 +7,14 @@ import embedMemberModeration from "../embeds/memberModeration.js";
 
 export async function guildMemberAdd(member: GuildMember) {
     console.log(`A new User: ${member.user.tag} (${member.user.id}) has joined Server: ${member.guild.name} (${member.guild.id})`);
-    await moderateMember(member);
+    const psychoPass = await psychoPasses.read(member.user.id);
+    if (psychoPass) await moderateMember(member);
 }
 
 export async function moderateMember(member: GuildMember) {
     const psychoPass = await psychoPasses.read(member.user.id);
     const dominator = await memberDominators.read(member.guild.id);
-    if ((psychoPass === null) || (dominator === null)) throw new Error("Psycho-Pass or Dominator undefined!");
+    if (!psychoPass || !dominator) throw new Error("Psycho-Pass or Dominator undefined!");
     if (psychoPass!.messages < 25) return;
     let maxAction = ACTIONS.indexOf("NOOP");
     const reasons: Reason[] = [];
@@ -50,7 +51,7 @@ async function moderate(member: GuildMember, action: number, reasons: Reason[]) 
     const community = await communities.read(member.guild.id);
 
     let notifyTarget = community?.discord_notify_target ?? member.guild.ownerId;
-    if (member.guild.roles.cache.get(notifyTarget) === null) notifyTarget = `<@${notifyTarget}>`;
+    if (!member.guild.roles.cache.get(notifyTarget)) notifyTarget = `<@${notifyTarget}>`;
     else notifyTarget = `<@&${notifyTarget}>`;
 
     const notifyChannel = community?.discord_log_channel ?? member.guild.systemChannelId;

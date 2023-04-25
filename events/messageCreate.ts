@@ -16,7 +16,7 @@ export default async function messageCreate(message: Message) {
         console.log(`User: ${message.author.tag} (${message.author.id}) has sent a new message in Server: ${message.guild!.name} (${message.guildId!}) in Channel: ${(message.channel as TextChannel).name} (${message.channel.id})`);
         const analysis = await analyzeComment(message.content);
         const dominator = await messageDominators.read(message.guildId!);
-        if ((analysis === null) || (dominator === null)) throw new Error("MessageAnalysis or MessageDominator undefined!");
+        if (!analysis || !dominator) throw new Error("MessageAnalysis or MessageDominator undefined!");
         analysis!.userID = message.author.id;
         analysis!.communityID = message.guildId!;
         await ingestMessage(analysis!);
@@ -44,7 +44,7 @@ async function moderate(message: Message, action: number, reasons: Reason[]) {
     const community = await communities.read(message.guildId!);
 
     let notifyTarget = community?.discord_notify_target ?? message.guild!.ownerId;
-    if (message.guild!.roles.cache.get(notifyTarget) === null) notifyTarget = `<@${notifyTarget}>`;
+    if (!message.guild!.roles.cache.get(notifyTarget)) notifyTarget = `<@${notifyTarget}>`;
     else notifyTarget = `<@&${notifyTarget}>`;
 
     const notifyChannel = community?.discord_log_channel ?? message.guild!.systemChannelId;

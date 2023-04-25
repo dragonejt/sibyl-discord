@@ -17,7 +17,7 @@ export default async function messageUpdate(_: Message | PartialMessage, newMess
         console.log(`User: ${newMessage.author.tag} (${newMessage.author.id}) has updated a message in Server: ${newMessage.guild!.name} (${newMessage.guildId!}) in Channel: ${(newMessage.channel as TextChannel).name} (${newMessage.channel.id})`);
         const analysis = await analyzeComment(newMessage.content);
         const dominator = await messageDominators.read(newMessage.guildId!);
-        if ((analysis === null) || (dominator === null)) throw new Error("MessageAnalysis or MessageDominator undefined!");
+        if (!analysis || !dominator) throw new Error("MessageAnalysis or MessageDominator undefined!");
         analysis!.userID = newMessage.author.id;
         analysis!.communityID = newMessage.guildId!;
         await ingestMessage(analysis!);
@@ -45,7 +45,7 @@ async function moderate(message: Message, action: number, reasons: Reason[]) {
     const community = await communities.read(message.guildId!);
 
     let notifyTarget = community?.discord_notify_target ?? message.guild!.ownerId;
-    if (message.guild!.roles.cache.get(notifyTarget) === null) notifyTarget = `<@${notifyTarget}>`;
+    if (!message.guild!.roles.cache.get(notifyTarget)) notifyTarget = `<@${notifyTarget}>`;
     else notifyTarget = `<@&${notifyTarget}>`;
 
     const notifyChannel = community?.discord_log_channel ?? message.guild!.systemChannelId;

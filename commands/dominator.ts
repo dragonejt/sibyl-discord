@@ -60,20 +60,20 @@ async function execute(interaction: ChatInputCommandInteraction) {
         const threshold = interaction.options.getNumber("threshold");
 
         const attribute = interaction.options.getString("attribute")!;
-        if (attribute === "crime_coefficient_100" && action !== null) {
+        if (attribute === "crime_coefficient_100" && action) {
             await dominators.update({
                 communityID: interaction.guildId,
                 crime_coefficient_100_action: action
             });
-        } else if (attribute === "crime_coefficient_300" && action !== null) {
+        } else if (attribute === "crime_coefficient_300" && action) {
             await dominators.update({
                 communityID: interaction.guildId,
                 crime_coefficient_300_action: action
             });
         } else if (attribute in ATTRIBUTES) {
             const triggerData = { communityID: interaction.guildId };
-            if (action !== null) triggerData[`${attribute}_action`] = action;
-            if (threshold !== null) triggerData[`${attribute}_threshold`] = threshold;
+            if (action) triggerData[`${attribute}_action`] = action;
+            if (threshold) triggerData[`${attribute}_threshold`] = threshold;
             await dominators.update(triggerData);
         }
 

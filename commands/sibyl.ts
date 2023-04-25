@@ -15,7 +15,7 @@ const data = new SlashCommandBuilder()
 async function execute(interaction: ChatInputCommandInteraction) {
     await communityPsychoPasses.read(interaction.guildId!);
     await interaction.reply(`Sibyl Pong! Response Time: ${Date.now() - interaction.createdTimestamp}ms`);
-    if (interaction.options.get("log_channel") !== null) {
+    if (interaction.options.get("log_channel")) {
         if (!interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)) {
             await interaction.followUp({
                 content: "You Do Not Have Permissions to Configure Notification Settings. You Must Have the Administrator Permission.",
@@ -30,7 +30,7 @@ async function execute(interaction: ChatInputCommandInteraction) {
             await interaction.followUp("Log Channel Has Been Updated.");
         }
     }
-    if (interaction.options.get("notify_role") !== null) {
+    if (interaction.options.get("notify_role")) {
         if (!interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)) {
             await interaction.followUp({
                 content: "You Do Not Have Permissions to Configure Notification Settings. You Must Have the Administrator Permission.",
