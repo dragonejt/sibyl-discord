@@ -9,6 +9,7 @@ import embedMessageModeration from "../embeds/messageModeration.js";
 
 export default async function messageCreate(message: Message) {
     if (message.author.id === process.env.DISCORD_CLIENT_ID ||
+        message.author.bot ||
         (message.channel as TextChannel).nsfw ||
         message.content === "") return;
 

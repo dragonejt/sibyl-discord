@@ -10,6 +10,7 @@ import { moderateMember } from "./guildMemberAdd.js";
 export default async function messageUpdate(_: Message | PartialMessage, newMessage: Message | PartialMessage) {
     newMessage = newMessage as Message;
     if (newMessage.author.id === process.env.DISCORD_CLIENT_ID ||
+        newMessage.author.bot ||
         (newMessage.channel as TextChannel).nsfw ||
         newMessage.content === "") return;
 
