@@ -6,7 +6,7 @@ export default async function embedCommunityPsychoPass(psychoPass: CommunityPsyc
     return new EmbedBuilder()
         .setTitle(`Psycho-Pass of Server: ${server.name}`)
         .setAuthor({ name: "Sibyl System", iconURL: client.user!.avatarURL()! })
-        .setDescription(`Requested by ${requester.tag}`)
+        .setDescription(`Requested by ${requester.username}`)
         .setThumbnail(server.iconURL())
         .addFields({ name: "Toxicity", value: psychoPass.area_stress_level.toxicity.toString() })
         .addFields({ name: "\u200B", value: "\u200B" })

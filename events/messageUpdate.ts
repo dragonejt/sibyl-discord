@@ -15,7 +15,7 @@ export default async function messageUpdate(_: Message | PartialMessage, newMess
         newMessage.content === "") return;
 
     try {
-        console.log(`User: ${newMessage.author.tag} (${newMessage.author.id}) has updated a message in Server: ${newMessage.guild!.name} (${newMessage.guildId!}) in Channel: ${(newMessage.channel as TextChannel).name} (${newMessage.channel.id})`);
+        console.log(`User: ${newMessage.author.username} (${newMessage.author.id}) has updated a message in Server: ${newMessage.guild!.name} (${newMessage.guildId!}) in Channel: ${(newMessage.channel as TextChannel).name} (${newMessage.channel.id})`);
         const analysis = await analyzeComment(newMessage.content);
         const dominator = await messageDominators.read(newMessage.guildId!);
         if (!analysis || !dominator) throw new Error("MessageAnalysis or MessageDominator undefined!");
@@ -57,7 +57,7 @@ async function moderate(message: Message, action: number, reasons: Reason[]) {
     message.delete();
     (channel as TextChannel).send({ content: notifyTarget, embeds: [notification] });
     if (channel?.id !== message.channel.id) await message.channel.send({ embeds: [notification] });
-    console.log(`Action: ${ACTIONS[action]} has been taken on User: ${message.author.tag} (${message.author.id}) in Server: ${message.guild!.name} (${message.guild!.id}) because of: ${reasons.toString()}`);
+    console.log(`Action: ${ACTIONS[action]} has been taken on User: ${message.author.username} (${message.author.id}) in Server: ${message.guild!.name} (${message.guild!.id}) because of: ${reasons.toString()}`);
     if (action === ACTIONS.indexOf("BAN")) message.member!.ban();
     else if (action === ACTIONS.indexOf("KICK")) message.member!.kick(reasons.toString());
     else if (action === ACTIONS.indexOf("MUTE")) message.member!.timeout(DEFAULT_MUTE_PERIOD);

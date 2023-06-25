@@ -6,7 +6,7 @@ import { ATTRIBUTES, ACTIONS, DEFAULT_MUTE_PERIOD, Reason } from "../clients/con
 import embedMemberModeration from "../embeds/memberModeration.js";
 
 export async function guildMemberAdd(member: GuildMember) {
-    console.log(`A new User: ${member.user.tag} (${member.user.id}) has joined Server: ${member.guild.name} (${member.guild.id})`);
+    console.log(`A new User: ${member.user.username} (${member.user.id}) has joined Server: ${member.guild.name} (${member.guild.id})`);
     const psychoPass = await psychoPasses.read(member.user.id);
     if (psychoPass) await moderateMember(member);
 }
@@ -60,7 +60,7 @@ async function moderate(member: GuildMember, action: number, reasons: Reason[]) 
     const notification = await embedMemberModeration(member, action, reasons);
 
     await (channel as TextChannel).send({ content: notifyTarget, embeds: [notification] });
-    console.log(`Action: ${ACTIONS[action]} has been taken on User: ${member.user.tag} (${member.user.id}) in Server: ${member.guild.name} (${member.guild.id}) because of: ${reasons}`);
+    console.log(`Action: ${ACTIONS[action]} has been taken on User: ${member.user.username} (${member.user.id}) in Server: ${member.guild.name} (${member.guild.id}) because of: ${reasons}`);
     if (action === ACTIONS.indexOf("BAN")) await member.ban();
     else if (action === ACTIONS.indexOf("KICK")) await member.kick(reasons.toString());
     else if (action === ACTIONS.indexOf("MUTE")) await member.timeout(DEFAULT_MUTE_PERIOD);

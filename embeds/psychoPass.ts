@@ -5,9 +5,9 @@ import { PsychoPass } from "../clients/backend/psychopass/psychoPasses.js";
 export default async function embedPsychoPass(psychoPass: PsychoPass, client: Client, requester: User, target: User) {
     return new EmbedBuilder()
         .setColor(parseInt(psychoPass.hue, 16))
-        .setTitle(`Psycho-Pass of User: ${target.tag}`)
+        .setTitle(`Psycho-Pass of User: ${target.username}`)
         .setAuthor({ name: "Sibyl System", iconURL: client.user!.avatarURL()! })
-        .setDescription(`Requested by ${requester.tag}`)
+        .setDescription(`Requested by ${requester.username}`)
         .setThumbnail(target.avatarURL())
         .addFields(
             { name: "Crime Coefficient", value: psychoPass.crime_coefficient.toString() },

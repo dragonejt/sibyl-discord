@@ -15,12 +15,12 @@ async function execute(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply();
     const user = interaction.options.getUser("user");
     if (user) {
-        console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of User: ${user.tag} (${user.id})`);
+        console.log(`${interaction.user.username} (${interaction.user.id}) has requested the Psycho-Pass of User: ${user.username} (${user.id})`);
         const psychoPass = await psychoPasses.read(user.id);
         if (!psychoPass) await interaction.editReply("The targeted User has not sent a message yet, and does not have a Psycho-Pass");
         else await interaction.editReply({ embeds: [await embedPsychoPass(psychoPass, interaction.client, interaction.user, user)] });
     } else {
-        console.log(`${interaction.user.tag} (${interaction.user.id}) has requested the Psycho-Pass of Server: ${interaction.guild!.name} (${interaction.guildId!})`);
+        console.log(`${interaction.user.username} (${interaction.user.id}) has requested the Psycho-Pass of Server: ${interaction.guild!.name} (${interaction.guildId!})`);
         const psychoPass = await communityPsychoPasses.read(interaction.guildId!);
         await interaction.editReply({ embeds: [await embedCommunityPsychoPass(psychoPass!, interaction.client, interaction.user, interaction.guild!)] });
     }

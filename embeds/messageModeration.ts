@@ -4,16 +4,16 @@ import { ACTIONS, ATTR_PRETTY, Reason } from "../clients/constants.js";
 
 export default async function embedMessageModeration(message: Message, action: number, reasons: Reason[]) {
     const embed = new EmbedBuilder()
-        .setTitle(`Flagged Message from ${message.author.tag}`)
+        .setTitle(`Flagged Message from ${message.author.username}`)
         .setURL(message.url)
         .setAuthor({ name: "Sibyl System", iconURL: message.client.user!.avatarURL()! })
         .setTimestamp()
         .setFooter({ text: `Message ${message.id}` });
 
     if (ACTIONS[action] === "NOTIFY") embed.setDescription("Notified Moderators");
-    else if (ACTIONS[action] === "MUTE") embed.setDescription(`Muted ${message.author.tag}`);
-    else if (ACTIONS[action] === "KICK") embed.setDescription(`Kicked${message.author.tag}`);
-    else if (ACTIONS[action] === "BAN") embed.setDescription(`Banned ${message.author.tag}`);
+    else if (ACTIONS[action] === "MUTE") embed.setDescription(`Muted ${message.author.username}`);
+    else if (ACTIONS[action] === "KICK") embed.setDescription(`Kicked${message.author.username}`);
+    else if (ACTIONS[action] === "BAN") embed.setDescription(`Banned ${message.author.username}`);
 
     for (const reason of reasons) {
         embed.addFields(
