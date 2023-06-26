@@ -11,9 +11,9 @@ export default async function embedMessageModeration(message: Message, action: n
         .setFooter({ text: `Message ${message.id}` });
 
     if (ACTIONS[action] === "NOTIFY") embed.setDescription("Notified Moderators");
-    else if (ACTIONS[action] === "MUTE") embed.setDescription(`Muted ${message.author.username}`);
-    else if (ACTIONS[action] === "KICK") embed.setDescription(`Kicked${message.author.username}`);
-    else if (ACTIONS[action] === "BAN") embed.setDescription(`Banned ${message.author.username}`);
+    else if (ACTIONS[action] === "MUTE") embed.setDescription(`Muted <@${message.author.id}>`);
+    else if (ACTIONS[action] === "KICK") embed.setDescription(`Kicked <@${message.author.id}>`);
+    else if (ACTIONS[action] === "BAN") embed.setDescription(`Banned <@${message.author.id}>`);
 
     for (const reason of reasons) {
         embed.addFields(

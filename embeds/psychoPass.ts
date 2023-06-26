@@ -7,7 +7,7 @@ export default async function embedPsychoPass(psychoPass: PsychoPass, client: Cl
         .setColor(parseInt(psychoPass.hue, 16))
         .setTitle(`Psycho-Pass of User: ${target.username}`)
         .setAuthor({ name: "Sibyl System", iconURL: client.user!.avatarURL()! })
-        .setDescription(`Requested by ${requester.username}`)
+        .setDescription(`Requested by <@${requester.id}>`)
         .setThumbnail(target.avatarURL())
         .addFields(
             { name: "Crime Coefficient", value: psychoPass.crime_coefficient.toString() },
