@@ -1,8 +1,8 @@
 {
-  "name": "sibyl",
+  "name": "sibyl-discord",
   "version": "0.1.0",
   "description": "Content Moderation and Toxicity Profiles using Machine Learning",
-  "main": "discord.js",
+  "main": "sibyl-discord.js",
   "scripts": {
     "start": "node sibyl-discord.js",
     "build": "npx tsc --build",
