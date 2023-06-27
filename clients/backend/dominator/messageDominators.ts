@@ -27,7 +27,7 @@ class MessageDominators {
                 method: "GET",
                 headers: {
                     "Content-type": "application/json",
-                    "User-Agent": `sibyl-discord/${process.env.npm_package_version!} node.js/${process.version}`,
+                    "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
                     "Authorization": `Token ${process.env.BACKEND_API_KEY!}`
                 }
             });
@@ -44,7 +44,7 @@ class MessageDominators {
                 method: "PUT",
                 headers: {
                     "Content-type": "application/json",
-                    "User-Agent": `sibyl-discord/${process.env.npm_package_version!} node.js/${process.version}`,
+                    "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
                     "Authorization": `Token ${process.env.BACKEND_API_KEY!}`
                 },
                 body: JSON.stringify(data)
@@ -63,7 +63,7 @@ class MessageDominators {
                 method: "DELETE",
                 headers: {
                     "Content-type": "application/json",
-                    "User-Agent": `sibyl-discord/${process.env.npm_package_version!} node.js/${process.version}`,
+                    "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
                     "Authorization": `Token ${process.env.BACKEND_API_KEY!}`
                 }
             });
