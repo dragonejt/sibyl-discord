@@ -8,8 +8,7 @@
     "build": "npx tsc --build",
     "dev": "ts-node --esm sibyl-discord.ts",
     "test": "jest --passWithNoTests",
-    "lint": "npx eslint --fix .",
-    "build:digitalocean": "npx tsc --build"
+    "lint": "npx eslint --fix ."
   },
   "type": "module",
   "repository": {
