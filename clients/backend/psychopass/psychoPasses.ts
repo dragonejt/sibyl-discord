@@ -25,7 +25,7 @@ class PsychoPasses {
             const response = await fetch(`${this.url}?id=${userID}`, {
                 method: "GET",
                 headers: {
-                    "Content-type": "application/json",
+                    "Accept": "application/json",
                     "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
                     "Authorization": `Token ${process.env.BACKEND_API_KEY!}`
                 }

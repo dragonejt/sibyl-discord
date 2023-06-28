@@ -26,7 +26,7 @@ class MessageDominators {
             const response = await fetch(`${this.url}?id=${communityID}`, {
                 method: "GET",
                 headers: {
-                    "Content-type": "application/json",
+                    "Accept": "application/json",
                     "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
                     "Authorization": `Token ${process.env.BACKEND_API_KEY!}`
                 }
@@ -43,7 +43,8 @@ class MessageDominators {
             const response = await fetch(this.url, {
                 method: "PUT",
                 headers: {
-                    "Content-type": "application/json",
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
                     "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
                     "Authorization": `Token ${process.env.BACKEND_API_KEY!}`
                 },
@@ -62,7 +63,6 @@ class MessageDominators {
             const response = await fetch(`${this.url}?id=${communityID}`, {
                 method: "DELETE",
                 headers: {
-                    "Content-type": "application/json",
                     "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
                     "Authorization": `Token ${process.env.BACKEND_API_KEY!}`
                 }

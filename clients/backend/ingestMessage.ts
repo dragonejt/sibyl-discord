@@ -5,7 +5,7 @@ export default async function ingestMessage(message: MessageAnalysis) {
         const response = await fetch(`${process.env.BACKEND_URL!}/psychopass/message`, {
             method: "POST",
             headers: {
-                "Content-type": "application/json",
+                "Content-Type": "application/json",
                 "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
                 "Authorization": `Token ${process.env.BACKEND_API_KEY!}`
             },
