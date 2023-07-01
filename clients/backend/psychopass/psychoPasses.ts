@@ -1,8 +1,7 @@
 export type PsychoPass = {
     id: number
-    platform: string
+    platform: number
     user_id: string
-    last_flag: string
     messages: number
     psycho_hazard: boolean
 
@@ -12,7 +11,7 @@ export type PsychoPass = {
     insult: number
     threat: number
     profanity: number
-    sexually_explicit: string
+    sexually_explicit: number
     crime_coefficient: number
     hue: string
 };

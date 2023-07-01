@@ -10,7 +10,7 @@ export type CommunityPsychoPass = {
         insult: number
         threat: number
         profanity: number
-        sexually_explicit: string
+        sexually_explicit: number
     }
 };
 

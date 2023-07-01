@@ -2,8 +2,8 @@ type Community = {
     id: number
     platform: number
     community_id: string
-    discord_log_channel?: string
-    discord_notify_target?: string
+    discord_log_channel: string | null
+    discord_notify_target: string | null
 };
 
 class Communities {
