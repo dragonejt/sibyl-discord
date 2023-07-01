@@ -1,6 +1,7 @@
 export type MessageDominator = {
     id: number
     community: number
+    communityID: string | null
 
     toxicity_action: number
     toxicity_threshold: number

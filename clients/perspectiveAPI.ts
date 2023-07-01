@@ -5,16 +5,18 @@ type AttributeScore = {
     }
 };
 
+export type AttributeScores = {
+    TOXICITY: AttributeScore
+    SEVERE_TOXICITY: AttributeScore
+    IDENTITY_ATTACK: AttributeScore
+    INSULT: AttributeScore
+    THREAT: AttributeScore
+    PROFANITY: AttributeScore
+    SEXUALLY_EXPLICIT: AttributeScore
+}
+
 export type MessageAnalysis = {
-    attributeScores: {
-        TOXICITY: AttributeScore
-        SEVERE_TOXICITY: AttributeScore
-        IDENTITY_ATTACK: AttributeScore
-        INSULT: AttributeScore
-        THREAT: AttributeScore
-        PROFANITY: AttributeScore
-        SEXUALLY_EXPLICIT: AttributeScore
-    }
+    attributeScores: AttributeScores
     languages: string[]
     userID?: string
     communityID?: string

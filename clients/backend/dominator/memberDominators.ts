@@ -1,6 +1,7 @@
 export type MemberDominator = {
     id: number
     community: number
+    communityID: string | null
 
     crime_coefficient_100_action: number
     crime_coefficient_300_action: number

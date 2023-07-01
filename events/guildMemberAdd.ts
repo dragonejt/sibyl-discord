@@ -1,7 +1,7 @@
 import { GuildMember, TextChannel } from "discord.js";
 import communities from "../clients/backend/communities.js";
-import { psychoPasses } from "../clients/backend/psychopass/psychoPasses.js";
-import { memberDominators } from "../clients/backend/dominator/memberDominators.js";
+import { psychoPasses, PsychoPass } from "../clients/backend/psychopass/psychoPasses.js";
+import { memberDominators, MemberDominator } from "../clients/backend/dominator/memberDominators.js";
 import { ATTRIBUTES, ACTIONS, DEFAULT_MUTE_PERIOD, Reason } from "../clients/constants.js";
 import embedMemberModeration from "../embeds/memberModeration.js";
 
@@ -19,10 +19,10 @@ export async function moderateMember(member: GuildMember) {
     let maxAction = ACTIONS.indexOf("NOOP");
     const reasons: Reason[] = [];
     for (const attribute of ATTRIBUTES) {
-        const score = psychoPass![attribute];
-        const threshold = dominator![`${attribute}_threshold`];
+        const score = psychoPass![attribute as keyof PsychoPass] as number;
+        const threshold = dominator![`${attribute}_threshold` as keyof MemberDominator] as number;
         if (score >= threshold) {
-            const action = dominator![`${attribute}_action`];
+            const action = dominator![`${attribute}_action` as keyof MemberDominator] as number;
             maxAction = Math.max(maxAction, action);
             reasons.push({ attribute: attribute.toLowerCase(), score, threshold });
         }

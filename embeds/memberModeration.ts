@@ -16,7 +16,7 @@ export default async function embedMemberModeration(member: GuildMember, action:
     for (const reason of reasons) {
         embed.addFields(
             { name: "\u200B", value: "\u200B" },
-            { name: ATTR_PRETTY[reason.attribute], value: reason.score.toString(), inline: true },
+            { name: ATTR_PRETTY[reason.attribute as keyof typeof ATTR_PRETTY], value: reason.score.toString(), inline: true },
             { name: "THRESHOLD", value: reason.threshold.toString(), inline: true }
         );
     }
