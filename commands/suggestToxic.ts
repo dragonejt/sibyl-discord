@@ -2,7 +2,7 @@ import { ContextMenuCommandBuilder, ApplicationCommandType, MessageContextMenuCo
 import { suggestCommentScore } from "../clients/perspectiveAPI.js";
 
 const data = new ContextMenuCommandBuilder()
-    .setName("Suggest as Toxic")
+    .setName("Suggest Toxic")
     .setType(ApplicationCommandType.Message)
 
 async function execute(interaction: MessageContextMenuCommandInteraction) {
