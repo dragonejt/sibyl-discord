@@ -52,33 +52,33 @@ async function execute(interaction: ChatInputCommandInteraction) {
         await interaction.deferReply();
 
         const type = interaction.options.getSubcommand();
-        let dominators;
-        if (type === "message") dominators = messageDominators;
-        else if (type === "member") dominators = memberDominators;
-        if (dominators === undefined) throw new Error("/dominator: MessageDominator or MemberDominator undefined!")
+        let dominator;
+        if (type === "message") dominator = messageDominators;
+        else if (type === "member") dominator = memberDominators;
+        if (dominator === undefined) throw new Error("/dominator: MessageDominator or MemberDominator undefined!")
 
         const action = interaction.options.getInteger("action");
         const threshold = interaction.options.getNumber("threshold");
 
         const attribute = interaction.options.getString("attribute")!;
         if (attribute === "crime_coefficient_100" && action) {
-            await dominators!.update({
+            await dominator!.update({
                 communityID: interaction.guildId,
                 crime_coefficient_100_action: action
             });
         } else if (attribute === "crime_coefficient_300" && action) {
-            await dominators!.update({
+            await dominator!.update({
                 communityID: interaction.guildId,
                 crime_coefficient_300_action: action
             });
-        } else if (attribute in ATTRIBUTES) {
+        } else if (ATTRIBUTES.includes(attribute)) {
             const triggerData = { communityID: interaction.guildId } as any;
-            if (action) triggerData[`${attribute}_action` as keyof (MessageDominator | MemberDominator)] = action;
-            if (threshold) triggerData[`${attribute}_threshold` as keyof (MessageDominator | MemberDominator)] = threshold;
-            await dominators!.update(triggerData);
+            if (action != null && action != undefined) triggerData[`${attribute}_action`] = action;
+            if (threshold != null && threshold != undefined) triggerData[`${attribute}_threshold`] = threshold;
+            await dominator!.update(triggerData);
         }
 
-        await interaction.editReply({ embeds: [await embedDominator(await dominators.read(interaction.guildId!) as (MessageDominator | MemberDominator), attribute, interaction.client, interaction.guild!)] });
+        interaction.editReply({ embeds: [await embedDominator(await dominator.read(interaction.guildId!) as (MessageDominator | MemberDominator), attribute, interaction.client, interaction.guild!)] });
         console.log(`${attribute.toUpperCase()} trigger has been successfully updated for ${type} Dominator in Channel: ${interaction.guild!.name} (${interaction.guildId!})`);
     }
 }

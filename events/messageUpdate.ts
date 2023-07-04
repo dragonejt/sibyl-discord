@@ -1,11 +1,10 @@
 import { Message, PartialMessage, TextChannel } from "discord.js";
 import { analyzeComment, AttributeScores } from "../clients/perspectiveAPI.js";
 import ingestMessage from "../clients/backend/ingestMessage.js";
-import communities from "../clients/backend/communities.js";
 import { messageDominators, MessageDominator } from "../clients/backend/dominator/messageDominators.js";
-import { ACTIONS, DEFAULT_MUTE_PERIOD, Reason } from "../clients/constants.js";
-import embedMessageModeration from "../embeds/messageModeration.js";
+import { ACTIONS, Reason } from "../clients/constants.js";
 import { moderateMember } from "./guildMemberAdd.js";
+import { moderateMessage } from "./messageCreate.js";
 
 export default async function messageUpdate(_: Message | PartialMessage, newMessage: Message | PartialMessage) {
     newMessage = newMessage as Message;
@@ -16,12 +15,11 @@ export default async function messageUpdate(_: Message | PartialMessage, newMess
 
     try {
         console.log(`User: ${newMessage.author.username} (${newMessage.author.id}) has updated a message in Server: ${newMessage.guild!.name} (${newMessage.guildId!}) in Channel: ${(newMessage.channel as TextChannel).name} (${newMessage.channel.id})`);
-        const analysis = await analyzeComment(newMessage.content);
-        const dominator = await messageDominators.read(newMessage.guildId!);
+        const [analysis, dominator] = await Promise.all([analyzeComment(newMessage.content), messageDominators.read(newMessage.guildId!)]);
         if (!analysis || !dominator) throw new Error("messageUpdate: MessageAnalysis or MessageDominator undefined!");
         analysis!.userID = newMessage.author.id;
         analysis!.communityID = newMessage.guildId!;
-        await ingestMessage(analysis!);
+        ingestMessage(analysis!);
         let maxAction = ACTIONS.indexOf("NOOP");
         const reasons: Reason[] = [];
         for (const attribute in analysis!.attributeScores) {
@@ -33,32 +31,9 @@ export default async function messageUpdate(_: Message | PartialMessage, newMess
                 reasons.push({ attribute: attribute.toLowerCase(), score, threshold });
             }
         }
-        await moderate(newMessage, maxAction, reasons);
-        await moderateMember(newMessage.member!);
+        moderateMessage(newMessage, maxAction, reasons);
+        moderateMember(newMessage.member!);
     } catch (error) {
         console.error(error);
     }
-}
-
-async function moderate(message: Message, action: number, reasons: Reason[]) {
-    if (action === ACTIONS.indexOf("NOOP")) return;
-
-    const community = await communities.read(message.guildId!);
-
-    let notifyTarget = community?.discord_notify_target ?? message.guild!.ownerId;
-    if (!message.guild!.roles.cache.get(notifyTarget)) notifyTarget = `<@${notifyTarget}>`;
-    else notifyTarget = `<@&${notifyTarget}>`;
-
-    const notifyChannel = community?.discord_log_channel ?? message.channel.id;
-    const channel = message.client.channels.cache.get(notifyChannel!);
-
-    const notification = await embedMessageModeration(message, action, reasons);
-
-    message.delete();
-    (channel as TextChannel).send({ content: notifyTarget, embeds: [notification] });
-    if (channel?.id !== message.channel.id) await message.channel.send({ embeds: [notification] });
-    console.log(`Action: ${ACTIONS[action]} has been taken on User: ${message.author.username} (${message.author.id}) in Server: ${message.guild!.name} (${message.guild!.id}) because of: ${reasons.toString()}`);
-    if (action === ACTIONS.indexOf("BAN")) message.member!.ban();
-    else if (action === ACTIONS.indexOf("KICK")) message.member!.kick(reasons.toString());
-    else if (action === ACTIONS.indexOf("MUTE")) message.member!.timeout(DEFAULT_MUTE_PERIOD);
 }

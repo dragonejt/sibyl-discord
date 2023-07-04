@@ -1,6 +1,5 @@
 import { SlashCommandBuilder, PermissionFlagsBits, ChatInputCommandInteraction } from "discord.js";
 import communities from "../clients/backend/communities.js";
-import { communityPsychoPasses } from "../clients/backend/psychopass/communityPsychoPasses.js";
 
 const data = new SlashCommandBuilder()
     .setName("sibyl")
@@ -13,11 +12,10 @@ const data = new SlashCommandBuilder()
             .setDescription("Role to Notify"));
 
 async function execute(interaction: ChatInputCommandInteraction) {
-    await communityPsychoPasses.read(interaction.guildId!);
     await interaction.reply(`Sibyl Pong! Response Time: ${Date.now() - interaction.createdTimestamp}ms`);
     if (interaction.options.get("log_channel")) {
         if (!interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)) {
-            await interaction.followUp({
+            interaction.followUp({
                 content: "You Do Not Have Permissions to Configure Notification Settings. You Must Have the Administrator Permission.",
                 ephemeral: true
             });
@@ -27,12 +25,12 @@ async function execute(interaction: ChatInputCommandInteraction) {
                 discord_log_channel: interaction.options.get("log_channel")!.value!.toString()
             };
             communities.update(data);
-            await interaction.followUp("Log Channel Has Been Updated.");
+            interaction.followUp("Log Channel Has Been Updated.");
         }
     }
     if (interaction.options.get("notify_role")) {
         if (!interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)) {
-            await interaction.followUp({
+            interaction.followUp({
                 content: "You Do Not Have Permissions to Configure Notification Settings. You Must Have the Administrator Permission.",
                 ephemeral: true
             });
@@ -41,8 +39,8 @@ async function execute(interaction: ChatInputCommandInteraction) {
                 communityID: interaction.guildId,
                 discord_notify_target: interaction.options.get("notify_role")!.value!.toString()
             };
-            await communities.update(data);
-            await interaction.followUp("Notification Target Has Been Updated.");
+            communities.update(data);
+            interaction.followUp("Notification Target Has Been Updated.");
         }
     }
 }

@@ -5,7 +5,7 @@ import sibylCommand from "./commands/sibyl.js";
 import dominatorCommand from "./commands/dominator.js";
 import psychopassCommand from "./commands/psychopass.js";
 
-import messageCreate from "./events/messageCreate.js";
+import { messageCreate } from "./events/messageCreate.js";
 import messageUpdate from "./events/messageUpdate.js";
 import interactionCreate from "./events/interactionCreate.js";
 import ready from "./events/ready.js";

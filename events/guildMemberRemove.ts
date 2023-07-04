@@ -3,5 +3,5 @@ import { communityPsychoPasses } from "../clients/backend/psychopass/communityPs
 
 export default async function guildMemberRemove(member: GuildMember | PartialGuildMember) {
     console.log(`User: ${member.user.username} (${member.user.id}) has left Server: ${member.guild.name} (${member.guild.id})`);
-    await communityPsychoPasses.update(member.guild.id, member.user.id);
+    communityPsychoPasses.update(member.guild.id, member.user.id);
 }

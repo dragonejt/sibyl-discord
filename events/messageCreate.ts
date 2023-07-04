@@ -7,7 +7,7 @@ import { ACTIONS, DEFAULT_MUTE_PERIOD, Reason } from "../clients/constants.js";
 import { moderateMember } from "./guildMemberAdd.js";
 import embedMessageModeration from "../embeds/messageModeration.js";
 
-export default async function messageCreate(message: Message) {
+export async function messageCreate(message: Message) {
     if (message.author.id === process.env.DISCORD_CLIENT_ID ||
         message.author.bot ||
         (message.channel as TextChannel).nsfw ||
@@ -15,12 +15,11 @@ export default async function messageCreate(message: Message) {
 
     try {
         console.log(`User: ${message.author.username} (${message.author.id}) has sent a new message in Server: ${message.guild!.name} (${message.guildId!}) in Channel: ${(message.channel as TextChannel).name} (${message.channel.id})`);
-        const analysis = await analyzeComment(message.content);
-        const dominator = await messageDominators.read(message.guildId!);
+        const [analysis, dominator] = await Promise.all([analyzeComment(message.content), messageDominators.read(message.guildId!)]);
         if (!analysis || !dominator) throw new Error("messageCreate: MessageAnalysis or MessageDominator undefined!");
         analysis!.userID = message.author.id;
         analysis!.communityID = message.guildId!;
-        await ingestMessage(analysis!);
+        ingestMessage(analysis!);
         let maxAction = ACTIONS.indexOf("NOOP");
         const reasons: Reason[] = [];
         for (const attribute in analysis!.attributeScores) {
@@ -32,17 +31,17 @@ export default async function messageCreate(message: Message) {
                 reasons.push({ attribute: attribute.toLowerCase(), score, threshold });
             }
         }
-        await moderate(message, maxAction, reasons);
-        await moderateMember(message.member!);
+        moderateMessage(message, maxAction, reasons);
+        moderateMember(message.member!);
     } catch (error) {
         console.error(error);
     }
 }
 
-async function moderate(message: Message, action: number, reasons: Reason[]) {
+export async function moderateMessage(message: Message, action: number, reasons: Reason[]) {
     if (action === ACTIONS.indexOf("NOOP")) return;
 
-    const community = await communities.read(message.guildId!);
+    const [community, notification] = await Promise.all([communities.read(message.guildId!), embedMessageModeration(message, action, reasons)]);
 
     let notifyTarget = community?.discord_notify_target ?? message.guild!.ownerId;
     if (!message.guild!.roles.cache.get(notifyTarget)) notifyTarget = `<@${notifyTarget}>`;
@@ -50,8 +49,6 @@ async function moderate(message: Message, action: number, reasons: Reason[]) {
 
     const notifyChannel = community?.discord_log_channel ?? message.channel.id;
     const channel = message.client.channels.cache.get(notifyChannel!);
-
-    const notification = await embedMessageModeration(message, action, reasons);
 
     message.delete();
     (channel as TextChannel).send({ content: notifyTarget, embeds: [notification] });

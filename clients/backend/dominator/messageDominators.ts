@@ -51,7 +51,6 @@ class MessageDominators {
                 },
                 body: JSON.stringify(data)
             });
-            console.log(JSON.stringify(data));
             if (!response.ok) throw new Error(`PUT ${this.url}: ${response.status} ${response.statusText}`);
             return await response.json();
         } catch (error) {

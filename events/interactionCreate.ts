@@ -6,10 +6,10 @@ export default async function interactionCreate(interaction: Interaction) {
         const command = (interaction.client as SibylDiscordClient).commands.get(interaction.commandName);
 
         try {
-            await command?.execute(interaction);
+            command?.execute(interaction);
         } catch (error) {
             console.error(error);
-            await interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
+            interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
         }
     }
 }
