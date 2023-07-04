@@ -2,7 +2,7 @@ import { SibylDiscordClient } from "../clients/discord.js";
 import { Interaction } from "discord.js";
 
 export default async function interactionCreate(interaction: Interaction) {
-    if (interaction.isChatInputCommand()) {
+    if (interaction.isChatInputCommand() || interaction.isContextMenuCommand()) {
         const command = (interaction.client as SibylDiscordClient).commands.get(interaction.commandName);
 
         try {

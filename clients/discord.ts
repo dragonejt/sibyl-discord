@@ -1,8 +1,8 @@
-import { Client, Collection, ClientOptions, ChatInputCommandInteraction } from "discord.js";
+import { Client, Collection, ClientOptions } from "discord.js";
 
 export type Command = {
     data: unknown
-    execute: (interaction: ChatInputCommandInteraction) => Promise<void>
+    execute: (interaction: any) => Promise<void>
 };
 
 export class SibylDiscordClient extends Client {
