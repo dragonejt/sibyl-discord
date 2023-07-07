@@ -15,7 +15,7 @@ async function execute(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply();
     const user = interaction.options.getUser("user");
     if (user) {
-        console.log(`${interaction.user.username} (${interaction.user.id}) has requested the Psycho-Pass of User: ${user.username} (${user.id})`);
+        console.log(`${interaction.user.username} (${interaction.user.id}) has requested the Psycho-Pass of @${user.username} (${user.id})`);
         const psychoPass = await psychoPasses.read(user.id);
         if (!psychoPass) interaction.editReply("The targeted User has not sent a message yet, and does not have a Psycho-Pass");
         else interaction.editReply({ embeds: [await embedPsychoPass(psychoPass, interaction.client, interaction.user, user)] });

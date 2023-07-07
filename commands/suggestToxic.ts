@@ -18,7 +18,7 @@ async function execute(interaction: MessageContextMenuCommandInteraction) {
         }
     );
     interaction.reply("Thank you for suggesting that this message is Toxic to the Perspective API team!");
-    console.log(`User: ${interaction.user.username} (${interaction.user.id}) has suggested that Message: ${interaction.targetMessage.content} (${interaction.targetMessage.id}) is Toxic.`);
+    console.log(`@${interaction.user.username} (${interaction.user.id}) has suggested that Message: ${interaction.targetMessage.content} (${interaction.targetMessage.id}) is Toxic.`);
 }
 
 export default { data, execute };
