@@ -5,18 +5,16 @@ type AttributeScore = {
     }
 };
 
-export type AttributeScores = {
-    TOXICITY: AttributeScore
-    SEVERE_TOXICITY: AttributeScore
-    IDENTITY_ATTACK: AttributeScore
-    INSULT: AttributeScore
-    THREAT: AttributeScore
-    PROFANITY: AttributeScore
-    SEXUALLY_EXPLICIT: AttributeScore
-}
-
 export type MessageAnalysis = {
-    attributeScores: AttributeScores
+    attributeScores: {
+        TOXICITY: AttributeScore
+        SEVERE_TOXICITY: AttributeScore
+        IDENTITY_ATTACK: AttributeScore
+        INSULT: AttributeScore
+        THREAT: AttributeScore
+        PROFANITY: AttributeScore
+        SEXUALLY_EXPLICIT: AttributeScore
+    }
     languages: string[]
     clientToken?: string
     userID?: string
@@ -57,7 +55,7 @@ export async function analyzeComment(comment: string): Promise<MessageAnalysis |
     }
 }
 
-export async function suggestCommentScore(comment: string, attributeScores: Partial<AttributeScores>): Promise<MessageAnalysis | undefined> {
+export async function suggestCommentScore(comment: string, attributeScores: Partial<MessageAnalysis["attributeScores"]>): Promise<MessageAnalysis | undefined> {
     try {
         const response = await fetch(
             `https://commentanalyzer.googleapis.com/v1alpha1/comments:suggestscore?key=${process.env.PERSPECTIVE_API_KEY!}`,

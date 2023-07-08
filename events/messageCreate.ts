@@ -1,5 +1,5 @@
 import { Message, TextChannel } from "discord.js";
-import { analyzeComment, AttributeScores } from "../clients/perspectiveAPI.js";
+import { analyzeComment, MessageAnalysis } from "../clients/perspectiveAPI.js";
 import ingestMessage from "../clients/backend/ingestMessage.js";
 import communities from "../clients/backend/communities.js";
 import { messageDominators, MessageDominator } from "../clients/backend/dominator/messageDominators.js";
@@ -23,7 +23,7 @@ export async function messageCreate(message: Message) {
         let maxAction = ACTIONS.indexOf("NOOP");
         const reasons: Reason[] = [];
         for (const attribute in analysis!.attributeScores) {
-            const score = analysis!.attributeScores[attribute as keyof AttributeScores].summaryScore.value;
+            const score = analysis!.attributeScores[attribute as keyof MessageAnalysis["attributeScores"]].summaryScore.value;
             const threshold = dominator![`${attribute.toLowerCase()}_threshold` as keyof MessageDominator] as number;
             if (score >= threshold) {
                 const action = dominator![`${attribute.toLowerCase()}_action` as keyof MessageDominator] as number;
