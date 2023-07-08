@@ -4,7 +4,6 @@ import { REST, Routes, GatewayIntentBits, Events } from "discord.js";
 import sibyl from "./commands/sibyl.js";
 import dominator from "./commands/dominator.js";
 import psychopass from "./commands/psychopass.js";
-import suggestToxic from "./commands/suggestToxic.js";
 
 import { messageCreate } from "./events/messageCreate.js";
 import messageUpdate from "./events/messageUpdate.js";
@@ -25,7 +24,7 @@ const client = new SibylDiscordClient({
     ]
 });
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_BOT_TOKEN!);
-const commands = [sibyl, dominator, psychopass, suggestToxic];
+const commands = [sibyl, dominator, psychopass];
 
 await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID!), { body: commands.map(command => command.data) });
 console.log("Successfully reloaded application (/) commands.");
