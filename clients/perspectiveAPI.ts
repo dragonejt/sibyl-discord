@@ -1,7 +1,4 @@
-import { google } from "googleapis";
-
 type AttributeScore = {
-    spanScores: object[],
     summaryScore: {
         value: number
         type: string
@@ -18,36 +15,40 @@ export type MessageAnalysis = {
         PROFANITY: AttributeScore
         SEXUALLY_EXPLICIT: AttributeScore
     }
-    detectedLanguages: string[]
     languages: string[]
+    clientToken?: string
     userID?: string
     communityID?: string
 };
 
-const perspectiveAPI = await google.discoverAPI("https://commentanalyzer.googleapis.com/$discovery/rest?version=v1alpha1");
-
 export async function analyzeComment(comment: string): Promise<MessageAnalysis | undefined> {
     try {
-        const response = await (perspectiveAPI.comments as any).analyze({
-            key: process.env.PERSPECTIVE_API_KEY,
-            resource: {
-                comment: {
-                    text: comment
+        const response = await fetch(
+            `https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=${process.env.PERSPECTIVE_API_KEY!}`,
+            {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
                 },
-                requestedAttributes: {
-                    TOXICITY: {},
-                    SEVERE_TOXICITY: {},
-                    IDENTITY_ATTACK: {},
-                    INSULT: {},
-                    PROFANITY: {},
-                    THREAT: {},
-                    SEXUALLY_EXPLICIT: {}
-                },
-                languages: ["en"]
-            }
-        });
-        if (response.status != 200) throw new Error(`Perspective API Analyze Comment: ${response.status} ${response.statusText}`);
-        return response.data
+                body: JSON.stringify({
+                    comment: {
+                        text: comment
+                    },
+                    requestedAttributes: {
+                        TOXICITY: {},
+                        SEVERE_TOXICITY: {},
+                        IDENTITY_ATTACK: {},
+                        INSULT: {},
+                        PROFANITY: {},
+                        THREAT: {},
+                        SEXUALLY_EXPLICIT: {}
+                    },
+                    clientToken: "sibyl-discord"
+                })
+            });
+        if (!response.ok) throw new Error(`Perspective API Analyze Comment:  ${response.status} ${response.statusText}`);
+        return await response.json();
     } catch (error) {
         console.error(error);
     }
