@@ -1,4 +1,4 @@
-export type MessageDominator = {
+export interface MessageDominator {
     id: number
     community: number
     communityID: string | null
@@ -17,7 +17,7 @@ export type MessageDominator = {
     profanity_threshold: number
     sexually_explicit_action: number
     sexually_explicit_threshold: number
-};
+}
 
 class MessageDominators {
     url = `${process.env.BACKEND_URL!}/dominator/message`;

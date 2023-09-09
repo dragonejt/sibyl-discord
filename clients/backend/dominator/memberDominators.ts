@@ -1,4 +1,4 @@
-export type MemberDominator = {
+export interface MemberDominator {
     id: number
     community: number
     communityID: string | null
@@ -19,7 +19,7 @@ export type MemberDominator = {
     profanity_threshold: number
     sexually_explicit_action: number
     sexually_explicit_threshold: number
-};
+}
 
 class MemberDominators {
     url = `${process.env.BACKEND_URL!}/dominator/member`;

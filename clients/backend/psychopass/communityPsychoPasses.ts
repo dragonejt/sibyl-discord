@@ -1,4 +1,4 @@
-export type CommunityPsychoPass = {
+export interface CommunityPsychoPass {
     id: number
     community: number
     users: number[]
@@ -12,7 +12,7 @@ export type CommunityPsychoPass = {
         profanity: number
         sexually_explicit: number
     }
-};
+}
 
 class CommunityPsychoPasses {
     url = `${process.env.BACKEND_URL!}/psychopass/community`;

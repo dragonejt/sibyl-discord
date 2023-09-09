@@ -1,10 +1,10 @@
-type Community = {
+interface Community {
     id: number
     platform: number
     community_id: string
     discord_log_channel: string | null
     discord_notify_target: string | null
-};
+}
 
 class Communities {
     url: string;

@@ -1,4 +1,4 @@
-export type PsychoPass = {
+export interface PsychoPass {
     id: number
     platform: number
     user_id: string
@@ -14,7 +14,7 @@ export type PsychoPass = {
     sexually_explicit: number
     crime_coefficient: number
     hue: string
-};
+}
 
 class PsychoPasses {
     url = `${process.env.BACKEND_URL!}/psychopass/user`;

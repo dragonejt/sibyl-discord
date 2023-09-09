@@ -1,11 +1,11 @@
-type AttributeScore = {
+interface AttributeScore {
     summaryScore: {
         value: number
         type: string
     }
-};
+}
 
-export type MessageAnalysis = {
+export interface MessageAnalysis {
     attributeScores: {
         TOXICITY: AttributeScore
         SEVERE_TOXICITY: AttributeScore
@@ -19,7 +19,7 @@ export type MessageAnalysis = {
     clientToken?: string
     userID?: string
     communityID?: string
-};
+}
 
 export async function analyzeComment(comment: string): Promise<MessageAnalysis | undefined> {
     try {
