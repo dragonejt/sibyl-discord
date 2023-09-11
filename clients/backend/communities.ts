@@ -7,27 +7,7 @@ interface Community {
 }
 
 class Communities {
-    url: string;
-    constructor(url = `${process.env.BACKEND_URL!}/community`) {
-        this.url = url;
-    }
-
-    async read(communityID: string): Promise<Community | undefined> {
-        try {
-            const response = await fetch(`${this.url}?id=${communityID}`, {
-                method: "GET",
-                headers: {
-                    "Accept": "application/json",
-                    "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
-                    "Authorization": `Token ${process.env.BACKEND_API_KEY!}`
-                }
-            });
-            if (!response.ok) throw new Error(`GET ${this.url}?id=${communityID}: ${response.status} ${response.statusText}`);
-            return await response.json();
-        } catch (error) {
-            console.error(error);
-        }
-    }
+    url = `${process.env.BACKEND_URL!}/community`;
 
     async create(communityID: string): Promise<Community | undefined> {
         try {
@@ -42,6 +22,23 @@ class Communities {
                 body: JSON.stringify({ communityID })
             });
             if (!response.ok) throw new Error(`POST ${this.url}: ${response.status} ${response.statusText}`);
+            return await response.json();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async read(communityID: string): Promise<Community | undefined> {
+        try {
+            const response = await fetch(`${this.url}?id=${communityID}`, {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                    "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
+                    "Authorization": `Token ${process.env.BACKEND_API_KEY!}`
+                }
+            });
+            if (!response.ok) throw new Error(`GET ${this.url}?id=${communityID}: ${response.status} ${response.statusText}`);
             return await response.json();
         } catch (error) {
             console.error(error);
