@@ -1,18 +1,18 @@
 import { GuildMember, TextChannel } from "discord.js";
-import communities from "../clients/backend/communities.js";
-import { psychoPasses, PsychoPass } from "../clients/backend/psychopass/psychoPasses.js";
-import { memberDominators, MemberDominator } from "../clients/backend/dominator/memberDominators.js";
+import Communities from "../clients/backend/communities.js";
+import { PsychoPasses, PsychoPass } from "../clients/backend/psychopass/psychoPasses.js";
+import { MemberDominators, MemberDominator } from "../clients/backend/dominator/memberDominators.js";
 import { ATTRIBUTES, ACTIONS, DEFAULT_MUTE_PERIOD, Reason } from "../clients/constants.js";
 import embedMemberModeration from "../embeds/memberModeration.js";
 
 export async function guildMemberAdd(member: GuildMember) {
     console.log(`A new @${member.user.username} (${member.user.id}) has joined Server: ${member.guild.name} (${member.guild.id})`);
-    const psychoPass = await psychoPasses.read(member.user.id);
+    const psychoPass = await PsychoPasses.read(member.user.id);
     if (psychoPass) moderateMember(member);
 }
 
 export async function moderateMember(member: GuildMember) {
-    const [psychoPass, dominator] = await Promise.all([psychoPasses.read(member.user.id), memberDominators.read(member.guild.id)]);
+    const [psychoPass, dominator] = await Promise.all([PsychoPasses.read(member.user.id), MemberDominators.read(member.guild.id)]);
     if (!psychoPass || !dominator) throw new Error("Psycho-Pass or Dominator undefined!");
     if (psychoPass!.messages < 25) return;
     let maxAction = ACTIONS.indexOf("NOOP");
@@ -47,7 +47,7 @@ export async function moderateMember(member: GuildMember) {
 async function moderate(member: GuildMember, action: number, reasons: Reason[]) {
     if (action === ACTIONS.indexOf("NOOP")) return;
 
-    const [community, notification] = await Promise.all([communities.read(member.guild.id), embedMemberModeration(member, action, reasons)]);
+    const [community, notification] = await Promise.all([Communities.read(member.guild.id), embedMemberModeration(member, action, reasons)]);
 
     let notifyTarget = community?.discord_notify_target ?? member.guild.ownerId;
     if (!member.guild.roles.cache.get(notifyTarget)) notifyTarget = `<@${notifyTarget}>`;

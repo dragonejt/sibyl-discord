@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, PermissionFlagsBits, ChatInputCommandInteraction } from "discord.js";
 import { ACTIONS, ATTRIBUTES, ATTR_PRETTY, ACTION_PRETTY, buildStringChoice, buildIntegerChoice } from "../clients/constants.js";
-import { messageDominators, MessageDominator } from "../clients/backend/dominator/messageDominators.js";
-import { memberDominators, MemberDominator } from "../clients/backend/dominator/memberDominators.js";
+import { MessageDominators, MessageDominator } from "../clients/backend/dominator/messageDominators.js";
+import { MemberDominators, MemberDominator } from "../clients/backend/dominator/memberDominators.js";
 import embedDominator from "../embeds/dominator.js";
 
 const data = new SlashCommandBuilder()
@@ -53,8 +53,8 @@ async function execute(interaction: ChatInputCommandInteraction) {
 
         const type = interaction.options.getSubcommand();
         let dominator;
-        if (type === "message") dominator = messageDominators;
-        else if (type === "member") dominator = memberDominators;
+        if (type === "message") dominator = MessageDominators;
+        else if (type === "member") dominator = MemberDominators;
         if (dominator === undefined) throw new Error("/dominator: MessageDominator or MemberDominator undefined!")
 
         const action = interaction.options.getInteger("action");
@@ -62,15 +62,15 @@ async function execute(interaction: ChatInputCommandInteraction) {
 
         const attribute = interaction.options.getString("attribute")!;
         if (attribute === "crime_coefficient_100" && action) {
-            await dominator!.update({
+            await dominator.update({
                 communityID: interaction.guildId,
                 crime_coefficient_100_action: action
-            });
+            } as Partial<MemberDominator>);
         } else if (attribute === "crime_coefficient_300" && action) {
-            await dominator!.update({
+            await dominator.update({
                 communityID: interaction.guildId,
                 crime_coefficient_300_action: action
-            });
+            } as Partial<MemberDominator>);
         } else if (ATTRIBUTES.includes(attribute)) {
             const triggerData = { communityID: interaction.guildId } as any;
             if (action != null && action != undefined) triggerData[`${attribute}_action`] = action;

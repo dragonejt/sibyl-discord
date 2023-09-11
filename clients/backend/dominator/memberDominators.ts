@@ -21,10 +21,10 @@ export interface MemberDominator {
     sexually_explicit_threshold: number
 }
 
-class MemberDominators {
-    url = `${process.env.BACKEND_URL!}/dominator/member`;
+export class MemberDominators {
+    static url = `${process.env.BACKEND_URL!}/dominator/member`;
 
-    async read(communityID: string): Promise<MemberDominator | undefined> {
+    static async read(communityID: string): Promise<MemberDominator | undefined> {
         try {
             const response = await fetch(`${this.url}?id=${communityID}`, {
                 method: "GET",
@@ -41,7 +41,7 @@ class MemberDominators {
         }
     }
 
-    async update(data: Partial<MemberDominator>): Promise<MemberDominator | undefined> {
+    static async update(data: Partial<MemberDominator>): Promise<MemberDominator | undefined> {
         try {
             const response = await fetch(this.url, {
                 method: "PUT",
@@ -60,7 +60,7 @@ class MemberDominators {
         }
     }
 
-    async delete(communityID: string) {
+    static async delete(communityID: string) {
         try {
             const response = await fetch(`${this.url}?id=${communityID}`, {
                 method: "DELETE",
@@ -75,5 +75,3 @@ class MemberDominators {
         }
     }
 }
-
-export const memberDominators = new MemberDominators();

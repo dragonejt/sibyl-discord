@@ -1,8 +1,8 @@
 import { Message, TextChannel } from "discord.js";
 import { analyzeComment, MessageAnalysis } from "../clients/perspectiveAPI.js";
 import ingestMessage from "../clients/backend/ingestMessage.js";
-import communities from "../clients/backend/communities.js";
-import { messageDominators, MessageDominator } from "../clients/backend/dominator/messageDominators.js";
+import Communities from "../clients/backend/communities.js";
+import { MessageDominators, MessageDominator } from "../clients/backend/dominator/messageDominators.js";
 import { ACTIONS, DEFAULT_MUTE_PERIOD, Reason } from "../clients/constants.js";
 import { moderateMember } from "./guildMemberAdd.js";
 import embedMessageModeration from "../embeds/messageModeration.js";
@@ -15,7 +15,7 @@ export async function messageCreate(message: Message) {
 
     try {
         console.log(`@${message.author.username} (${message.author.id}) has sent a new message in Server: ${message.guild!.name} (${message.guildId!}) in Channel: ${(message.channel as TextChannel).name} (${message.channel.id})`);
-        const [analysis, dominator] = await Promise.all([analyzeComment(message.content), messageDominators.read(message.guildId!)]);
+        const [analysis, dominator] = await Promise.all([analyzeComment(message.content), MessageDominators.read(message.guildId!)]);
         if (!analysis || !dominator) throw new Error("messageCreate: MessageAnalysis or MessageDominator undefined!");
         analysis!.userID = message.author.id;
         analysis!.communityID = message.guildId!;
@@ -41,7 +41,7 @@ export async function messageCreate(message: Message) {
 export async function moderateMessage(message: Message, action: number, reasons: Reason[]) {
     if (action === ACTIONS.indexOf("NOOP")) return;
 
-    const [community, notification] = await Promise.all([communities.read(message.guildId!), embedMessageModeration(message, action, reasons)]);
+    const [community, notification] = await Promise.all([Communities.read(message.guildId!), embedMessageModeration(message, action, reasons)]);
 
     let notifyTarget = community?.discord_notify_target ?? message.guild!.ownerId;
     if (!message.guild!.roles.cache.get(notifyTarget)) notifyTarget = `<@${notifyTarget}>`;

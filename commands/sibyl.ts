@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, PermissionFlagsBits, ChatInputCommandInteraction } from "discord.js";
-import communities from "../clients/backend/communities.js";
+import Communities from "../clients/backend/communities.js";
 
 const data = new SlashCommandBuilder()
     .setName("sibyl")
@@ -19,16 +19,16 @@ async function execute(interaction: ChatInputCommandInteraction) {
                 communityID: interaction.guildId,
                 discord_log_channel: interaction.options.get("log_channel")!.value!.toString()
             };
-            communities.update(data);
-            interaction.followUp(`Log Channel has been updated to <#${(await communities.read(interaction.guildId!))?.discord_log_channel}>`);
+            Communities.update(data);
+            interaction.followUp(`Log Channel has been updated to <#${(await Communities.read(interaction.guildId!))?.discord_log_channel}>`);
         }
         if (interaction.options.get("notify_role")) {
             const data = {
                 communityID: interaction.guildId,
                 discord_notify_target: interaction.options.get("notify_role")!.value!.toString()
             };
-            communities.update(data);
-            interaction.followUp(`Notification Target has been updated to <@&${(await communities.read(interaction.guildId!))?.discord_notify_target}>`);
+            Communities.update(data);
+            interaction.followUp(`Notification Target has been updated to <@&${(await Communities.read(interaction.guildId!))?.discord_notify_target}>`);
         }
     } else if (interaction.options.get("log_channel") || interaction.options.get("notify_role")) {
         interaction.followUp({

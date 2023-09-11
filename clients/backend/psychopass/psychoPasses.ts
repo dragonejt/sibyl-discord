@@ -16,10 +16,10 @@ export interface PsychoPass {
     hue: string
 }
 
-class PsychoPasses {
-    url = `${process.env.BACKEND_URL!}/psychopass/user`;
+export class PsychoPasses {
+    static url = `${process.env.BACKEND_URL!}/psychopass/user`;
 
-    async read(userID: string): Promise<PsychoPass | undefined> {
+    static async read(userID: string): Promise<PsychoPass | undefined> {
         try {
             const response = await fetch(`${this.url}?id=${userID}`, {
                 method: "GET",
@@ -36,5 +36,3 @@ class PsychoPasses {
         }
     }
 }
-
-export const psychoPasses = new PsychoPasses();

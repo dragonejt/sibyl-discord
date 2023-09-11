@@ -14,10 +14,10 @@ export interface CommunityPsychoPass {
     }
 }
 
-class CommunityPsychoPasses {
-    url = `${process.env.BACKEND_URL!}/psychopass/community`;
+export class CommunityPsychoPasses {
+    static url = `${process.env.BACKEND_URL!}/psychopass/community`;
 
-    async read(communityID: string): Promise<CommunityPsychoPass | undefined> {
+    static async read(communityID: string): Promise<CommunityPsychoPass | undefined> {
         try {
             const response = await fetch(`${this.url}?id=${communityID}`, {
                 method: "GET",
@@ -35,7 +35,7 @@ class CommunityPsychoPasses {
     }
 
     // For Removing a User Psycho-Pass from a Community Psycho-Pass Only
-    async update(communityID: string, userID: string): Promise<CommunityPsychoPass | undefined> {
+    static async update(communityID: string, userID: string): Promise<CommunityPsychoPass | undefined> {
         try {
             const response = await fetch(this.url, {
                 method: "PUT",
@@ -54,5 +54,3 @@ class CommunityPsychoPasses {
         }
     }
 }
-
-export const communityPsychoPasses = new CommunityPsychoPasses();

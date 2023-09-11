@@ -6,10 +6,10 @@ interface Community {
     discord_notify_target: string | null
 }
 
-class Communities {
-    url = `${process.env.BACKEND_URL!}/community`;
+export default class Communities {
+    static url = `${process.env.BACKEND_URL!}/community`;
 
-    async create(communityID: string): Promise<Community | undefined> {
+    static async create(communityID: string): Promise<Community | undefined> {
         try {
             const response = await fetch(this.url, {
                 method: "POST",
@@ -28,7 +28,7 @@ class Communities {
         }
     }
 
-    async read(communityID: string): Promise<Community | undefined> {
+    static async read(communityID: string): Promise<Community | undefined> {
         try {
             const response = await fetch(`${this.url}?id=${communityID}`, {
                 method: "GET",
@@ -45,7 +45,7 @@ class Communities {
         }
     }
 
-    async update(data: Partial<Community>): Promise<Community | undefined> {
+    static async update(data: Partial<Community>): Promise<Community | undefined> {
         try {
             const response = await fetch(this.url, {
                 method: "PUT",
@@ -64,7 +64,7 @@ class Communities {
         }
     }
 
-    async delete(communityID: string) {
+    static async delete(communityID: string) {
         try {
             const response = await fetch(`${this.url}?id=${communityID}`, {
                 method: "DELETE",
@@ -79,5 +79,3 @@ class Communities {
         }
     }
 }
-
-export default new Communities();

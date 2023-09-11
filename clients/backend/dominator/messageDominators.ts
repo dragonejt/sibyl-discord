@@ -19,10 +19,10 @@ export interface MessageDominator {
     sexually_explicit_threshold: number
 }
 
-class MessageDominators {
-    url = `${process.env.BACKEND_URL!}/dominator/message`;
+export class MessageDominators {
+    static url = `${process.env.BACKEND_URL!}/dominator/message`;
 
-    async read(communityID: string): Promise<MessageDominator | undefined> {
+    static async read(communityID: string): Promise<MessageDominator | undefined> {
         try {
             const response = await fetch(`${this.url}?id=${communityID}`, {
                 method: "GET",
@@ -39,7 +39,7 @@ class MessageDominators {
         }
     }
 
-    async update(data: Partial<MessageDominator>): Promise<MessageDominator | undefined> {
+    static async update(data: Partial<MessageDominator>): Promise<MessageDominator | undefined> {
         try {
             const response = await fetch(this.url, {
                 method: "PUT",
@@ -58,7 +58,7 @@ class MessageDominators {
         }
     }
 
-    async delete(communityID: string) {
+    static async delete(communityID: string) {
         try {
             const response = await fetch(`${this.url}?id=${communityID}`, {
                 method: "DELETE",
@@ -73,5 +73,3 @@ class MessageDominators {
         }
     }
 }
-
-export const messageDominators = new MessageDominators();

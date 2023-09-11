@@ -1,7 +1,7 @@
 import { Message, PartialMessage, TextChannel } from "discord.js";
 import { MessageAnalysis, analyzeComment } from "../clients/perspectiveAPI.js";
 import ingestMessage from "../clients/backend/ingestMessage.js";
-import { messageDominators, MessageDominator } from "../clients/backend/dominator/messageDominators.js";
+import { MessageDominators, MessageDominator } from "../clients/backend/dominator/messageDominators.js";
 import { ACTIONS, Reason } from "../clients/constants.js";
 import { moderateMember } from "./guildMemberAdd.js";
 import { moderateMessage } from "./messageCreate.js";
@@ -15,7 +15,7 @@ export default async function messageUpdate(_: Message | PartialMessage, newMess
 
     try {
         console.log(`@${newMessage.author.username} (${newMessage.author.id}) has updated a message in Server: ${newMessage.guild!.name} (${newMessage.guildId!}) in Channel: ${(newMessage.channel as TextChannel).name} (${newMessage.channel.id})`);
-        const [analysis, dominator] = await Promise.all([analyzeComment(newMessage.content), messageDominators.read(newMessage.guildId!)]);
+        const [analysis, dominator] = await Promise.all([analyzeComment(newMessage.content), MessageDominators.read(newMessage.guildId!)]);
         if (!analysis || !dominator) throw new Error("messageUpdate: MessageAnalysis or MessageDominator undefined!");
         analysis!.userID = newMessage.author.id;
         analysis!.communityID = newMessage.guildId!;
