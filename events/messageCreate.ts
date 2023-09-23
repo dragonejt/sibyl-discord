@@ -17,16 +17,16 @@ export async function messageCreate(message: Message) {
         console.log(`@${message.author.username} (${message.author.id}) has sent a new message in Server: ${message.guild!.name} (${message.guildId!}) in Channel: ${(message.channel as TextChannel).name} (${message.channel.id})`);
         const [analysis, dominator] = await Promise.all([analyzeComment(message.content), MessageDominators.read(message.guildId!)]);
         if (!analysis || !dominator) throw new Error("messageCreate: MessageAnalysis or MessageDominator undefined!");
-        analysis!.userID = message.author.id;
-        analysis!.communityID = message.guildId!;
-        ingestMessage(analysis!);
+        analysis.userID = message.author.id;
+        analysis.communityID = message.guildId!;
+        ingestMessage(analysis);
         let maxAction = ACTIONS.indexOf("NOOP");
         const reasons: Reason[] = [];
-        for (const attribute in analysis!.attributeScores) {
-            const score = analysis!.attributeScores[attribute as keyof MessageAnalysis["attributeScores"]].summaryScore.value;
-            const threshold = dominator![`${attribute.toLowerCase()}_threshold` as keyof MessageDominator] as number;
+        for (const attribute in analysis.attributeScores) {
+            const score = analysis.attributeScores[attribute as keyof MessageAnalysis["attributeScores"]].summaryScore.value;
+            const threshold = dominator[`${attribute.toLowerCase()}_threshold` as keyof MessageDominator] as number;
             if (score >= threshold) {
-                const action = dominator![`${attribute.toLowerCase()}_action` as keyof MessageDominator] as number;
+                const action = dominator[`${attribute.toLowerCase()}_action` as keyof MessageDominator] as number;
                 maxAction = Math.max(maxAction, action);
                 reasons.push({ attribute: attribute.toLowerCase(), score, threshold });
             }

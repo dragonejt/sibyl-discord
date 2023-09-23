@@ -75,7 +75,7 @@ async function execute(interaction: ChatInputCommandInteraction) {
             const triggerData = { communityID: interaction.guildId } as any;
             if (action != null && action != undefined) triggerData[`${attribute}_action`] = action;
             if (threshold != null && threshold != undefined) triggerData[`${attribute}_threshold`] = threshold;
-            await dominator!.update(triggerData);
+            await dominator.update(triggerData);
         }
 
         interaction.editReply({ embeds: [await embedDominator(await dominator.read(interaction.guildId!) as (MessageDominator | MemberDominator), attribute, interaction.client, interaction.guild!)] });

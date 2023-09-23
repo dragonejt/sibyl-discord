@@ -14,30 +14,30 @@ export async function guildMemberAdd(member: GuildMember) {
 export async function moderateMember(member: GuildMember) {
     const [psychoPass, dominator] = await Promise.all([PsychoPasses.read(member.user.id), MemberDominators.read(member.guild.id)]);
     if (!psychoPass || !dominator) throw new Error("Psycho-Pass or Dominator undefined!");
-    if (psychoPass!.messages < 25) return;
+    if (psychoPass.messages < 25) return;
     let maxAction = ACTIONS.indexOf("NOOP");
     const reasons: Reason[] = [];
     for (const attribute of ATTRIBUTES) {
-        const score = psychoPass![attribute as keyof PsychoPass] as number;
-        const threshold = dominator![`${attribute}_threshold` as keyof MemberDominator] as number;
+        const score = psychoPass[attribute as keyof PsychoPass] as number;
+        const threshold = dominator[`${attribute}_threshold` as keyof MemberDominator] as number;
         if (score >= threshold) {
-            const action = dominator![`${attribute}_action` as keyof MemberDominator] as number;
+            const action = dominator[`${attribute}_action` as keyof MemberDominator] as number;
             maxAction = Math.max(maxAction, action);
             reasons.push({ attribute: attribute.toLowerCase(), score, threshold });
         }
     }
-    if (psychoPass!.crime_coefficient >= 300) {
-        maxAction = Math.max(maxAction, dominator!.crime_coefficient_300_action);
-        reasons.unshift({
+    if (psychoPass.crime_coefficient >= 300) {
+        maxAction = Math.max(maxAction, dominator.crime_coefficient_300_action);
+        reasons.push({
             attribute: "Crime Coefficient",
-            score: psychoPass!.crime_coefficient,
+            score: psychoPass.crime_coefficient,
             threshold: 300
         });
-    } else if (psychoPass!.crime_coefficient >= 100) {
-        maxAction = Math.max(maxAction, dominator!.crime_coefficient_100_action);
-        reasons.unshift({
+    } else if (psychoPass.crime_coefficient >= 100) {
+        maxAction = Math.max(maxAction, dominator.crime_coefficient_100_action);
+        reasons.push({
             attribute: "Crime Coefficient",
-            score: psychoPass!.crime_coefficient,
+            score: psychoPass.crime_coefficient,
             threshold: 100
         });
     }
