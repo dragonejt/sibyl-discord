@@ -73,8 +73,8 @@ async function execute(interaction: ChatInputCommandInteraction) {
             } as Partial<MemberDominator>);
         } else if (ATTRIBUTES.includes(attribute)) {
             const triggerData = { communityID: interaction.guildId } as any;
-            if (action != null && action != undefined) triggerData[`${attribute}_action`] = action;
-            if (threshold != null && threshold != undefined) triggerData[`${attribute}_threshold`] = threshold;
+            if (action !==null && action !==undefined) triggerData[`${attribute}_action`] = action;
+            if (threshold !==null && threshold !==undefined) triggerData[`${attribute}_threshold`] = threshold;
             await dominator.update(triggerData);
         }
 
