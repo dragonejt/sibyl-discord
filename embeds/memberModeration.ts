@@ -6,7 +6,7 @@ export default async function embedMemberModeration(member: GuildMember, action:
     const embed = new EmbedBuilder()
         .setAuthor({ name: "Sibyl System", iconURL: member.client.user.avatarURL()! })
         .setTimestamp()
-        .setFooter({ text: `Member ${member.id}` });
+        .setFooter({ text: member.id });
 
     if (ACTIONS[action] === "REMOVE") embed.setTitle("Notified Moderators");
     else if (ACTIONS[action] === "MUTE") embed.setTitle(`Muted ${member.user.username}`);

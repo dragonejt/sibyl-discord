@@ -8,7 +8,7 @@ export default async function embedMessageModeration(message: Message, action: n
         .setURL(message.url)
         .setAuthor({ name: "Sibyl System", iconURL: message.client.user!.avatarURL()! })
         .setTimestamp()
-        .setFooter({ text: `Message ${message.id}` });
+        .setFooter({ text: message.id });
 
     if (ACTIONS[action] === "REMOVE") embed.setDescription("Notified Moderators");
     else if (ACTIONS[action] === "MUTE") embed.setDescription(`Muted <@${message.author.id}>`);
