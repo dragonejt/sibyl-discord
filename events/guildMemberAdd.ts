@@ -13,9 +13,9 @@ export async function guildMemberAdd(member: GuildMember) {
 
 export async function moderateMember(member: GuildMember) {
     const [psychoPass, dominator] = await Promise.all([PsychoPasses.read(member.user.id), MemberDominators.read(member.guild.id)]);
-    if (!psychoPass || !dominator) throw new Error("Psycho-Pass or Dominator undefined!");
+    if (psychoPass === undefined || dominator === undefined) throw new Error("Psycho-Pass or Dominator undefined!");
     if (psychoPass.messages < 25) return;
-    let maxAction = ACTIONS.indexOf("NOOP");
+    let maxAction = ACTIONS.indexOf("NOTIFY");
     const reasons: Reason[] = [];
     for (const attribute of ATTRIBUTES) {
         const score = psychoPass[attribute as keyof PsychoPass] as number;
@@ -45,20 +45,22 @@ export async function moderateMember(member: GuildMember) {
 }
 
 async function moderate(member: GuildMember, action: number, reasons: Reason[]) {
-    if (action === ACTIONS.indexOf("NOOP")) return;
+    if (action >= ACTIONS.indexOf("NOTIFY")) {
+        const [community, notification] = await Promise.all([Communities.read(member.guild.id), embedMemberModeration(member, action, reasons)]);
 
-    const [community, notification] = await Promise.all([Communities.read(member.guild.id), embedMemberModeration(member, action, reasons)]);
+        let notifyTarget = community?.discord_notify_target ?? member.guild.ownerId;
+        if (member.guild.roles.cache.get(notifyTarget) === undefined) notifyTarget = `<@${notifyTarget}>`;
+        else notifyTarget = `<@&${notifyTarget}>`;
 
-    let notifyTarget = community?.discord_notify_target ?? member.guild.ownerId;
-    if (!member.guild.roles.cache.get(notifyTarget)) notifyTarget = `<@${notifyTarget}>`;
-    else notifyTarget = `<@&${notifyTarget}>`;
+        const notifyChannel = community?.discord_log_channel ?? member.guild.systemChannelId!;
+        const channel = member.client.channels.cache.get(notifyChannel);
 
-    const notifyChannel = community?.discord_log_channel ?? member.guild.systemChannelId;
-    const channel = member.client.channels.cache.get(notifyChannel!);
+        (channel as TextChannel).send({ content: notifyTarget, embeds: [notification] });
+    }
 
-    (channel as TextChannel).send({ content: notifyTarget, embeds: [notification] });
-    console.log(`Action: ${ACTIONS[action]} has been taken on @${member.user.username} (${member.user.id}) in Server: ${member.guild.name} (${member.guild.id}) because of: ${reasons}`);
-    if (action === ACTIONS.indexOf("BAN")) member.ban();
-    else if (action === ACTIONS.indexOf("KICK")) member.kick(reasons.toString());
-    else if (action === ACTIONS.indexOf("MUTE")) member.timeout(DEFAULT_MUTE_PERIOD);
+    if (action >= ACTIONS.indexOf("BAN")) member.ban();
+    else if (action >= ACTIONS.indexOf("KICK")) member.kick(reasons.toString());
+    else if (action >= ACTIONS.indexOf("MUTE")) member.timeout(DEFAULT_MUTE_PERIOD);
+
+    console.log(`Action: ${ACTIONS[action]} has been taken on @${member.user.username} (${member.user.id}) in Server: ${member.guild.name} (${member.guild.id})`);
 }

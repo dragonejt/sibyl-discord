@@ -16,11 +16,11 @@ export async function messageCreate(message: Message) {
     try {
         console.log(`@${message.author.username} (${message.author.id}) has sent a new message in Server: ${message.guild?.name} (${message.guildId}) in Channel: ${(message.channel as TextChannel).name} (${message.channel.id})`);
         const [analysis, dominator] = await Promise.all([analyzeComment(message.content), MessageDominators.read(message.guildId!)]);
-        if (!analysis || !dominator) throw new Error("messageCreate: MessageAnalysis or MessageDominator undefined!");
+        if (analysis === undefined || dominator === undefined) throw new Error("messageCreate: MessageAnalysis or MessageDominator undefined!");
         analysis.userID = message.author.id;
         analysis.communityID = message.guildId!;
         ingestMessage(analysis);
-        let maxAction = ACTIONS.indexOf("NOOP");
+        let maxAction = ACTIONS.indexOf("NOTIFY");
         const reasons: Reason[] = [];
         for (const attribute in analysis.attributeScores) {
             const score = analysis.attributeScores[attribute as keyof MessageAnalysis["attributeScores"]].summaryScore.value;
@@ -39,22 +39,26 @@ export async function messageCreate(message: Message) {
 }
 
 export async function moderateMessage(message: Message, action: number, reasons: Reason[]) {
-    if (action === ACTIONS.indexOf("NOOP")) return;
+    if (action >= ACTIONS.indexOf("NOTIFY")) {
+        const [community, notification] = await Promise.all([Communities.read(message.guildId!), embedMessageModeration(message, action, reasons)]);
 
-    const [community, notification] = await Promise.all([Communities.read(message.guildId!), embedMessageModeration(message, action, reasons)]);
+        let notifyTarget = community?.discord_notify_target ?? message.guild!.ownerId;
+        if (message.guild!.roles.cache.get(notifyTarget) === undefined) notifyTarget = `<@${notifyTarget}>`;
+        else notifyTarget = `<@&${notifyTarget}>`;
 
-    let notifyTarget = community?.discord_notify_target ?? message.guild!.ownerId;
-    if (!message.guild!.roles.cache.get(notifyTarget)) notifyTarget = `<@${notifyTarget}>`;
-    else notifyTarget = `<@&${notifyTarget}>`;
+        const notifyChannel = community?.discord_log_channel ?? message.channel.id;
+        const channel = message.client.channels.cache.get(notifyChannel!);
 
-    const notifyChannel = community?.discord_log_channel ?? message.channel.id;
-    const channel = message.client.channels.cache.get(notifyChannel!);
 
-    message.delete();
-    (channel as TextChannel).send({ content: notifyTarget, embeds: [notification] });
-    if (channel?.id !== message.channel.id) message.channel.send({ embeds: [notification] });
+        (channel as TextChannel).send({ content: notifyTarget, embeds: [notification] });
+        if (channel?.id !== message.channel.id) message.channel.send({ embeds: [notification] });
+    }
+
+    if (action >= ACTIONS.indexOf("BAN")) message.member!.ban();
+    else if (action >= ACTIONS.indexOf("KICK")) message.member!.kick(reasons.toString());
+    else if (action >= ACTIONS.indexOf("MUTE")) message.member!.timeout(DEFAULT_MUTE_PERIOD);
+    if (action >= ACTIONS.indexOf("REMOVE")) message.delete();
+
     console.log(`Action: ${ACTIONS[action]} has been taken on @${message.author.username} (${message.author.id}) in Server: ${message.guild?.name} (${message.guild?.id})`);
-    if (action === ACTIONS.indexOf("BAN")) message.member!.ban();
-    else if (action === ACTIONS.indexOf("KICK")) message.member!.kick(reasons.toString());
-    else if (action === ACTIONS.indexOf("MUTE")) message.member!.timeout(DEFAULT_MUTE_PERIOD);
+
 }

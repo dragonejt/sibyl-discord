@@ -8,7 +8,7 @@ export default async function embedMemberModeration(member: GuildMember, action:
         .setTimestamp()
         .setFooter({ text: `Member ${member.id}` });
 
-    if (ACTIONS[action] === "NOTIFY") embed.setTitle("Notified Moderators");
+    if (ACTIONS[action] === "REMOVE") embed.setTitle("Notified Moderators");
     else if (ACTIONS[action] === "MUTE") embed.setTitle(`Muted ${member.user.username}`);
     else if (ACTIONS[action] === "KICK") embed.setTitle(`Kicked ${member.user.username}`);
     else if (ACTIONS[action] === "BAN") embed.setTitle(`Banned ${member.user.username}`);

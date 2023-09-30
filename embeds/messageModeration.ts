@@ -10,7 +10,7 @@ export default async function embedMessageModeration(message: Message, action: n
         .setTimestamp()
         .setFooter({ text: `Message ${message.id}` });
 
-    if (ACTIONS[action] === "NOTIFY") embed.setDescription("Notified Moderators");
+    if (ACTIONS[action] === "REMOVE") embed.setDescription("Notified Moderators");
     else if (ACTIONS[action] === "MUTE") embed.setDescription(`Muted <@${message.author.id}>`);
     else if (ACTIONS[action] === "KICK") embed.setDescription(`Kicked <@${message.author.id}>`);
     else if (ACTIONS[action] === "BAN") embed.setDescription(`Banned <@${message.author.id}>`);
