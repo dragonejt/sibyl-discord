@@ -73,13 +73,13 @@ async function execute(interaction: ChatInputCommandInteraction) {
             } as Partial<MemberDominator>);
         } else if (ATTRIBUTES.includes(attribute)) {
             const triggerData = { communityID: interaction.guildId } as any;
-            if (action !==null && action !==undefined) triggerData[`${attribute}_action`] = action;
-            if (threshold !==null && threshold !==undefined) triggerData[`${attribute}_threshold`] = threshold;
+            if (action !== null && action !== undefined) triggerData[`${attribute}_action`] = action;
+            if (threshold !== null && threshold !== undefined) triggerData[`${attribute}_threshold`] = threshold;
             await dominator.update(triggerData);
         }
 
         interaction.editReply({ embeds: [await embedDominator(await dominator.read(interaction.guildId!) as (MessageDominator | MemberDominator), attribute, interaction.client, interaction.guild!)] });
-        console.log(`${attribute.toUpperCase()} trigger has been successfully updated for ${type} Dominator in Channel: ${interaction.guild!.name} (${interaction.guildId!})`);
+        console.log(`${attribute.toUpperCase()} trigger has been successfully updated for ${type} Dominator in Channel: ${interaction.guild?.name} (${interaction.guildId})`);
     }
 }
 

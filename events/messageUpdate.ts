@@ -14,7 +14,7 @@ export default async function messageUpdate(_: Message | PartialMessage, newMess
         newMessage.content === "") return;
 
     try {
-        console.log(`@${newMessage.author.username} (${newMessage.author.id}) has updated a message in Server: ${newMessage.guild!.name} (${newMessage.guildId!}) in Channel: ${(newMessage.channel as TextChannel).name} (${newMessage.channel.id})`);
+        console.log(`@${newMessage.author.username} (${newMessage.author.id}) has updated a message in Server: ${newMessage.guild?.name} (${newMessage.guildId}) in Channel: ${(newMessage.channel as TextChannel).name} (${newMessage.channel.id})`);
         const [analysis, dominator] = await Promise.all([analyzeComment(newMessage.content), MessageDominators.read(newMessage.guildId!)]);
         if (!analysis || !dominator) throw new Error("messageUpdate: MessageAnalysis or MessageDominator undefined!");
         analysis.userID = newMessage.author.id;
