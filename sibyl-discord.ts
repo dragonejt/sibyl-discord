@@ -26,7 +26,7 @@ const client = new SibylDiscordClient({
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_BOT_TOKEN!);
 const commands = [sibyl, dominator, psychopass];
 
-await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID!), { body: commands.map(command => command.data) });
+rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID!), { body: commands.map(command => command.data) });
 console.log("Successfully reloaded application (/) commands.");
 commands.map(command => client.commands.set(command.data.name, command));
 console.log("Successfully registered application (/) command actions.");

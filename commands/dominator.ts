@@ -52,11 +52,7 @@ async function execute(interaction: ChatInputCommandInteraction) {
         await interaction.deferReply();
 
         const type = interaction.options.getSubcommand();
-        let dominator;
-        if (type === "message") dominator = MessageDominators;
-        else if (type === "member") dominator = MemberDominators;
-        if (dominator === undefined) throw new Error("/dominator: MessageDominator or MemberDominator undefined!")
-
+        const dominator = (type === "message") ? MessageDominators : MemberDominators;
         const action = interaction.options.getInteger("action");
         const threshold = interaction.options.getNumber("threshold");
 
