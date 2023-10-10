@@ -19,7 +19,7 @@ async function execute(interaction: ChatInputCommandInteraction) {
                 communityID: interaction.guildId,
                 discord_log_channel: interaction.options.get("log_channel")!.value!.toString()
             };
-            Communities.update(data);
+            await Communities.update(data);
             interaction.followUp(`Log Channel has been updated to <#${(await Communities.read(interaction.guildId!))?.discord_log_channel}>`);
         }
         if (interaction.options.get("notify_role")) {
@@ -27,7 +27,7 @@ async function execute(interaction: ChatInputCommandInteraction) {
                 communityID: interaction.guildId,
                 discord_notify_target: interaction.options.get("notify_role")!.value!.toString()
             };
-            Communities.update(data);
+            await Communities.update(data);
             interaction.followUp(`Notification Target has been updated to <@&${(await Communities.read(interaction.guildId!))?.discord_notify_target}>`);
         }
     } else if (interaction.options.get("log_channel") || interaction.options.get("notify_role")) {
