@@ -1,8 +1,7 @@
 import { User, Client, EmbedBuilder } from "discord.js";
-
 import { PsychoPass } from "../clients/backend/psychopass/psychoPasses.js";
 
-export default async function embedPsychoPass(psychoPass: PsychoPass, client: Client, requester: User, target: User) {
+export default function embedPsychoPass(psychoPass: PsychoPass, client: Client, requester: User, target: User) {
     return new EmbedBuilder()
         .setColor(parseInt(psychoPass.hue, 16))
         .setTitle(`Psycho-Pass of @${target.username}`)

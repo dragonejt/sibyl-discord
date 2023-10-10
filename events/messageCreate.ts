@@ -3,7 +3,7 @@ import { analyzeComment, MessageAnalysis } from "../clients/perspectiveAPI.js";
 import ingestMessage from "../clients/backend/ingestMessage.js";
 import Communities from "../clients/backend/communities.js";
 import { MessageDominators, MessageDominator } from "../clients/backend/dominator/messageDominators.js";
-import { ACTIONS, DEFAULT_MUTE_PERIOD, Reason } from "../clients/constants.js";
+import { ACTIONS, ATTR_PRETTY, DEFAULT_MUTE_PERIOD, Reason } from "../clients/constants.js";
 import { moderateMember } from "./guildMemberAdd.js";
 import embedMessageModeration from "../embeds/messageModeration.js";
 
@@ -40,7 +40,7 @@ export async function messageCreate(message: Message) {
 
 export async function moderateMessage(message: Message, action: number, reasons: Reason[]) {
     if (action >= ACTIONS.indexOf("NOTIFY")) {
-        const [community, notification] = await Promise.all([Communities.read(message.guildId!), embedMessageModeration(message, action, reasons)]);
+        const community = await Communities.read(message.guildId!);
 
         let notifyTarget = community?.discord_notify_target ?? message.guild!.ownerId;
         if (message.guild!.roles.cache.get(notifyTarget) === undefined) notifyTarget = `<@${notifyTarget}>`;
@@ -50,15 +50,17 @@ export async function moderateMessage(message: Message, action: number, reasons:
         const channel = message.client.channels.cache.get(notifyChannel!);
 
 
-        (channel as TextChannel).send({ content: notifyTarget, embeds: [notification] });
-        if (channel?.id !== message.channel.id) message.channel.send({ embeds: [notification] });
+        (channel as TextChannel).send({ content: notifyTarget, embeds: [embedMessageModeration(message, action, reasons)] });
+        if (channel?.id !== message.channel.id) message.channel.send({ embeds: [embedMessageModeration(message, action, reasons)] });
     }
 
-    if (action >= ACTIONS.indexOf("BAN")) message.member!.ban();
-    else if (action >= ACTIONS.indexOf("KICK")) message.member!.kick(reasons.toString());
-    else if (action >= ACTIONS.indexOf("MUTE")) message.member!.timeout(DEFAULT_MUTE_PERIOD);
+    const reason = reasons.map(reason => `${ATTR_PRETTY[reason.attribute as keyof typeof ATTR_PRETTY]}: ${reason.score} >= ${reason.threshold}`).toString();
+
+    if (action >= ACTIONS.indexOf("BAN")) message.member!.ban({ reason });
+    else if (action >= ACTIONS.indexOf("KICK")) message.member!.kick(reason);
+    else if (action >= ACTIONS.indexOf("MUTE")) message.member!.timeout(DEFAULT_MUTE_PERIOD, reason);
     if (action >= ACTIONS.indexOf("REMOVE")) message.delete();
 
-    console.log(`Action: ${ACTIONS[action]} has been taken on @${message.author.username} (${message.author.id}) in Server: ${message.guild?.name} (${message.guild?.id})`);
+    console.log(`Action: ${ACTIONS[action]} has been taken on @${message.author.username} (${message.author.id}) in Server: ${message.guild?.name} (${message.guild?.id}) because of ${reason}`);
 
 }

@@ -1,10 +1,9 @@
 import { Client, Guild, EmbedBuilder } from "discord.js";
-
 import { ACTIONS, ATTRIBUTES, ATTR_PRETTY, ACTION_PRETTY } from "../clients/constants.js";
 import { MessageDominator } from "../clients/backend/dominator/messageDominators.js";
 import { MemberDominator } from "../clients/backend/dominator/memberDominators.js";
 
-export default async function embedDominator(dominator: MessageDominator | MemberDominator, attribute: string, client: Client, server: Guild) {
+export default function embedDominator(dominator: MessageDominator | MemberDominator, attribute: string, client: Client, server: Guild) {
     const embed = new EmbedBuilder()
         .setDescription(`${ATTR_PRETTY[attribute as keyof typeof ATTR_PRETTY]} Updated`)
         .setAuthor({ name: "Sibyl System", iconURL: client.user!.avatarURL()! })

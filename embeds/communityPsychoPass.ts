@@ -1,8 +1,7 @@
 import { User, Client, Guild, EmbedBuilder } from "discord.js";
-
 import { CommunityPsychoPass } from "../clients/backend/psychopass/communityPsychoPasses.js";
 
-export default async function embedCommunityPsychoPass(psychoPass: CommunityPsychoPass, client: Client, requester: User, server: Guild) {
+export default function embedCommunityPsychoPass(psychoPass: CommunityPsychoPass, client: Client, requester: User, server: Guild) {
     return new EmbedBuilder()
         .setTitle(`Psycho-Pass of Server: ${server.name}`)
         .setAuthor({ name: "Sibyl System", iconURL: client.user!.avatarURL()! })

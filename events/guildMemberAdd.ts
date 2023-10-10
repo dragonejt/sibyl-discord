@@ -2,7 +2,7 @@ import { GuildMember, TextChannel } from "discord.js";
 import Communities from "../clients/backend/communities.js";
 import { PsychoPasses, PsychoPass } from "../clients/backend/psychopass/psychoPasses.js";
 import { MemberDominators, MemberDominator } from "../clients/backend/dominator/memberDominators.js";
-import { ATTRIBUTES, ACTIONS, DEFAULT_MUTE_PERIOD, Reason } from "../clients/constants.js";
+import { ATTRIBUTES, ACTIONS, DEFAULT_MUTE_PERIOD, Reason, ATTR_PRETTY } from "../clients/constants.js";
 import embedMemberModeration from "../embeds/memberModeration.js";
 
 export async function guildMemberAdd(member: GuildMember) {
@@ -23,20 +23,20 @@ export async function moderateMember(member: GuildMember) {
         if (score >= threshold) {
             const action = dominator[`${attribute}_action` as keyof MemberDominator] as number;
             maxAction = Math.max(maxAction, action);
-            reasons.push({ attribute: attribute.toLowerCase(), score, threshold });
+            reasons.push({ attribute, score, threshold });
         }
     }
     if (psychoPass.crime_coefficient >= 300) {
         maxAction = Math.max(maxAction, dominator.crime_coefficient_300_action);
         reasons.push({
-            attribute: "Crime Coefficient",
+            attribute: "crime_coefficient_300",
             score: psychoPass.crime_coefficient,
             threshold: 300
         });
     } else if (psychoPass.crime_coefficient >= 100) {
         maxAction = Math.max(maxAction, dominator.crime_coefficient_100_action);
         reasons.push({
-            attribute: "Crime Coefficient",
+            attribute: "crime_coefficient_100",
             score: psychoPass.crime_coefficient,
             threshold: 100
         });
@@ -46,7 +46,7 @@ export async function moderateMember(member: GuildMember) {
 
 async function moderate(member: GuildMember, action: number, reasons: Reason[]) {
     if (action >= ACTIONS.indexOf("NOTIFY")) {
-        const [community, notification] = await Promise.all([Communities.read(member.guild.id), embedMemberModeration(member, action, reasons)]);
+        const community = await Communities.read(member.guild.id);
 
         let notifyTarget = community?.discord_notify_target ?? member.guild.ownerId;
         if (member.guild.roles.cache.get(notifyTarget) === undefined) notifyTarget = `<@${notifyTarget}>`;
@@ -55,12 +55,14 @@ async function moderate(member: GuildMember, action: number, reasons: Reason[]) 
         const notifyChannel = community?.discord_log_channel ?? member.guild.systemChannelId!;
         const channel = member.client.channels.cache.get(notifyChannel);
 
-        (channel as TextChannel).send({ content: notifyTarget, embeds: [notification] });
+        (channel as TextChannel).send({ content: notifyTarget, embeds: [embedMemberModeration(member, action, reasons)] });
     }
 
-    if (action >= ACTIONS.indexOf("BAN")) member.ban();
-    else if (action >= ACTIONS.indexOf("KICK")) member.kick(reasons.toString());
-    else if (action >= ACTIONS.indexOf("MUTE")) member.timeout(DEFAULT_MUTE_PERIOD);
+    const reason = reasons.map(reason => `${ATTR_PRETTY[reason.attribute as keyof typeof ATTR_PRETTY]}: ${reason.score} >= ${reason.threshold}`).toString();
 
-    console.log(`Action: ${ACTIONS[action]} has been taken on @${member.user.username} (${member.user.id}) in Server: ${member.guild.name} (${member.guild.id})`);
+    if (action >= ACTIONS.indexOf("BAN")) member.ban({ reason });
+    else if (action >= ACTIONS.indexOf("KICK")) member.kick(reason);
+    else if (action >= ACTIONS.indexOf("MUTE")) member.timeout(DEFAULT_MUTE_PERIOD, reason);
+
+    console.log(`Action: ${ACTIONS[action]} has been taken on @${member.user.username} (${member.user.id}) in Server: ${member.guild.name} (${member.guild.id}) because of ${reason}`);
 }

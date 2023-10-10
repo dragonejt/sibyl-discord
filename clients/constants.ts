@@ -3,8 +3,8 @@ export const ACTIONS = ["NOTIFY", "REMOVE", "MUTE", "KICK", "BAN"];
 export const DEFAULT_MUTE_PERIOD = 60 * 60 * 1000;
 
 export const ATTR_PRETTY = {
-    crime_coefficient_100: "Crime Coefficient 100",
-    crime_coefficient_300: "Crime Coefficient 300",
+    crime_coefficient_100: "Crime Coefficient >= 100",
+    crime_coefficient_300: "Crime Coefficient >= 300",
     toxicity: "Toxicity",
     severe_toxicity: "Severe Toxicity",
     identity_attack: "Identity Attack",
@@ -15,8 +15,8 @@ export const ATTR_PRETTY = {
 };
 
 export const ACTION_PRETTY = {
-    NOTIFY: "None",
-    REMOVE: "Notify",
+    NOTIFY: "Notify",
+    REMOVE: "Remove",
     MUTE: "Mute",
     KICK: "Kick",
     BAN: "Ban"

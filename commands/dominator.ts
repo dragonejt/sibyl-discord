@@ -17,7 +17,7 @@ const data = new SlashCommandBuilder()
                     .addChoices(...ATTRIBUTES.map(attribute => buildStringChoice(ATTR_PRETTY[attribute as keyof typeof ATTR_PRETTY], attribute))))
             .addIntegerOption(option =>
                 option.setName("action")
-                    .setDescription("Action to Take Upon Passing Threshold")
+                    .setDescription("Action to Take Upon Exceeding Threshold")
                     .addChoices(...ACTIONS.map(action => buildIntegerChoice(ACTION_PRETTY[action as keyof typeof ACTION_PRETTY], ACTIONS.indexOf(action)))))
             .addNumberOption(option =>
                 option.setName("threshold")
@@ -34,7 +34,7 @@ const data = new SlashCommandBuilder()
                     .addChoices(...ATTRIBUTES.concat(["crime_coefficient_100", "crime_coefficient_300"]).map(attribute => buildStringChoice(ATTR_PRETTY[attribute as keyof typeof ATTR_PRETTY], attribute))))
             .addIntegerOption(option =>
                 option.setName("action")
-                    .setDescription("Action to Take Upon Passing Threshold")
+                    .setDescription("Action to Take Upon Exceeding Threshold")
                     .addChoices(...ACTIONS.map(action => buildIntegerChoice(ACTION_PRETTY[action as keyof typeof ACTION_PRETTY], ACTIONS.indexOf(action)))))
             .addNumberOption(option =>
                 option.setName("threshold")
@@ -74,7 +74,7 @@ async function execute(interaction: ChatInputCommandInteraction) {
             await dominator.update(triggerData);
         }
 
-        interaction.editReply({ embeds: [await embedDominator(await dominator.read(interaction.guildId!) as (MessageDominator | MemberDominator), attribute, interaction.client, interaction.guild!)] });
+        interaction.editReply({ embeds: [embedDominator(await dominator.read(interaction.guildId!) as (MessageDominator | MemberDominator), attribute, interaction.client, interaction.guild!)] });
         console.log(`${attribute.toUpperCase()} trigger has been successfully updated for ${type} Dominator in Channel: ${interaction.guild?.name} (${interaction.guildId})`);
     }
 }
