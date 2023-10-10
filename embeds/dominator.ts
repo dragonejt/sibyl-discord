@@ -13,8 +13,8 @@ export default function embedDominator(dominator: MessageDominator | MemberDomin
         embed.setTitle(`Member Dominator Settings for Server: ${server.name}`)
             .addFields(
                 { name: "\u200B", value: "\u200B" },
-                { name: `${ATTR_PRETTY.crime_coefficient_100} Action`, value: ACTION_PRETTY[ACTIONS[dominator.crime_coefficient_100_action] as keyof typeof ACTION_PRETTY], inline: true },
-                { name: `${ATTR_PRETTY.crime_coefficient_300} Action`, value: ACTION_PRETTY[ACTIONS[dominator.crime_coefficient_300_action] as keyof typeof ACTION_PRETTY], inline: true }
+                { name: "Crime Coefficient 100 Action", value: ACTION_PRETTY[ACTIONS[dominator.crime_coefficient_100_action] as keyof typeof ACTION_PRETTY], inline: true },
+                { name: "Crime Coefficient 300 Action", value: ACTION_PRETTY[ACTIONS[dominator.crime_coefficient_300_action] as keyof typeof ACTION_PRETTY], inline: true }
             );
     } else embed.setTitle(`Message Dominator Settings for Server: ${server.name}`);
 
