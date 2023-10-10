@@ -2,6 +2,7 @@ interface Community {
     id: number
     platform: number
     community_id: string
+    communityID?: string
     discord_log_channel: string | null
     discord_notify_target: string | null
 }

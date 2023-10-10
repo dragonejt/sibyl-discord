@@ -1,7 +1,7 @@
 export interface MessageDominator {
     id: number
     community: number
-    communityID: string | null
+    communityID?: string
 
     toxicity_action: number
     toxicity_threshold: number
