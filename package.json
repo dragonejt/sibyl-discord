@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node sibyl-discord.js",
     "build": "npx tsc --build",
-    "dev": "ts-node --esm sibyl-discord.ts",
+    "dev": "node --loader ts-node/esm sibyl-discord.ts",
     "test": "jest --passWithNoTests",
     "lint": "npx eslint --fix ."
   },
