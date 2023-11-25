@@ -56,10 +56,11 @@ export async function moderateMessage(message: Message, action: number, reasons:
 
     const reason = reasons.map(reason => `${ATTR_PRETTY[reason.attribute as keyof typeof ATTR_PRETTY]}: ${reason.score} >= ${reason.threshold}`).toString();
 
-    if (action >= ACTIONS.indexOf("BAN")) message.member!.ban({ reason });
-    else if (action >= ACTIONS.indexOf("KICK")) message.member!.kick(reason);
-    else if (action >= ACTIONS.indexOf("MUTE")) message.member!.timeout(DEFAULT_MUTE_PERIOD, reason);
     if (action >= ACTIONS.indexOf("REMOVE")) message.delete();
+    if (action === ACTIONS.indexOf("BAN")) message.member!.ban({ reason });
+    else if (action === ACTIONS.indexOf("KICK")) message.member!.kick(reason);
+    else if (action === ACTIONS.indexOf("MUTE")) message.member!.timeout(DEFAULT_MUTE_PERIOD, reason);
+
 
     console.log(`Action: ${ACTIONS[action]} has been taken on @${message.author.username} (${message.author.id}) in Server: ${message.guild?.name} (${message.guild?.id}) because of ${reason}`);
 

@@ -60,9 +60,9 @@ async function moderate(member: GuildMember, action: number, reasons: Reason[]) 
 
     const reason = reasons.map(reason => `${ATTR_PRETTY[reason.attribute as keyof typeof ATTR_PRETTY]}: ${reason.score} >= ${reason.threshold}`).toString();
 
-    if (action >= ACTIONS.indexOf("BAN")) member.ban({ reason });
-    else if (action >= ACTIONS.indexOf("KICK")) member.kick(reason);
-    else if (action >= ACTIONS.indexOf("MUTE")) member.timeout(DEFAULT_MUTE_PERIOD, reason);
+    if (action === ACTIONS.indexOf("BAN")) member.ban({ reason });
+    else if (action === ACTIONS.indexOf("KICK")) member.kick(reason);
+    else if (action === ACTIONS.indexOf("MUTE")) member.timeout(DEFAULT_MUTE_PERIOD, reason);
 
     console.log(`Action: ${ACTIONS[action]} has been taken on @${member.user.username} (${member.user.id}) in Server: ${member.guild.name} (${member.guild.id}) because of ${reason}`);
 }
