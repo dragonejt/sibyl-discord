@@ -3,14 +3,15 @@ import { ACTIONS, ATTR_PRETTY, Reason } from "../clients/constants.js";
 
 export default function embedMemberModeration(member: GuildMember, action: number, reasons: Reason[]) {
     const embed = new EmbedBuilder()
+        .setTitle(`Flagged Psycho-Pass of ${member.user.username}`)
         .setAuthor({ name: "Sibyl System", iconURL: member.client.user.avatarURL()! })
         .setTimestamp()
         .setFooter({ text: member.id });
 
-    if (ACTIONS[action] === "BAN") embed.setTitle(`Banned ${member.user.username}`);
-    else if (ACTIONS[action] === "KICK") embed.setTitle(`Kicked ${member.user.username}`);
-    else if (ACTIONS[action] === "MUTE") embed.setTitle(`Muted ${member.user.username}`);
-    else if (action >= ACTIONS.indexOf("NOTIFY")) embed.setTitle("Notified Moderators");
+    if (ACTIONS[action] === "BAN") embed.setDescription(`Banned ${member.user.username}`);
+    else if (ACTIONS[action] === "KICK") embed.setDescription(`Kicked ${member.user.username}`);
+    else if (ACTIONS[action] === "MUTE") embed.setDescription(`Muted ${member.user.username}`);
+    else if (action >= ACTIONS.indexOf("NOTIFY")) embed.setDescription("Notified Moderators");
 
     for (const reason of reasons) {
         embed.addFields(

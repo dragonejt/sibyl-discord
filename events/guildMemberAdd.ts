@@ -15,7 +15,7 @@ export async function moderateMember(member: GuildMember) {
     const [psychoPass, dominator] = await Promise.all([PsychoPasses.read(member.user.id), MemberDominators.read(member.guild.id)]);
     if (psychoPass === undefined || dominator === undefined) throw new Error("Psycho-Pass or Dominator undefined!");
     if (psychoPass.messages < 25) return;
-    let maxAction = ACTIONS.indexOf("NOTIFY");
+    let maxAction = -1;
     const reasons: Reason[] = [];
     for (const attribute of ATTRIBUTES) {
         const score = psychoPass[attribute as keyof PsychoPass] as number;
@@ -41,7 +41,7 @@ export async function moderateMember(member: GuildMember) {
             threshold: 100
         });
     }
-    moderate(member, maxAction, reasons);
+    if (maxAction >= 0) moderate(member, maxAction, reasons);
 }
 
 async function moderate(member: GuildMember, action: number, reasons: Reason[]) {

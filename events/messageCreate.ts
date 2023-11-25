@@ -20,7 +20,7 @@ export async function messageCreate(message: Message) {
         analysis.userID = message.author.id;
         analysis.communityID = message.guildId!;
         ingestMessage(analysis);
-        let maxAction = ACTIONS.indexOf("NOTIFY");
+        let maxAction = -1;
         const reasons: Reason[] = [];
         for (const attribute in analysis.attributeScores) {
             const score = analysis.attributeScores[attribute as keyof MessageAnalysis["attributeScores"]].summaryScore.value;
@@ -31,7 +31,7 @@ export async function messageCreate(message: Message) {
                 reasons.push({ attribute: attribute.toLowerCase(), score, threshold });
             }
         }
-        moderateMessage(message, maxAction, reasons);
+        if (maxAction >= 0) moderateMessage(message, maxAction, reasons);
         moderateMember(message.member!);
     } catch (error) {
         console.error(error);
