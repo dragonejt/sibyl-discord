@@ -32,6 +32,8 @@ jobs:
     
     - name: Codecov
       uses: codecov/codecov-action@v3
+      with:
+        fail_ci_if_error: true
       
   analyze:
     runs-on: ubuntu-latest
