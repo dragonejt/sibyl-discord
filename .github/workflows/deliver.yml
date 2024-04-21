@@ -30,3 +30,4 @@ jobs:
           SENTRY_PROJECT: sibyl-discord
         with:
           environment: production
+          sourcemaps: "./"
