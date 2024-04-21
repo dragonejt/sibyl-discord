@@ -5,7 +5,7 @@
   "main": "sibyl-discord.js",
   "scripts": {
     "start": "node sibyl-discord.js",
-    "build": "npx tsc --build",
+    "build": "npx tsc --build && npx @sentry/wizard@latest -i sourcemaps",
     "dev": "node --loader ts-node/esm sibyl-discord.ts",
     "test": "jest --passWithNoTests",
     "lint": "npx eslint --fix ."
@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/dragonejt/sibyl-discord#readme",
   "dependencies": {
+    "@sentry/node": "^7.111.0",
+    "@sentry/profiling-node": "^7.111.0",
     "discord.js": "*",
     "jest": "*"
   },

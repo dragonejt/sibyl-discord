@@ -1,5 +1,7 @@
 import { SibylDiscordClient } from "./clients/discord.js";
 import { REST, Routes, GatewayIntentBits, Events } from "discord.js";
+import { init } from "@sentry/node";
+import { nodeProfilingIntegration } from "@sentry/profiling-node";
 
 import sibyl from "./commands/sibyl.js";
 import dominator from "./commands/dominator.js";
@@ -13,6 +15,18 @@ import guildDelete from "./events/guildDelete.js";
 import guildCreate from "./events/guildCreate.js";
 import guildMemberRemove from "./events/guildMemberRemove.js";
 import { guildMemberAdd } from "./events/guildMemberAdd.js";
+
+init({
+    dsn: "https://7e2c73f3dcf02548b7262758195e3454@o4507124907638784.ingest.us.sentry.io/4507125166702592",
+    integrations: [
+        nodeProfilingIntegration(),
+    ],
+    // Performance Monitoring
+    tracesSampleRate: 1.0, //  Capture 100% of the transactions
+    // Set sampling rate for profiling - this is relative to tracesSampleRate
+    profilesSampleRate: 1.0,
+    enableTracing: true
+});
 
 const client = new SibylDiscordClient({
     intents: [

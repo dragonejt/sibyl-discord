@@ -21,3 +21,12 @@ jobs:
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           branch: 'main'
           git_push_flags: --force
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: dragonejt
+          SENTRY_PROJECT: sibyl-discord
+        with:
+          environment: production
