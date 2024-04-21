@@ -1,1 +1,0 @@
-release: npx @sentry/wizard@latest -i sourcemaps

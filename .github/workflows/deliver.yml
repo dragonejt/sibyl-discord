@@ -22,7 +22,7 @@ jobs:
           branch: 'main'
           git_push_flags: --force
 
-      - name: Create Sentry release
+      - name: Create Sentry Release
         uses: getsentry/action-release@v1
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
@@ -30,3 +30,6 @@ jobs:
           SENTRY_PROJECT: sibyl-discord
         with:
           environment: production
+
+      - name: Upload Sentry Source Maps
+        run: sentry-cli sourcemaps inject --org dragonejt --project sibyl-discord ./ && sentry-cli sourcemaps upload --org dragonejt --project sibyl-discord ./

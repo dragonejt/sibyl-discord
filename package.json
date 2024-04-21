@@ -22,8 +22,9 @@
   },
   "homepage": "https://github.com/dragonejt/sibyl-discord#readme",
   "dependencies": {
-    "@sentry/node": "^7.111.0",
-    "@sentry/profiling-node": "^7.111.0",
+    "@sentry/cli": "*",
+    "@sentry/node": "*",
+    "@sentry/profiling-node": "*",
     "discord.js": "*",
     "jest": "*"
   },
