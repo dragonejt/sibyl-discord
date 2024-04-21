@@ -1,1 +1,0 @@
-release: sentry-cli sourcemaps inject --org dragonejt --project sibyl-discord ./ && sentry-cli sourcemaps upload --org dragonejt --project sibyl-discord ./
