@@ -21,21 +21,7 @@ jobs:
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           branch: 'main'
           git_push_flags: --force
-  
-  sentry:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install Dependencies
-        run: npm ci
-      
       - name: Create Sentry Release
         uses: getsentry/action-release@v1
         env:
@@ -44,6 +30,3 @@ jobs:
           SENTRY_PROJECT: sibyl-discord
         with:
           environment: production
-
-      - name: Upload Sentry Source Maps
-        run: npm run sentry:sourcemaps
