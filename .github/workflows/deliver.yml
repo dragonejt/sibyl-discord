@@ -46,4 +46,4 @@ jobs:
           environment: production
 
       - name: Upload Sentry Source Maps
-        run: npm run sentry:upload
+        run: npm run sentry:sourcemaps
