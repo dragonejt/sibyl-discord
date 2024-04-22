@@ -3,7 +3,7 @@ import { Client } from "discord.js";
 
 export default async function onReady(client: Client) {
     startSpan({
-        name: `ready ${Date.now()}`
+        name: "ready"
     }, () => ready(client));
 }
 

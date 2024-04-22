@@ -82,7 +82,7 @@ async function execute(interaction: ChatInputCommandInteraction) {
 
 async function onExecute(interaction: ChatInputCommandInteraction) {
     startSpan({
-        name: `/dominator ${interaction.commandId} ${Date.now()}`
+        name: "/dominator"
     }, () => execute(interaction));
 }
 

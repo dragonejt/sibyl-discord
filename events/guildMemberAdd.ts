@@ -8,7 +8,7 @@ import embedMemberModeration from "../embeds/memberModeration.js";
 
 export async function onGuildMemberAdd(member: GuildMember) {
     startSpan({
-        name: `guildMemberAdd ${member.user.id} ${Date.now()}`
+        name: "guildMemberAdd"
     }, () => guildMemberAdd(member));
 }
 

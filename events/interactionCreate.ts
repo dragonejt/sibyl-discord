@@ -4,7 +4,7 @@ import { SibylDiscordClient } from "../clients/discord.js";
 
 export default async function onInteractionCreate(interaction: Interaction) {
     startSpan({
-        name: `interactionCreate ${interaction.id} ${Date.now()}`
+        name: "interactionCreate"
     }, () => interactionCreate(interaction));
 }
 

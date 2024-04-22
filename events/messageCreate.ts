@@ -10,7 +10,7 @@ import embedMessageModeration from "../embeds/messageModeration.js";
 
 export async function onMessageCreate(message: Message) {
     startSpan({
-        name: `messageCreate ${message.author.id} ${Date.now()}`
+        name: "messageCreate"
     }, () => messageCreate(message));
 }
 

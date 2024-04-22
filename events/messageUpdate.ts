@@ -9,7 +9,7 @@ import { moderateMessage } from "./messageCreate.js";
 
 export default async function onMessageUpdate(oldMessage: Message | PartialMessage, newMessage: Message | PartialMessage) {
     startSpan({
-        name: `messageUpdate ${oldMessage.id} ${newMessage.id} ${Date.now()}`
+        name: "messageUpdate"
     }, () => messageUpdate(oldMessage, newMessage));
 }
 

@@ -29,7 +29,7 @@ async function execute(interaction: ChatInputCommandInteraction) {
 
 async function onExecute(interaction: ChatInputCommandInteraction) {
     startSpan({
-        name: `/psychopass ${interaction.commandId} ${Date.now()}`
+        name: "/psychopass"
     }, () => execute(interaction));
 }
 

@@ -4,7 +4,7 @@ import { CommunityPsychoPasses } from "../clients/backend/psychopass/communityPs
 
 export default async function onGuildMemberRemove(member: GuildMember | PartialGuildMember) {
     startSpan({
-        name: `guildMemberRemove ${member.user.id} ${Date.now()}`
+        name: "guildMemberRemove"
     }, () => guildMemberRemove(member));
 }
 

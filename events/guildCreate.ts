@@ -4,7 +4,7 @@ import Communities from "../clients/backend/communities.js";
 
 export default async function onGuildCreate(guild: Guild) {
     startSpan({
-        name: `guildCreate ${guild.id} ${Date.now()}`
+        name: "guildCreate"
     }, () => guildCreate(guild));
 }
 

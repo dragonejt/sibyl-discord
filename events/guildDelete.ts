@@ -4,7 +4,7 @@ import Communities from "../clients/backend/communities.js";
 
 export default async function onGuildDelete(guild: Guild) {
     startSpan({
-        name: `guildDelete ${guild.id} ${Date.now()}`
+        name: "guildDelete"
     }, () => guildDelete(guild));
 }
 
