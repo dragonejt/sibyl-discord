@@ -8,13 +8,13 @@ import { ACTIONS, ATTR_PRETTY, DEFAULT_MUTE_PERIOD, Reason } from "../clients/co
 import { moderateMember } from "./guildMemberAdd.js";
 import embedMessageModeration from "../embeds/messageModeration.js";
 
-export async function messageCreate(message: Message) {
+export async function onMessageCreate(message: Message) {
     startSpan({
         name: `messageCreate ${message.author.id} ${Date.now()}`
-    }, () => onMessageCreate(message));
+    }, () => messageCreate(message));
 }
 
-async function onMessageCreate(message: Message) {
+async function messageCreate(message: Message) {
     if (message.author.id === process.env.DISCORD_CLIENT_ID ||
         message.author.bot ||
         (message.channel as TextChannel).nsfw ||

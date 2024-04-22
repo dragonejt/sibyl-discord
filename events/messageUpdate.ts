@@ -7,13 +7,13 @@ import { ACTIONS, Reason } from "../clients/constants.js";
 import { moderateMember } from "./guildMemberAdd.js";
 import { moderateMessage } from "./messageCreate.js";
 
-export default async function messageUpdate(oldMessage: Message | PartialMessage, newMessage: Message | PartialMessage) {
+export default async function onMessageUpdate(oldMessage: Message | PartialMessage, newMessage: Message | PartialMessage) {
     startSpan({
         name: `messageUpdate ${oldMessage.id} ${newMessage.id} ${Date.now()}`
-    }, () => onMessageUpdate(oldMessage, newMessage));
+    }, () => messageUpdate(oldMessage, newMessage));
 }
 
-async function onMessageUpdate(_: Message | PartialMessage, newMessage: Message | PartialMessage) {
+async function messageUpdate(_: Message | PartialMessage, newMessage: Message | PartialMessage) {
     newMessage = newMessage as Message;
     if (newMessage.author.id === process.env.DISCORD_CLIENT_ID ||
         newMessage.author.bot ||

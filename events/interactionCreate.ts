@@ -2,13 +2,13 @@ import { Interaction } from "discord.js";
 import { startSpan } from "@sentry/node";
 import { SibylDiscordClient } from "../clients/discord.js";
 
-export default async function interactionCreate(interaction: Interaction) {
+export default async function onInteractionCreate(interaction: Interaction) {
     startSpan({
         name: `interactionCreate ${interaction.id} ${Date.now()}`
-    }, () => onInteractionCreate(interaction));
+    }, () => interactionCreate(interaction));
 }
 
-async function onInteractionCreate(interaction: Interaction) {
+async function interactionCreate(interaction: Interaction) {
     if (interaction.isChatInputCommand() || interaction.isContextMenuCommand()) {
         const command = (interaction.client as SibylDiscordClient).commands.get(interaction.commandName);
 

@@ -6,13 +6,13 @@ import { MemberDominators, MemberDominator } from "../clients/backend/dominator/
 import { ATTRIBUTES, ACTIONS, DEFAULT_MUTE_PERIOD, Reason, ATTR_PRETTY } from "../clients/constants.js";
 import embedMemberModeration from "../embeds/memberModeration.js";
 
-export async function guildMemberAdd(member: GuildMember) {
+export async function onGuildMemberAdd(member: GuildMember) {
     startSpan({
         name: `guildMemberAdd ${member.user.id} ${Date.now()}`
-    }, () => onGuildMemberAdd(member));
+    }, () => guildMemberAdd(member));
 }
 
-async function onGuildMemberAdd(member: GuildMember) {
+async function guildMemberAdd(member: GuildMember) {
     console.log(`A new @${member.user.username} (${member.user.id}) has joined Server: ${member.guild.name} (${member.guild.id})`);
     const psychoPass = await PsychoPasses.read(member.user.id);
     if (psychoPass) moderateMember(member);

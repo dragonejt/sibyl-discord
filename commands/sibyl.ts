@@ -37,10 +37,10 @@ async function execute(interaction: ChatInputCommandInteraction) {
     }
 }
 
-async function executeWrapper(interaction: ChatInputCommandInteraction) {
+async function onExecute(interaction: ChatInputCommandInteraction) {
     startSpan({
         name: `/sibyl ${interaction.commandId} ${Date.now()}`
     }, () => execute(interaction));
 }
 
-export default { data, execute: executeWrapper };
+export default { data, execute: onExecute };
