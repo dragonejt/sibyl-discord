@@ -1,5 +1,5 @@
 import { Message, PartialMessage, TextChannel } from "discord.js";
-import { startSpan } from "@sentry/node";
+import { startSpan, setUser } from "@sentry/node";
 import { MessageAnalysis, analyzeComment } from "../clients/perspectiveAPI.js";
 import ingestMessage from "../clients/backend/ingestMessage.js";
 import { MessageDominators, MessageDominator } from "../clients/backend/dominator/messageDominators.js";
@@ -8,6 +8,10 @@ import { moderateMember } from "./guildMemberAdd.js";
 import { moderateMessage } from "./messageCreate.js";
 
 export default async function onMessageUpdate(oldMessage: Message | PartialMessage, newMessage: Message | PartialMessage) {
+    setUser({
+        id: newMessage.author?.id,
+        username: newMessage.author?.username
+    })
     startSpan({
         name: "messageUpdate"
     }, () => messageUpdate(oldMessage, newMessage));

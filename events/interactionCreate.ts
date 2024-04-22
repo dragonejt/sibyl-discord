@@ -1,8 +1,12 @@
 import { Interaction } from "discord.js";
-import { startSpan } from "@sentry/node";
+import { startSpan, setUser } from "@sentry/node";
 import { SibylDiscordClient } from "../clients/discord.js";
 
 export default async function onInteractionCreate(interaction: Interaction) {
+    setUser({
+        id: interaction.user.id,
+        username: interaction.user.username
+    })
     startSpan({
         name: "interactionCreate"
     }, () => interactionCreate(interaction));

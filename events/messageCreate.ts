@@ -1,5 +1,5 @@
 import { Message, TextChannel } from "discord.js";
-import { startSpan } from "@sentry/node";
+import { startSpan, setUser } from "@sentry/node";
 import { analyzeComment, MessageAnalysis } from "../clients/perspectiveAPI.js";
 import ingestMessage from "../clients/backend/ingestMessage.js";
 import Communities from "../clients/backend/communities.js";
@@ -9,6 +9,10 @@ import { moderateMember } from "./guildMemberAdd.js";
 import embedMessageModeration from "../embeds/messageModeration.js";
 
 export async function onMessageCreate(message: Message) {
+    setUser({
+        id: message.author.id,
+        username: message.author.username
+    })
     startSpan({
         name: "messageCreate"
     }, () => messageCreate(message));

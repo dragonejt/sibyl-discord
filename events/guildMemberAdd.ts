@@ -1,5 +1,5 @@
 import { GuildMember, TextChannel } from "discord.js";
-import { startSpan } from "@sentry/node";
+import { startSpan, setUser } from "@sentry/node";
 import Communities from "../clients/backend/communities.js";
 import { PsychoPasses, PsychoPass } from "../clients/backend/psychopass/psychoPasses.js";
 import { MemberDominators, MemberDominator } from "../clients/backend/dominator/memberDominators.js";
@@ -7,6 +7,10 @@ import { ATTRIBUTES, ACTIONS, DEFAULT_MUTE_PERIOD, Reason, ATTR_PRETTY } from ".
 import embedMemberModeration from "../embeds/memberModeration.js";
 
 export async function onGuildMemberAdd(member: GuildMember) {
+    setUser({
+        id: member.user.id,
+        username: member.user.username
+    })
     startSpan({
         name: "guildMemberAdd"
     }, () => guildMemberAdd(member));
