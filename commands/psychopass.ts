@@ -1,4 +1,5 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
+import { startSpan } from "@sentry/node";
 import { PsychoPasses } from "../clients/backend/psychopass/psychoPasses.js";
 import { CommunityPsychoPasses } from "../clients/backend/psychopass/communityPsychoPasses.js";
 import embedPsychoPass from "../embeds/psychoPass.js";
@@ -26,4 +27,10 @@ async function execute(interaction: ChatInputCommandInteraction) {
     }
 }
 
-export default { data, execute };
+async function executeWrapper(interaction: ChatInputCommandInteraction) {
+    startSpan({
+        name: `/psychopass ${interaction.commandId} ${Date.now()}`
+    }, () => execute(interaction));
+}
+
+export default { data, execute: executeWrapper };

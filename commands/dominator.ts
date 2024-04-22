@@ -1,4 +1,5 @@
 import { SlashCommandBuilder, PermissionFlagsBits, ChatInputCommandInteraction } from "discord.js";
+import { startSpan } from "@sentry/node";
 import { ACTIONS, ATTRIBUTES, ATTR_PRETTY, ACTION_PRETTY, buildStringChoice, buildIntegerChoice } from "../clients/constants.js";
 import { MessageDominators, MessageDominator } from "../clients/backend/dominator/messageDominators.js";
 import { MemberDominators, MemberDominator } from "../clients/backend/dominator/memberDominators.js";
@@ -79,4 +80,10 @@ async function execute(interaction: ChatInputCommandInteraction) {
     }
 }
 
-export default { data, execute };
+async function executeWrapper(interaction: ChatInputCommandInteraction) {
+    startSpan({
+        name: `/dominator ${interaction.commandId} ${Date.now()}`
+    }, () => execute(interaction));
+}
+
+export default { data, execute: executeWrapper };

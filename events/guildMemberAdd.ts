@@ -1,4 +1,5 @@
 import { GuildMember, TextChannel } from "discord.js";
+import { startSpan } from "@sentry/node";
 import Communities from "../clients/backend/communities.js";
 import { PsychoPasses, PsychoPass } from "../clients/backend/psychopass/psychoPasses.js";
 import { MemberDominators, MemberDominator } from "../clients/backend/dominator/memberDominators.js";
@@ -6,6 +7,12 @@ import { ATTRIBUTES, ACTIONS, DEFAULT_MUTE_PERIOD, Reason, ATTR_PRETTY } from ".
 import embedMemberModeration from "../embeds/memberModeration.js";
 
 export async function guildMemberAdd(member: GuildMember) {
+    startSpan({
+        name: `guildMemberAdd ${member.user.id} ${Date.now()}`
+    }, () => onGuildMemberAdd(member));
+}
+
+async function onGuildMemberAdd(member: GuildMember) {
     console.log(`A new @${member.user.username} (${member.user.id}) has joined Server: ${member.guild.name} (${member.guild.id})`);
     const psychoPass = await PsychoPasses.read(member.user.id);
     if (psychoPass) moderateMember(member);

@@ -1,4 +1,5 @@
 import { Message, PartialMessage, TextChannel } from "discord.js";
+import { startSpan } from "@sentry/node";
 import { MessageAnalysis, analyzeComment } from "../clients/perspectiveAPI.js";
 import ingestMessage from "../clients/backend/ingestMessage.js";
 import { MessageDominators, MessageDominator } from "../clients/backend/dominator/messageDominators.js";
@@ -6,7 +7,13 @@ import { ACTIONS, Reason } from "../clients/constants.js";
 import { moderateMember } from "./guildMemberAdd.js";
 import { moderateMessage } from "./messageCreate.js";
 
-export default async function messageUpdate(_: Message | PartialMessage, newMessage: Message | PartialMessage) {
+export default async function messageUpdate(oldMessage: Message | PartialMessage, newMessage: Message | PartialMessage) {
+    startSpan({
+        name: `messageUpdate ${oldMessage.id} ${newMessage.id} ${Date.now()}`
+    }, () => onMessageUpdate(oldMessage, newMessage));
+}
+
+async function onMessageUpdate(_: Message | PartialMessage, newMessage: Message | PartialMessage) {
     newMessage = newMessage as Message;
     if (newMessage.author.id === process.env.DISCORD_CLIENT_ID ||
         newMessage.author.bot ||

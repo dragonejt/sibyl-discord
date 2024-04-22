@@ -1,4 +1,5 @@
 import { SlashCommandBuilder, PermissionFlagsBits, ChatInputCommandInteraction } from "discord.js";
+import { startSpan } from "@sentry/node";
 import Communities from "../clients/backend/communities.js";
 
 const data = new SlashCommandBuilder()
@@ -36,4 +37,10 @@ async function execute(interaction: ChatInputCommandInteraction) {
     }
 }
 
-export default { data, execute };
+async function executeWrapper(interaction: ChatInputCommandInteraction) {
+    startSpan({
+        name: `/sibyl ${interaction.commandId} ${Date.now()}`
+    }, () => execute(interaction));
+}
+
+export default { data, execute: executeWrapper };
