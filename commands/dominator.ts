@@ -69,9 +69,9 @@ async function execute(interaction: ChatInputCommandInteraction) {
                 crime_coefficient_300_action: action
             } as Partial<MemberDominator>);
         } else if (ATTRIBUTES.includes(attribute)) {
-            const triggerData = { communityID: interaction.guildId } as any;
-            if (action !== null && action !== undefined) triggerData[`${attribute}_action`] = action;
-            if (threshold !== null && threshold !== undefined) triggerData[`${attribute}_threshold`] = threshold;
+            const triggerData = { communityID: interaction.guildId } as Partial<MessageDominator> | Partial<MemberDominator>;
+            if (action !== null && action !== undefined) Object.assign(triggerData, { [`${attribute}_action`]: action });
+            if (threshold !== null && threshold !== undefined) Object.assign(triggerData, { [`${attribute}_threshold`]: threshold });
             await dominator.update(triggerData);
         }
 

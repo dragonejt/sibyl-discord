@@ -14,7 +14,7 @@ export default async function onInteractionCreate(interaction: Interaction) {
 }
 
 async function interactionCreate(interaction: Interaction) {
-    if (interaction.isChatInputCommand() || interaction.isContextMenuCommand()) {
+    if (interaction.isChatInputCommand()) {
         const command = (interaction.client as SibylDiscordClient).commands.get(interaction.commandName);
 
         try {
