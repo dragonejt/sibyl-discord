@@ -25,9 +25,9 @@ jobs:
       run: npm ci
 
     - name: Lint Project
-      run:
-      - npx eslint
-      - npx prettier **/*.ts --check
+      run: |
+        npx eslint
+        npx prettier **/*.ts --check
 
     - name: Run Tests
       run: npx jest --ci --coverage --passWithNoTests
