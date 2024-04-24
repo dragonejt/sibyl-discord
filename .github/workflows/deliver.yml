@@ -3,7 +3,7 @@ name: delivery
 on:
   push:
     branches:
-      - 'main'
+      - main
 
 jobs:
   deploy:
@@ -47,4 +47,4 @@ jobs:
           SENTRY_PROJECT: sibyl-discord
         with:
           environment: production
-          sourcemaps: "./"
+          sourcemaps: ./

@@ -1,10 +1,10 @@
 interface Community {
-    id: number
-    platform: number
-    community_id: string
-    communityID?: string
-    discord_log_channel?: string
-    discord_notify_target?: string
+    id: number;
+    platform: number;
+    community_id: string;
+    communityID?: string;
+    discord_log_channel?: string;
+    discord_notify_target?: string;
 }
 
 export default class Communities {
@@ -15,14 +15,17 @@ export default class Communities {
             const response = await fetch(this.url, {
                 method: "POST",
                 headers: {
-                    "Accept": "application/json",
+                    Accept: "application/json",
                     "Content-Type": "application/json",
                     "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
-                    "Authorization": `Token ${process.env.BACKEND_API_KEY!}`
+                    Authorization: `Token ${process.env.BACKEND_API_KEY!}`,
                 },
-                body: JSON.stringify({ communityID })
+                body: JSON.stringify({ communityID }),
             });
-            if (!response.ok) throw new Error(`POST ${this.url}: ${response.status} ${response.statusText}`);
+            if (!response.ok)
+                throw new Error(
+                    `POST ${this.url}: ${response.status} ${response.statusText}`
+                );
             return await response.json();
         } catch (error) {
             console.error(error);
@@ -34,31 +37,39 @@ export default class Communities {
             const response = await fetch(`${this.url}?id=${communityID}`, {
                 method: "GET",
                 headers: {
-                    "Accept": "application/json",
+                    Accept: "application/json",
                     "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
-                    "Authorization": `Token ${process.env.BACKEND_API_KEY!}`
-                }
+                    Authorization: `Token ${process.env.BACKEND_API_KEY!}`,
+                },
             });
-            if (!response.ok) throw new Error(`GET ${this.url}?id=${communityID}: ${response.status} ${response.statusText}`);
+            if (!response.ok)
+                throw new Error(
+                    `GET ${this.url}?id=${communityID}: ${response.status} ${response.statusText}`
+                );
             return await response.json();
         } catch (error) {
             console.error(error);
         }
     }
 
-    static async update(data: Partial<Community>): Promise<Community | undefined> {
+    static async update(
+        data: Partial<Community>
+    ): Promise<Community | undefined> {
         try {
             const response = await fetch(this.url, {
                 method: "PUT",
                 headers: {
-                    "Accept": "application/json",
+                    Accept: "application/json",
                     "Content-Type": "application/json",
                     "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
-                    "Authorization": `Token ${process.env.BACKEND_API_KEY!}`
+                    Authorization: `Token ${process.env.BACKEND_API_KEY!}`,
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(data),
             });
-            if (!response.ok) throw new Error(`PUT ${this.url}: ${response.status} ${response.statusText}`);
+            if (!response.ok)
+                throw new Error(
+                    `PUT ${this.url}: ${response.status} ${response.statusText}`
+                );
             return await response.json();
         } catch (error) {
             console.error(error);
@@ -71,10 +82,13 @@ export default class Communities {
                 method: "DELETE",
                 headers: {
                     "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
-                    "Authorization": `Token ${process.env.BACKEND_API_KEY!}`
-                }
+                    Authorization: `Token ${process.env.BACKEND_API_KEY!}`,
+                },
             });
-            if (!response.ok) throw new Error(`DELETE ${this.url}?id=${communityID}: ${response.status} ${response.statusText}`);
+            if (!response.ok)
+                throw new Error(
+                    `DELETE ${this.url}?id=${communityID}: ${response.status} ${response.statusText}`
+                );
         } catch (error) {
             console.error(error);
         }

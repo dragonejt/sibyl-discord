@@ -18,15 +18,13 @@ import { onGuildMemberAdd } from "./events/guildMemberAdd.js";
 
 init({
     dsn: "https://7e2c73f3dcf02548b7262758195e3454@o4507124907638784.ingest.us.sentry.io/4507125166702592",
-    integrations: [
-        nodeProfilingIntegration(),
-    ],
+    integrations: [nodeProfilingIntegration()],
     // Performance Monitoring
     tracesSampleRate: 1.0, //  Capture 100% of the transactions
     // Set sampling rate for profiling - this is relative to tracesSampleRate
     profilesSampleRate: 1.0,
     enableTracing: true,
-    environment: process.env.NODE_ENV
+    environment: process.env.NODE_ENV,
 });
 
 const client = new SibylDiscordClient({
@@ -35,15 +33,19 @@ const client = new SibylDiscordClient({
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.GuildModeration,
         GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.MessageContent
-    ]
+        GatewayIntentBits.MessageContent,
+    ],
 });
-const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_BOT_TOKEN!);
+const rest = new REST({ version: "10" }).setToken(
+    process.env.DISCORD_BOT_TOKEN!
+);
 const commands = [sibyl, dominator, psychopass];
 
-rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID!), { body: commands.map(command => command.data) });
+rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID!), {
+    body: commands.map((command) => command.data),
+});
 console.log("Successfully reloaded application (/) commands.");
-commands.map(command => client.commands.set(command.data.name, command));
+commands.map((command) => client.commands.set(command.data.name, command));
 console.log("Successfully registered application (/) command actions.");
 
 client.on(Events.ClientReady, onReady);

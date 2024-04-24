@@ -43,8 +43,8 @@ jspm_packages/
 
 # TypeScript v1 declaration files
 typings/
-**/*.js
-**/*.js.map
+*.js
+*.js.map
 
 # TypeScript cache
 *.tsbuildinfo
@@ -108,7 +108,5 @@ dist
 # Visual Studio Code
 .vscode/
 
-# Sentry Config File
-.sentryclirc
 # Sentry Config File
 .sentryclirc

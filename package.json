@@ -1,45 +1,41 @@
 {
-  "name": "sibyl-discord",
-  "version": "0.1.0",
-  "description": "Content Moderation and Toxicity Profiles using Machine Learning",
-  "main": "sibyl-discord.js",
-  "scripts": {
-    "start": "node sibyl-discord.js",
-    "build": "npx tsc --build",
-    "dev": "node --loader ts-node/esm sibyl-discord.ts",
-    "test": "jest --passWithNoTests",
-    "lint": "npx eslint --fix .",
-    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org dragonejt --project sibyl-discord ./ && sentry-cli sourcemaps upload --org dragonejt --project sibyl-discord ./"
-  },
-  "type": "module",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dragonejt/sibyl-discord.git"
-  },
-  "author": "dragonejt",
-  "license": "MPL-2.0",
-  "bugs": {
-    "url": "https://github.com/dragonejt/sibyl-discord/issues"
-  },
-  "homepage": "https://github.com/dragonejt/sibyl-discord#readme",
-  "dependencies": {
-    "@sentry/cli": "*",
-    "@sentry/node": "*",
-    "@sentry/profiling-node": "*",
-    "discord.js": "*",
-    "jest": "*"
-  },
-  "devDependencies": {
-    "@types/node": "*",
-    "@typescript-eslint/eslint-plugin": "*",
-    "@typescript-eslint/parser": "*",
-    "eslint": "*",
-    "eslint-config-standard-with-typescript": "*",
-    "eslint-plugin-import": "*",
-    "eslint-plugin-n": "*",
-    "eslint-plugin-promise": "*",
-    "ts-node": "*",
-    "tslib": "*",
-    "typescript": "*"
-  }
+    "name": "sibyl-discord",
+    "version": "0.1.0",
+    "description": "Content Moderation and Toxicity Profiles using Machine Learning",
+    "main": "sibyl-discord.js",
+    "scripts": {
+        "start": "node sibyl-discord.js",
+        "build": "npx tsc --build",
+        "dev": "node --loader ts-node/esm sibyl-discord.ts",
+        "test": "jest --passWithNoTests",
+        "lint": "npx eslint --fix && npx prettier **/*.ts --write",
+        "sentry:sourcemaps": "sentry-cli sourcemaps inject --org dragonejt --project sibyl-discord ./ && sentry-cli sourcemaps upload --org dragonejt --project sibyl-discord ./"
+    },
+    "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/dragonejt/sibyl-discord.git"
+    },
+    "author": "dragonejt",
+    "license": "MPL-2.0",
+    "bugs": {
+        "url": "https://github.com/dragonejt/sibyl-discord/issues"
+    },
+    "homepage": "https://github.com/dragonejt/sibyl-discord#readme",
+    "dependencies": {
+        "@sentry/cli": "*",
+        "@sentry/node": "*",
+        "@sentry/profiling-node": "*",
+        "discord.js": "*",
+        "jest": "*"
+    },
+    "devDependencies": {
+        "@eslint/js": "*",
+        "eslint": "*",
+        "globals": "*",
+        "prettier": "*",
+        "tslib": "*",
+        "typescript": "*",
+        "typescript-eslint": "*"
+    }
 }
