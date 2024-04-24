@@ -12,10 +12,11 @@ export async function onMessageCreate(message: Message) {
     setUser({
         id: message.author.id,
         username: message.author.username
-    })
+    });
     startSpan({
         name: "messageCreate"
     }, () => messageCreate(message));
+    setUser(null);
 }
 
 async function messageCreate(message: Message) {

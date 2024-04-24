@@ -10,6 +10,7 @@ export default async function onGuildMemberRemove(member: GuildMember | PartialG
     startSpan({
         name: "guildMemberRemove"
     }, () => guildMemberRemove(member));
+    setUser(null);
 }
 
 async function guildMemberRemove(member: GuildMember | PartialGuildMember) {

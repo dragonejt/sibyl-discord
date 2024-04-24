@@ -10,10 +10,11 @@ export async function onGuildMemberAdd(member: GuildMember) {
     setUser({
         id: member.user.id,
         username: member.user.username
-    })
+    });
     startSpan({
         name: "guildMemberAdd"
     }, () => guildMemberAdd(member));
+    setUser(null);
 }
 
 async function guildMemberAdd(member: GuildMember) {

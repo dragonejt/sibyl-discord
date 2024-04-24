@@ -6,10 +6,11 @@ export default async function onInteractionCreate(interaction: Interaction) {
     setUser({
         id: interaction.user.id,
         username: interaction.user.username
-    })
+    });
     startSpan({
         name: "interactionCreate"
     }, () => interactionCreate(interaction));
+    setUser(null);
 }
 
 async function interactionCreate(interaction: Interaction) {

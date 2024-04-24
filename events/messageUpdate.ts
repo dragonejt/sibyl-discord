@@ -11,10 +11,11 @@ export default async function onMessageUpdate(oldMessage: Message | PartialMessa
     setUser({
         id: newMessage.author?.id,
         username: newMessage.author?.username
-    })
+    });
     startSpan({
         name: "messageUpdate"
     }, () => messageUpdate(oldMessage, newMessage));
+    setUser(null);
 }
 
 async function messageUpdate(_: Message | PartialMessage, newMessage: Message | PartialMessage) {
