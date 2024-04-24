@@ -169,7 +169,7 @@ async function execute(interaction: ChatInputCommandInteraction) {
                 ),
             ],
         });
-        console.log(
+        console.info(
             `${attribute.toUpperCase()} trigger has been successfully updated for ${type} Dominator in Channel: ${interaction.guild?.name} (${interaction.guildId})`
         );
     }

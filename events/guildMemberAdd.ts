@@ -33,7 +33,7 @@ export async function onGuildMemberAdd(member: GuildMember) {
 }
 
 async function guildMemberAdd(member: GuildMember) {
-    console.log(
+    console.info(
         `A new @${member.user.username} (${member.user.id}) has joined Server: ${member.guild.name} (${member.guild.id})`
     );
     const psychoPass = await PsychoPasses.read(member.user.id);
@@ -117,7 +117,7 @@ async function moderate(
     else if (action === ACTIONS.indexOf("MUTE"))
         member.timeout(DEFAULT_MUTE_PERIOD, reason);
 
-    console.log(
+    console.info(
         `Action: ${ACTIONS[action]} has been taken on @${member.user.username} (${member.user.id}) in Server: ${member.guild.name} (${member.guild.id}) because of ${reason}`
     );
 }

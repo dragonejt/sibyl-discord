@@ -41,7 +41,7 @@ async function messageUpdate(
         return;
 
     try {
-        console.log(
+        console.info(
             `@${newMessage.author.username} (${newMessage.author.id}) has updated a message in Server: ${newMessage.guild?.name} (${newMessage.guildId}) in Channel: ${(newMessage.channel as TextChannel).name} (${newMessage.channel.id})`
         );
         const [analysis, dominator] = await Promise.all([

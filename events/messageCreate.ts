@@ -40,7 +40,7 @@ async function messageCreate(message: Message) {
         return;
 
     try {
-        console.log(
+        console.info(
             `@${message.author.username} (${message.author.id}) has sent a new message in Server: ${message.guild?.name} (${message.guildId}) in Channel: ${(message.channel as TextChannel).name} (${message.channel.id})`
         );
         const [analysis, dominator] = await Promise.all([
@@ -124,7 +124,7 @@ export async function moderateMessage(
     else if (action === ACTIONS.indexOf("MUTE"))
         message.member!.timeout(DEFAULT_MUTE_PERIOD, reason);
 
-    console.log(
+    console.info(
         `Action: ${ACTIONS[action]} has been taken on @${message.author.username} (${message.author.id}) in Server: ${message.guild?.name} (${message.guild?.id}) because of ${reason}`
     );
 }

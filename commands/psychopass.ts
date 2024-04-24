@@ -16,7 +16,7 @@ async function execute(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply();
     const user = interaction.options.getUser("user");
     if (user) {
-        console.log(
+        console.info(
             `${interaction.user.username} (${interaction.user.id}) has requested the Psycho-Pass of @${user.username} (${user.id})`
         );
         const psychoPass = await PsychoPasses.read(user.id);
@@ -36,7 +36,7 @@ async function execute(interaction: ChatInputCommandInteraction) {
                 ],
             });
     } else {
-        console.log(
+        console.info(
             `${interaction.user.username} (${interaction.user.id}) has requested the Psycho-Pass of Server: ${interaction.guild?.name} (${interaction.guildId})`
         );
         const psychoPass = await CommunityPsychoPasses.read(

@@ -19,7 +19,7 @@ async function guildDelete(guild: Guild) {
             { name: `${guild.client.guilds.cache.size} Servers`, type: 3 },
         ],
     });
-    console.log(
+    console.info(
         `SibylMod has been removed from Server: ${guild.name} (${guild.id})`
     );
 }

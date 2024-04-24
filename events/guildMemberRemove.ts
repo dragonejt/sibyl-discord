@@ -19,7 +19,7 @@ export default async function onGuildMemberRemove(
 }
 
 async function guildMemberRemove(member: GuildMember | PartialGuildMember) {
-    console.log(
+    console.info(
         `@${member.user.username} (${member.user.id}) has left Server: ${member.guild.name} (${member.guild.id})`
     );
     CommunityPsychoPasses.update(member.guild.id, member.user.id);

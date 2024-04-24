@@ -44,9 +44,9 @@ const commands = [sibyl, dominator, psychopass];
 rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID!), {
     body: commands.map((command) => command.data),
 });
-console.log("Successfully reloaded application (/) commands.");
+console.info("Successfully reloaded application (/) commands.");
 commands.map((command) => client.commands.set(command.data.name, command));
-console.log("Successfully registered application (/) command actions.");
+console.info("Successfully registered application (/) command actions.");
 
 client.on(Events.ClientReady, onReady);
 client.on(Events.GuildCreate, onGuildCreate);

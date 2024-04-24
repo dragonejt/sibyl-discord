@@ -19,7 +19,7 @@ async function guildCreate(guild: Guild) {
             { name: `${guild.client.guilds.cache.size} Servers`, type: 3 },
         ],
     });
-    console.log(
+    console.info(
         `SibylMod has been added to Server: ${guild.name} (${guild.id})`
     );
 }
