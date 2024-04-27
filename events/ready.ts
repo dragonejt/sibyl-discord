@@ -1,16 +1,7 @@
 import { startSpan } from "@sentry/node";
 import { Client } from "discord.js";
 
-export default async function onReady(client: Client) {
-    startSpan(
-        {
-            name: "ready",
-        },
-        () => ready(client)
-    );
-}
-
-async function ready(client: Client) {
+export default async function ready(client: Client) {
     console.info(`Logged in as ${client.user?.username}!`);
     await client.guilds.fetch();
     client.user!.setPresence({

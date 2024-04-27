@@ -7,14 +7,14 @@ import sibyl from "./commands/sibyl.js";
 import dominator from "./commands/dominator.js";
 import psychopass from "./commands/psychopass.js";
 
-import { onMessageCreate } from "./events/messageCreate.js";
-import onMessageUpdate from "./events/messageUpdate.js";
-import onInteractionCreate from "./events/interactionCreate.js";
-import onReady from "./events/ready.js";
-import onGuildDelete from "./events/guildDelete.js";
-import onGuildCreate from "./events/guildCreate.js";
-import onGuildMemberRemove from "./events/guildMemberRemove.js";
-import { onGuildMemberAdd } from "./events/guildMemberAdd.js";
+import { messageCreate } from "./events/messageCreate.js";
+import messageUpdate from "./events/messageUpdate.js";
+import interactionCreate from "./events/interactionCreate.js";
+import ready from "./events/ready.js";
+import guildDelete from "./events/guildDelete.js";
+import guildCreate from "./events/guildCreate.js";
+import guildMemberRemove from "./events/guildMemberRemove.js";
+import { guildMemberAdd } from "./events/guildMemberAdd.js";
 
 init({
     dsn: "https://7e2c73f3dcf02548b7262758195e3454@o4507124907638784.ingest.us.sentry.io/4507125166702592",
@@ -48,13 +48,13 @@ console.info("Successfully reloaded application (/) commands.");
 commands.map((command) => client.commands.set(command.data.name, command));
 console.info("Successfully registered application (/) command actions.");
 
-client.on(Events.ClientReady, onReady);
-client.on(Events.GuildCreate, onGuildCreate);
-client.on(Events.GuildDelete, onGuildDelete);
-client.on(Events.GuildMemberRemove, onGuildMemberRemove);
-client.on(Events.GuildMemberAdd, onGuildMemberAdd);
-client.on(Events.MessageCreate, onMessageCreate);
-client.on(Events.MessageUpdate, onMessageUpdate);
-client.on(Events.InteractionCreate, onInteractionCreate);
+client.on(Events.ClientReady, ready);
+client.on(Events.GuildCreate, guildCreate);
+client.on(Events.GuildDelete, guildDelete);
+client.on(Events.GuildMemberRemove, guildMemberRemove);
+client.on(Events.GuildMemberAdd, guildMemberAdd);
+client.on(Events.MessageCreate, messageCreate);
+client.on(Events.MessageUpdate, messageUpdate);
+client.on(Events.InteractionCreate, interactionCreate);
 
 client.login(process.env.DISCORD_BOT_TOKEN);

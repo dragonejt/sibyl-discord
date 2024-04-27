@@ -175,13 +175,4 @@ async function execute(interaction: ChatInputCommandInteraction) {
     }
 }
 
-async function onExecute(interaction: ChatInputCommandInteraction) {
-    startSpan(
-        {
-            name: "/dominator",
-        },
-        () => execute(interaction)
-    );
-}
-
-export default { data, execute: onExecute };
+export default { data, execute };
