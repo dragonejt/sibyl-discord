@@ -10,7 +10,24 @@ import { ACTIONS, Reason } from "../clients/constants.js";
 import { moderateMember } from "./guildMemberAdd.js";
 import { moderateMessage } from "./messageCreate.js";
 
-export default async function messageUpdate(
+export default async function onMessageUpdate(
+    oldMessage: Message | PartialMessage,
+    newMessage: Message | PartialMessage
+) {
+    setUser({
+        id: newMessage.author?.id,
+        username: newMessage.author?.username,
+    });
+    startSpan(
+        {
+            name: "messageUpdate",
+        },
+        () => messageUpdate(oldMessage, newMessage)
+    );
+    setUser(null);
+}
+
+async function messageUpdate(
     _: Message | PartialMessage,
     newMessage: Message | PartialMessage
 ) {
@@ -23,10 +40,6 @@ export default async function messageUpdate(
     )
         return;
 
-    setUser({
-        id: newMessage.author?.id,
-        username: newMessage.author?.username,
-    });
     try {
         console.info(
             `@${newMessage.author.username} (${newMessage.author.id}) has updated a message in Server: ${newMessage.guild?.name} (${newMessage.guildId}) in Channel: ${(newMessage.channel as TextChannel).name} (${newMessage.channel.id})`
@@ -69,5 +82,4 @@ export default async function messageUpdate(
     } catch (error) {
         console.error(error);
     }
-    setUser(null);
 }

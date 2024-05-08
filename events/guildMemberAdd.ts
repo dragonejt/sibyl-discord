@@ -18,17 +18,26 @@ import {
 } from "../clients/constants.js";
 import embedMemberModeration from "../embeds/memberModeration.js";
 
-export async function guildMemberAdd(member: GuildMember) {
+export async function onGuildMemberAdd(member: GuildMember) {
     setUser({
         id: member.user.id,
         username: member.user.username,
     });
+    startSpan(
+        {
+            name: "guildMemberAdd",
+        },
+        () => guildMemberAdd(member)
+    );
+    setUser(null);
+}
+
+async function guildMemberAdd(member: GuildMember) {
     console.info(
         `A new @${member.user.username} (${member.user.id}) has joined Server: ${member.guild.name} (${member.guild.id})`
     );
     const psychoPass = await PsychoPasses.read(member.user.id);
     if (psychoPass) moderateMember(member);
-    setUser(null);
 }
 
 export async function moderateMember(member: GuildMember) {

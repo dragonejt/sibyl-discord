@@ -2,7 +2,16 @@ import { Guild } from "discord.js";
 import { startSpan } from "@sentry/node";
 import Communities from "../clients/backend/communities.js";
 
-export default async function guildCreate(guild: Guild) {
+export default async function onGuildCreate(guild: Guild) {
+    startSpan(
+        {
+            name: "guildCreate",
+        },
+        () => guildCreate(guild)
+    );
+}
+
+async function guildCreate(guild: Guild) {
     Communities.create(guild.id);
     guild.client.guilds.fetch();
     guild.client.user.setPresence({

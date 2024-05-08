@@ -16,7 +16,21 @@ import {
 import { moderateMember } from "./guildMemberAdd.js";
 import embedMessageModeration from "../embeds/messageModeration.js";
 
-export async function messageCreate(message: Message) {
+export async function onMessageCreate(message: Message) {
+    setUser({
+        id: message.author.id,
+        username: message.author.username,
+    });
+    startSpan(
+        {
+            name: "messageCreate",
+        },
+        () => messageCreate(message)
+    );
+    setUser(null);
+}
+
+async function messageCreate(message: Message) {
     if (
         message.author.id === process.env.DISCORD_CLIENT_ID ||
         message.author.bot ||
@@ -25,10 +39,6 @@ export async function messageCreate(message: Message) {
     )
         return;
 
-    setUser({
-        id: message.author.id,
-        username: message.author.username,
-    });
     try {
         console.info(
             `@${message.author.username} (${message.author.id}) has sent a new message in Server: ${message.guild?.name} (${message.guildId}) in Channel: ${(message.channel as TextChannel).name} (${message.channel.id})`
@@ -71,7 +81,6 @@ export async function messageCreate(message: Message) {
     } catch (error) {
         console.error(error);
     }
-    setUser(null);
 }
 
 export async function moderateMessage(

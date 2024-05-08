@@ -55,4 +55,13 @@ async function execute(interaction: ChatInputCommandInteraction) {
     }
 }
 
-export default { data, execute };
+async function onExecute(interaction: ChatInputCommandInteraction) {
+    startSpan(
+        {
+            name: "/sibyl",
+        },
+        () => execute(interaction)
+    );
+}
+
+export default { data, execute: onExecute };
