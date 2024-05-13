@@ -3,7 +3,6 @@ export interface PsychoPass {
     platform: number;
     user_id: string;
     messages: number;
-    psycho_hazard: boolean;
 
     toxicity: number;
     severe_toxicity: number;
