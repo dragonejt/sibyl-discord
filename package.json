@@ -7,7 +7,7 @@
         "start": "node sibyl-discord.js",
         "build": "npx tsc --build",
         "dev": "node --loader ts-node/esm sibyl-discord.ts",
-        "test": "jest --passWithNoTests",
+        "test": "node --test .",
         "lint": "npx eslint --fix && npx prettier **/*.ts --write",
         "sentry:sourcemaps": "sentry-cli sourcemaps inject --org dragonejt --project sibyl-discord ./ && sentry-cli sourcemaps upload --org dragonejt --project sibyl-discord ./"
     },

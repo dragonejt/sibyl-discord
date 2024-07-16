@@ -29,8 +29,10 @@ jobs:
         npx eslint
         npx prettier **/*.ts --check
 
-    - name: Run Tests
-      run: npx jest --ci --coverage --passWithNoTests
+    - name: Build and Run Tests
+      run: |
+        npm run build
+        npm run test
     
     - name: Codecov
       uses: codecov/codecov-action@v4
