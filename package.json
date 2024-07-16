@@ -26,8 +26,7 @@
         "@sentry/cli": "*",
         "@sentry/node": "*",
         "@sentry/profiling-node": "*",
-        "discord.js": "*",
-        "jest": "*"
+        "discord.js": "*"
     },
     "devDependencies": {
         "@eslint/js": "*",
