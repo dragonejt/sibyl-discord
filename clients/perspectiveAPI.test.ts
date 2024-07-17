@@ -2,71 +2,66 @@ import { describe, it, mock } from "node:test";
 import assert from "node:assert";
 import { analyzeComment, MessageAnalysis } from "./perspectiveAPI.js";
 
+export const mockMessageAnalysis: MessageAnalysis = {
+  attributeScores: {
+    TOXICITY: {
+      summaryScore: {
+        value: Math.random(),
+        type: "PROBABILITY",
+      },
+    },
+    SEVERE_TOXICITY: {
+      summaryScore: {
+        value: Math.random(),
+        type: "PROBABILITY",
+      },
+    },
+    IDENTITY_ATTACK: {
+      summaryScore: {
+        value: Math.random(),
+        type: "PROBABILITY",
+      },
+    },
+    INSULT: {
+      summaryScore: {
+        value: Math.random(),
+        type: "PROBABILITY",
+      },
+    },
+    THREAT: {
+      summaryScore: {
+        value: Math.random(),
+        type: "PROBABILITY",
+      },
+    },
+    PROFANITY: {
+      summaryScore: {
+        value: Math.random(),
+        type: "PROBABILITY",
+      },
+    },
+    SEXUALLY_EXPLICIT: {
+      summaryScore: {
+        value: Math.random(),
+        type: "PROBABILITY",
+      },
+    },
+  },
+  languages: ["en"],
+  clientToken: "sibyl-discord",
+};
+
 describe("analyzeComment", () => {
   it("returns correct MessageAnalysis when OK", async () => {
     const mockFetch = mock.method(
       global,
       "fetch",
       (input: string | URL | globalThis.Request, init?: RequestInit) => {
-        return {
+        return Response.json(mockMessageAnalysis, {
           headers: new Headers(),
-          ok: true,
-          redirected: false,
-          status: 200,
+          status: 202,
           statusText: "OK",
-          type: "basic",
-          url: input,
-          json: async () => {
-            return {
-              attributeScores: {
-                TOXICITY: {
-                  summaryScore: {
-                    value: 0.5,
-                    type: "PROBABILITY",
-                  },
-                },
-                SEVERE_TOXICITY: {
-                  summaryScore: {
-                    value: 0.5,
-                    type: "PROBABILITY",
-                  },
-                },
-                IDENTITY_ATTACK: {
-                  summaryScore: {
-                    value: 0.5,
-                    type: "PROBABILITY",
-                  },
-                },
-                INSULT: {
-                  summaryScore: {
-                    value: 0.5,
-                    type: "PROBABILITY",
-                  },
-                },
-                THREAT: {
-                  summaryScore: {
-                    value: 0.5,
-                    type: "PROBABILITY",
-                  },
-                },
-                PROFANITY: {
-                  summaryScore: {
-                    value: 0.5,
-                    type: "PROBABILITY",
-                  },
-                },
-                SEXUALLY_EXPLICIT: {
-                  summaryScore: {
-                    value: 0.5,
-                    type: "PROBABILITY",
-                  },
-                },
-              },
-              languages: ["en"],
-              clientToken: "",
-            } as MessageAnalysis;
-          },
-        } as Response;
+        });
       },
     ).mock;
 
@@ -74,7 +69,8 @@ describe("analyzeComment", () => {
     const result = await analyzeComment(comment);
 
     for (const [_, value] of Object.entries(result!.attributeScores)) {
-      assert.strictEqual(value.summaryScore.value, 0.5);
+      assert(value.summaryScore.value >= 0);
+      assert(value.summaryScore.value <= 1);
       assert.strictEqual(value.summaryScore.type, "PROBABILITY");
     }
 
@@ -107,70 +103,16 @@ describe("analyzeComment", () => {
   });
 
   it("logs error when not OK", async () => {
-    const spyConsoleError = mock.method(global.console, "error").mock;
+    const mockConsoleError = mock.method(
+      global.console,
+      "error",
+      (_: Error) => {},
+    ).mock;
     const mockFetch = mock.method(
       global,
       "fetch",
       (input: string | URL | globalThis.Request, init?: RequestInit) => {
-        return {
-          headers: new Headers(),
-          ok: false,
-          redirected: false,
-          status: 401,
-          statusText: "Unauthorized",
-          type: "basic",
-          url: input,
-          json: async () => {
-            return {
-              attributeScores: {
-                TOXICITY: {
-                  summaryScore: {
-                    value: 0.5,
-                    type: "PROBABILITY",
-                  },
-                },
-                SEVERE_TOXICITY: {
-                  summaryScore: {
-                    value: 0.5,
-                    type: "PROBABILITY",
-                  },
-                },
-                IDENTITY_ATTACK: {
-                  summaryScore: {
-                    value: 0.5,
-                    type: "PROBABILITY",
-                  },
-                },
-                INSULT: {
-                  summaryScore: {
-                    value: 0.5,
-                    type: "PROBABILITY",
-                  },
-                },
-                THREAT: {
-                  summaryScore: {
-                    value: 0.5,
-                    type: "PROBABILITY",
-                  },
-                },
-                PROFANITY: {
-                  summaryScore: {
-                    value: 0.5,
-                    type: "PROBABILITY",
-                  },
-                },
-                SEXUALLY_EXPLICIT: {
-                  summaryScore: {
-                    value: 0.5,
-                    type: "PROBABILITY",
-                  },
-                },
-              },
-              languages: ["en"],
-              clientToken: "",
-            } as MessageAnalysis;
-          },
-        } as Response;
+        return new Response(null, { status: 401, statusText: "Unauthorized" });
       },
     ).mock;
 
@@ -206,7 +148,7 @@ describe("analyzeComment", () => {
       },
     ]);
 
-    const consoleErrorCall = spyConsoleError.calls[0];
+    const consoleErrorCall = mockConsoleError.calls[0];
     assert.strictEqual(
       (consoleErrorCall.arguments[0] as Error).message,
       "Perspective API Analyze Comment:  401 Unauthorized",

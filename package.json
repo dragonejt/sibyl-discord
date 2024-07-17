@@ -6,6 +6,7 @@
     "scripts": {
         "start": "node sibyl-discord.js",
         "build": "npx tsc --build",
+        "clean": "npx tsc --build --clean",
         "dev": "node --loader ts-node/esm sibyl-discord.ts",
         "test": "node --test --experimental-test-coverage",
         "lint": "npx eslint --fix && npx prettier **/*.ts --write",
