@@ -105,7 +105,7 @@ export async function moderateMessage(
       embeds: [embedMessageModeration(message, action, reasons)],
     });
     if (channel?.id !== message.channel.id)
-      message.channel.send({
+      (message.channel as TextChannel).send({
         embeds: [embedMessageModeration(message, action, reasons)],
       });
   }
