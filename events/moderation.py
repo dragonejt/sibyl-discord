@@ -8,8 +8,7 @@ from clients.backend.dominator.message_dominators import MessageDominators
 from clients.backend.psychopass.psycho_passes import PsychoPasses
 from clients.constants import ACTION, ATTRIBUTE, DEFAULT_TIMEOUT
 from clients.perspective_api import analyze_comment
-from embeds.member_moderation import embed_member_moderation
-from embeds.message_moderation import embed_message_moderation
+from embeds.moderation import embed_message_moderation, embed_member_moderation
 
 
 async def moderate_member(member: Member) -> None:
@@ -134,5 +133,15 @@ async def moderate_message(message: Message) -> None:
             await message.author.timeout(
                 until=datetime.now(UTC) + DEFAULT_TIMEOUT, reason=reason
             )
+
+    log.info(
+        "{} has been taken on @{} ({}) in server: {} ({}) because of {}",
+        max_action.name,
+        message.author.name,
+        message.author.id,
+        message.guild.name,
+        message.guild.id,
+        reason,
+    )
 
     await moderate_member(message.author)

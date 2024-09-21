@@ -26,10 +26,11 @@ DEFAULT_TIMEOUT = timedelta(hours=1)
 ATTR_PRETTY = {
     "crime_coefficient_100": "crime coefficient >= 100",
     "crime_coefficient_300": "crime coefficient >= 300",
-    ATTRIBUTE.TOXICITY: "toxicity",
-    ATTRIBUTE.SEVERE_TOXICITY: "severe toxicity",
-    ATTRIBUTE.IDENTITY_ATTACK: "identity attack",
-    ATTRIBUTE.INSULT: "insult",
-    ATTRIBUTE.PROFANITY: "profanity",
-    ATTRIBUTE.SEXUALLY_EXPLICIT: "sexually explicit",
+    ATTRIBUTE.TOXICITY.value: "toxicity",
+    ATTRIBUTE.SEVERE_TOXICITY.value: "severe toxicity",
+    ATTRIBUTE.IDENTITY_ATTACK.value: "identity attack",
+    ATTRIBUTE.INSULT.value: "insult",
+    ATTRIBUTE.THREAT.value: "threat",
+    ATTRIBUTE.PROFANITY.value: "profanity",
+    ATTRIBUTE.SEXUALLY_EXPLICIT.value: "sexually explicit",
 }

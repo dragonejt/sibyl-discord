@@ -3,6 +3,8 @@ from loguru import logger as log
 from discord import Bot, Intents
 
 from commands.sibyl import Sibyl
+from commands.psychopass import PsychoPass
+from commands.dominator import Dominator
 from events.ready import Ready
 from events.guild import GuildEvents
 from events.member import MemberEvents
@@ -18,7 +20,7 @@ intents.message_content = True
 bot = Bot(intents=intents, debug_guilds=[1063590532711972945])
 
 
-cogs = [Sibyl, Ready, GuildEvents, MemberEvents, MessageEvents]
+cogs = [Sibyl, PsychoPass, Dominator, Ready, GuildEvents, MemberEvents, MessageEvents]
 for cog in cogs:
     bot.add_cog(cog(bot))
     log.debug("registered cog: {}", cog.__name__)

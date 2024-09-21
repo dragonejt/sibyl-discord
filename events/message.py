@@ -10,11 +10,11 @@ class MessageEvents(Cog):
 
     @Cog.listener()
     async def on_message(self, message: Message) -> None:
-        if message.author.bot:
+        if message.author.bot or message.channel.nsfw or not message:
             return
 
         log.info(
-            "`@{} ({}) has sent a new message in Server: {} ({}) in Channel: {} ({})",
+            "`@{} ({}) has sent a new message in server: {} ({}) in channel: {} ({})",
             message.author.name,
             message.author.id,
             message.guild.name,
@@ -27,11 +27,11 @@ class MessageEvents(Cog):
 
     @Cog.listener()
     async def on_message_edit(self, _before: Message, after: Message) -> None:
-        if after.author.bot or after.channel.is_nsfw or after.content != "":
+        if after.author.bot or after.channel.nsfw or not after:
             return
 
         log.info(
-            "`@{} ({}) has edited a message in Server: {} ({}) in Channel: {} ({})",
+            "`@{} ({}) has edited a message in server: {} ({}) in channel: {} ({})",
             after.author.name,
             after.author.id,
             after.guild.name,

@@ -23,7 +23,7 @@ class MemberEvents(Cog):
     @Cog.listener()
     async def on_member_remove(self, member: Member) -> None:
         log.info(
-            "@{} ({}) has left Server: {} ({})",
+            "@{} ({}) has left server: {} ({})",
             member.name,
             member.id,
             member.guild.name,
