@@ -3,9 +3,9 @@ from discord import Embed, EmbedAuthor, Guild
 from clients.constants import ATTR_PRETTY, ATTRIBUTE, ACTION
 
 
-def embed_dominator(dominator: dict, attribute: str, server: Guild) -> Embed:
+def embed_dominator(dominator: dict, attr: str, server: Guild) -> Embed:
     embed = Embed(
-        description=f"{ATTR_PRETTY[attribute]} updated",
+        description=f"{ATTR_PRETTY[attr]} updated",
         author=EmbedAuthor(name="sibylmod"),
         thumbnail=server.icon.url,
     )
@@ -26,10 +26,10 @@ def embed_dominator(dominator: dict, attribute: str, server: Guild) -> Embed:
     else:
         embed.title = f"message dominator settings for server: {server.name}"
 
-    for attribute in ATTRIBUTE.__members__.values():
+    for attr in ATTRIBUTE.__members__.values():
         embed.add_field(
-            name=f"{ATTR_PRETTY[attribute]} action / threshold",
-            value=f"{ACTION(dominator[f'{attribute}_action']).name} / {dominator[f'{attribute}_threshold']}",
+            name=f"{ATTR_PRETTY[attr]} action / threshold",
+            value=f"{ACTION(dominator[f'{attr}_action']).name} / {dominator[f'{attr}_threshold']}",
         )
 
     return embed

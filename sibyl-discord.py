@@ -3,7 +3,7 @@ from loguru import logger as log
 from discord import Bot, Intents
 
 from commands.sibyl import Sibyl
-from commands.psychopass import PsychoPass
+from commands.psycho_pass import PsychoPass
 from commands.dominator import Dominator
 from events.ready import Ready
 from events.guild import GuildEvents
