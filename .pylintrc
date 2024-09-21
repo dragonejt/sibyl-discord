@@ -1,0 +1,6 @@
+[MAIN]
+
+exit-zero=True
+
+[MESSAGES CONTROL]
+disable=W3101, C0114, C0115, C0116
