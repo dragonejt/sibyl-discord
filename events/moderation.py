@@ -5,7 +5,7 @@ from clients.backend.ingest_message import ingest_message
 from clients.backend.communities import Communities
 from clients.backend.dominator.member_dominators import MemberDominators
 from clients.backend.dominator.message_dominators import MessageDominators
-from clients.backend.psychopass.psycho_passes import PsychoPasses
+from clients.backend.psycho_pass.psycho_passes import PsychoPasses
 from clients.constants import ACTION, ATTRIBUTE, DEFAULT_TIMEOUT
 from clients.perspective_api import analyze_comment
 from embeds.moderation import embed_message_moderation, embed_member_moderation

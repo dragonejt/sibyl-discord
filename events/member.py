@@ -1,6 +1,6 @@
 from loguru import logger as log
 from discord import Bot, Cog, Member
-from clients.backend.psychopass.community_psycho_passes import CommmunityPsychoPasses
+from clients.backend.psycho_pass.community_psycho_passes import CommmunityPsychoPasses
 from events.moderation import moderate_member
 
 

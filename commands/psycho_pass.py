@@ -9,8 +9,8 @@ from discord import (
     option,
 )
 
-from clients.backend.psychopass.community_psycho_passes import CommmunityPsychoPasses
-from clients.backend.psychopass.psycho_passes import PsychoPasses
+from clients.backend.psycho_pass.community_psycho_passes import CommmunityPsychoPasses
+from clients.backend.psycho_pass.psycho_passes import PsychoPasses
 from embeds.psycho_pass import embed_community_psycho_pass, embed_psycho_pass
 
 
