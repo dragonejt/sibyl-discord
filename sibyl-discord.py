@@ -1,7 +1,6 @@
 from os import getenv
 from loguru import logger as log
 from discord import Bot, Intents
-
 from commands.sibyl import Sibyl
 from commands.psycho_pass import PsychoPass
 from commands.dominator import Dominator
@@ -18,7 +17,6 @@ intents.moderation = True
 intents.members = True
 intents.message_content = True
 bot = Bot(intents=intents)
-
 
 cogs = [Sibyl, PsychoPass, Dominator, Ready, GuildEvents, MemberEvents, MessageEvents]
 for cog in cogs:

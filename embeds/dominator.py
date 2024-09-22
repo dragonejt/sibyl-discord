@@ -1,5 +1,4 @@
 from discord import Embed, EmbedAuthor, Guild
-
 from clients.constants import ATTR_PRETTY, ATTRIBUTE, ACTION
 
 

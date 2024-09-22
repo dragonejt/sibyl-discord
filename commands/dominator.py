@@ -9,7 +9,6 @@ from discord import (
     SlashCommandOptionType,
     OptionChoice,
 )
-
 from clients.backend.dominator.member_dominators import MemberDominators
 from clients.backend.dominator.message_dominators import MessageDominators
 from clients.constants import ACTION, ATTR_PRETTY, ATTRIBUTE
