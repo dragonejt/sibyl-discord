@@ -4,10 +4,11 @@ from clients.constants import ATTR_PRETTY, ATTRIBUTE, ACTION
 
 def embed_dominator(dominator: dict, attr: str, server: Guild) -> Embed:
     embed = Embed(
-        description=f"{ATTR_PRETTY[attr]} updated",
-        author=EmbedAuthor(name="sibylmod"),
-        thumbnail=server.icon.url,
+        description=f"{ATTR_PRETTY[attr]} updated", author=EmbedAuthor(name="sibylmod")
     )
+
+    if server.icon is not None:
+        embed.thumbnail = server.icon.url
 
     if (
         "crime_coefficient_100_action" in dominator.keys()

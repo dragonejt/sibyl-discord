@@ -9,7 +9,12 @@ def embed_message_moderation(
     embed = Embed(
         title=f"flagged message from {message.author.name}",
         url=message.jump_url,
-        author=EmbedAuthor(name="sibylmod", icon_url=message.author.avatar.url),
+        author=EmbedAuthor(
+            name="sibylmod",
+            icon_url=(
+                message.author.avatar.url if message.author.avatar is not None else None
+            ),
+        ),
         timestamp=datetime.now(UTC),
         footer=EmbedFooter(text=message.id),
     )
@@ -39,7 +44,10 @@ def embed_member_moderation(
 ) -> Embed:
     embed = Embed(
         title=f"flagged psycho-pass of {member.name}",
-        author=EmbedAuthor(name="sibylmod", icon_url=member.avatar.url),
+        author=EmbedAuthor(
+            name="sibylmod",
+            icon_url=member.avatar.url if member.avatar is not None else None,
+        ),
         timestamp=datetime.now(UTC),
         footer=EmbedFooter(text=member.id),
     )

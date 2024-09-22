@@ -5,7 +5,7 @@ from clients.constants import ATTRIBUTE
 def embed_psycho_pass(psycho_pass: dict, requester: User, target: User) -> Embed:
     embed = Embed(
         title=f"psycho-pass of {target.name}",
-        author=EmbedAuthor(name="sibylmod", icon_url=requester.avatar.url),
+        author=EmbedAuthor(name="sibylmod", icon_url=requester.avatar.url if requester.avatar is not None else None),
         description=f"requested by {requester.mention}",
         thumbnail=target.avatar.url,
         color=int(psycho_pass["hue"], 16),
@@ -36,10 +36,12 @@ def embed_community_psycho_pass(
 ) -> Embed:
     embed = Embed(
         title=f"psycho-pass of server: {server.name}",
-        author=EmbedAuthor(name="sibylmod", icon_url=requester.avatar.url),
-        description=f"requested by {requester.mention}",
-        thumbnail=server.icon.url,
+        author=EmbedAuthor(name="sibylmod", icon_url=requester.avatar.url if requester.avatar is not None else None),
+        description=f"requested by {requester.mention}"
     )
+
+    if server.icon is not None:
+        embed.thumbnail = server.icon.url
 
     embed.add_field(
         name=ATTRIBUTE.TOXICITY,
