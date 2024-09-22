@@ -17,7 +17,7 @@ intents.guild_messages = True
 intents.moderation = True
 intents.members = True
 intents.message_content = True
-bot = Bot(intents=intents, debug_guilds=[1063590532711972945])
+bot = Bot(intents=intents)
 
 
 cogs = [Sibyl, PsychoPass, Dominator, Ready, GuildEvents, MemberEvents, MessageEvents]
