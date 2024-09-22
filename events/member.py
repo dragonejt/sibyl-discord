@@ -18,7 +18,9 @@ class MemberEvents(Cog):
             member.guild.name,
             member.guild.id,
         )
-        await moderate_member(member)
+
+        if not member.bot:
+            await moderate_member(member)
 
     @Cog.listener()
     async def on_member_remove(self, member: Member) -> None:
@@ -30,4 +32,5 @@ class MemberEvents(Cog):
             member.guild.id,
         )
 
-        CommmunityPsychoPasses.update(member.guild.id, member.id)
+        if not member.bot:
+            CommmunityPsychoPasses.update(member.guild.id, member.id)
