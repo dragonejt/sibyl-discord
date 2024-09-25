@@ -2,9 +2,9 @@ from discord import Embed, EmbedAuthor, Guild
 from clients.constants import ATTR_PRETTY, ATTRIBUTE, ACTION
 
 
-def embed_dominator(dominator: dict, attr: str, server: Guild) -> Embed:
+def embed_dominator(dominator: dict, attribute: str, server: Guild) -> Embed:
     embed = Embed(
-        description=f"{ATTR_PRETTY[attr]} updated", author=EmbedAuthor(name="sibylmod")
+        description=f"{ATTR_PRETTY[attribute]} updated", author=EmbedAuthor(name="sibylmod")
     )
 
     if server.icon is not None:

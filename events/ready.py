@@ -1,4 +1,5 @@
 from loguru import logger as log
+from sentry_sdk import trace as sentry_trace
 from discord import Cog, Bot, Activity, ActivityType
 
 
@@ -7,6 +8,7 @@ class Ready(Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
+    @sentry_trace
     @Cog.listener()
     async def on_ready(self) -> None:
         log.info("logged in as {}!", self.bot.user.name)

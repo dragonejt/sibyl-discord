@@ -1,5 +1,6 @@
 from typing import Union
 from loguru import logger as log
+from sentry_sdk import trace as sentry_trace
 from discord import (
     Bot,
     Cog,
@@ -19,6 +20,7 @@ class Sibyl(Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
+    @sentry_trace
     @slash_command(description="admin utilities for sibyl")
     @option(
         "log_channel",

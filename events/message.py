@@ -1,4 +1,5 @@
 from loguru import logger as log
+from sentry_sdk import trace as sentry_trace
 from discord import Bot, Cog, Message
 from events.moderation import moderate_message
 
@@ -8,6 +9,7 @@ class MessageEvents(Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
+    @sentry_trace
     @Cog.listener()
     async def on_message(self, message: Message) -> None:
         if message.author.bot or message.channel.nsfw or not message:
@@ -25,6 +27,7 @@ class MessageEvents(Cog):
 
         await moderate_message(message)
 
+    @sentry_trace
     @Cog.listener()
     async def on_message_edit(self, _before: Message, after: Message) -> None:
         if after.author.bot or after.channel.nsfw or not after:
