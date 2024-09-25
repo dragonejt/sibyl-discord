@@ -19,8 +19,8 @@ class PsychoPass(Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
-    @sentry_trace
     @slash_command(description="get the psycho-pass of a user or server")
+    @sentry_trace
     @option(
         "user",
         type=SlashCommandOptionType.user,

@@ -25,8 +25,8 @@ class Dominator(Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
-    @sentry_trace
     @base_dominator.command(description="configure message dominator")
+    @sentry_trace
     @option(
         "attribute",
         type=SlashCommandOptionType.string,
@@ -70,8 +70,8 @@ class Dominator(Cog):
             ctx, MessageDominators, attribute, action, threshold
         )
 
-    @sentry_trace
     @base_dominator.command(description="configure member dominator")
+    @sentry_trace
     @option(
         "attribute",
         type=SlashCommandOptionType.string,

@@ -9,8 +9,8 @@ class MessageEvents(Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
-    @sentry_trace
     @Cog.listener()
+    @sentry_trace
     async def on_message(self, message: Message) -> None:
         if message.author.bot or message.channel.nsfw or not message:
             return
@@ -27,8 +27,8 @@ class MessageEvents(Cog):
 
         await moderate_message(message)
 
-    @sentry_trace
     @Cog.listener()
+    @sentry_trace
     async def on_message_edit(self, _before: Message, after: Message) -> None:
         if after.author.bot or after.channel.nsfw or not after:
             return

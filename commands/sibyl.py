@@ -20,8 +20,8 @@ class Sibyl(Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
-    @sentry_trace
     @slash_command(description="admin utilities for sibyl")
+    @sentry_trace
     @option(
         "log_channel",
         type=SlashCommandOptionType.channel,

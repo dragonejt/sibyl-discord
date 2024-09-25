@@ -10,8 +10,8 @@ class MemberEvents(Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
-    @sentry_trace
     @Cog.listener()
+    @sentry_trace
     async def on_member_join(self, member: Member) -> None:
         log.info(
             "@{} ({}) has joined server: {} ({})",
@@ -24,8 +24,8 @@ class MemberEvents(Cog):
         if not member.bot:
             await moderate_member(member)
 
-    @sentry_trace
     @Cog.listener()
+    @sentry_trace
     async def on_member_remove(self, member: Member) -> None:
         log.info(
             "@{} ({}) has left server: {} ({})",
