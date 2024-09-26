@@ -1,6 +1,5 @@
 from datetime import datetime, UTC
 from loguru import logger as log
-from sentry_sdk import trace as sentry_trace
 from discord import Member, Message
 from clients.backend.ingest_message import ingest_message
 from clients.backend.communities import Communities
@@ -12,7 +11,6 @@ from clients.perspective_api import analyze_comment
 from embeds.moderation import embed_message_moderation, embed_member_moderation
 
 
-@sentry_trace
 async def moderate_member(member: Member) -> None:
     psycho_pass = PsychoPasses.read(member.id)
     dominator = MemberDominators.read(member.guild.id)
@@ -79,7 +77,6 @@ async def moderate_member(member: Member) -> None:
     )
 
 
-@sentry_trace
 async def moderate_message(message: Message) -> None:
     analysis = analyze_comment(message.content)
     dominator = MessageDominators.read(message.guild.id)

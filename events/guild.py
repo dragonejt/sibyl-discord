@@ -1,5 +1,4 @@
 from loguru import logger as log
-from sentry_sdk import trace as sentry_trace
 from discord import Bot, Cog, Guild, Activity, ActivityType
 
 
@@ -9,7 +8,6 @@ class GuildEvents(Cog):
         self.bot = bot
 
     @Cog.listener()
-    @sentry_trace
     async def on_guild_join(self, guild: Guild) -> None:
         activity = Activity(
             name=f"{len(self.bot.guilds)} Classes", type=ActivityType.watching
@@ -20,7 +18,6 @@ class GuildEvents(Cog):
         )
 
     @Cog.listener()
-    @sentry_trace
     async def on_guild_remove(self, guild: Guild) -> None:
         activity = Activity(
             name=f"{len(self.bot.guilds)} Classes", type=ActivityType.watching

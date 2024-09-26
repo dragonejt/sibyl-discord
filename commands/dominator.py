@@ -1,14 +1,15 @@
 from typing import Union
 from loguru import logger as log
-from sentry_sdk import trace as sentry_trace
 from discord import (
     ApplicationContext,
     Bot,
     Cog,
+    Permissions,
     SlashCommandGroup,
     option,
     SlashCommandOptionType,
     OptionChoice,
+    default_permissions,
 )
 from clients.backend.dominator.member_dominators import MemberDominators
 from clients.backend.dominator.message_dominators import MessageDominators
@@ -26,7 +27,7 @@ class Dominator(Cog):
         self.bot = bot
 
     @base_dominator.command(description="configure message dominator")
-    @sentry_trace
+    @default_permissions(administrator=True)
     @option(
         "attribute",
         type=SlashCommandOptionType.string,
@@ -71,7 +72,7 @@ class Dominator(Cog):
         )
 
     @base_dominator.command(description="configure member dominator")
-    @sentry_trace
+    @default_permissions(administrator=True)
     @option(
         "attribute",
         type=SlashCommandOptionType.string,

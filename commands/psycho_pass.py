@@ -1,5 +1,4 @@
 from loguru import logger as log
-from sentry_sdk import trace as sentry_trace
 from discord import (
     ApplicationContext,
     Bot,
@@ -20,7 +19,6 @@ class PsychoPass(Cog):
         self.bot = bot
 
     @slash_command(description="get the psycho-pass of a user or server")
-    @sentry_trace
     @option(
         "user",
         type=SlashCommandOptionType.user,

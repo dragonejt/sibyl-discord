@@ -10,12 +10,24 @@ from events.guild import GuildEvents
 from events.member import MemberEvents
 from events.message import MessageEvents
 
-
 init_sentry(
     dsn="https://d53596644eef961a44fa0b22d56f22d1@o4507124907638784.ingest.us.sentry.io/4507125166702592",
     traces_sample_rate=1 / 30,
     profiles_sample_rate=1,
     enable_tracing=True,
+    functions_to_trace=[
+        {"qualified_name": "commands.sibyl.Sibyl.sibyl"},
+        {"qualified_name": "commands.psycho_pass.PsychoPass.psychopass"},
+        {"qualified_name": "commands.dominator.Dominator.message"},
+        {"qualified_name": "commands.dominator.Dominator.member"},
+        {"qualified_name": "events.ready.Ready.on_ready"},
+        {"qualified_name": "events.guild.GuildEvents.on_guild_join"},
+        {"qualified_name": "events.guild.GuildEvents.on_guild_remove"},
+        {"qualified_name": "events.member.MemberEvents.on_member_join"},
+        {"qualified_name": "events.member.MemberEvents.on_member_remove"},
+        {"qualified_name": "events.message.MessageEvents.on_message"},
+        {"qualified_name": "events.message.MessageEvents.on_message_edit"},
+    ],
 )
 
 intents = Intents.default()
