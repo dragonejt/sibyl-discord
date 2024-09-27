@@ -1,5 +1,6 @@
 from typing import Union
 from loguru import logger as log
+from sentry_sdk import start_transaction, trace as sentry_trace
 from discord import (
     ApplicationContext,
     Bot,
@@ -60,16 +61,12 @@ class Dominator(Cog):
         action: ACTION,
         threshold: float,
     ) -> None:
-        if not ctx.author.guild_permissions.administrator:
-            await ctx.followup.send(
-                "you do not have permissions to configure notification settings"
-            )
-            return
-        await ctx.defer()
+        with start_transaction(name="/dominator message"):
+            await ctx.defer()
 
-        await self.configure_dominator(
-            ctx, MessageDominators, attribute, action, threshold
-        )
+            await self.configure_dominator(
+                ctx, MessageDominators, attribute, action, threshold
+            )
 
     @base_dominator.command(description="configure member dominator")
     @default_permissions(administrator=True)
@@ -105,17 +102,14 @@ class Dominator(Cog):
         action: ACTION,
         threshold: float,
     ) -> None:
-        if not ctx.author.guild_permissions.administrator:
-            await ctx.followup.send(
-                "you do not have permissions to configure notification settings"
+        with start_transaction(name="/dominator member"):
+            await ctx.defer()
+
+            await self.configure_dominator(
+                ctx, MemberDominators, attribute, action, threshold
             )
-            return
-        await ctx.defer()
 
-        await self.configure_dominator(
-            ctx, MemberDominators, attribute, action, threshold
-        )
-
+    @sentry_trace
     async def configure_dominator(
         self,
         ctx: ApplicationContext,

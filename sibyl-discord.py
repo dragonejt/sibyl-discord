@@ -15,19 +15,6 @@ init_sentry(
     traces_sample_rate=1 / 30,
     profiles_sample_rate=1,
     enable_tracing=True,
-    functions_to_trace=[
-        {"qualified_name": "commands.sibyl.Sibyl.sibyl"},
-        {"qualified_name": "commands.psycho_pass.PsychoPass.psychopass"},
-        {"qualified_name": "commands.dominator.Dominator.message"},
-        {"qualified_name": "commands.dominator.Dominator.member"},
-        {"qualified_name": "events.ready.Ready.on_ready"},
-        {"qualified_name": "events.guild.GuildEvents.on_guild_join"},
-        {"qualified_name": "events.guild.GuildEvents.on_guild_remove"},
-        {"qualified_name": "events.member.MemberEvents.on_member_join"},
-        {"qualified_name": "events.member.MemberEvents.on_member_remove"},
-        {"qualified_name": "events.message.MessageEvents.on_message"},
-        {"qualified_name": "events.message.MessageEvents.on_message_edit"},
-    ],
 )
 
 intents = Intents.default()

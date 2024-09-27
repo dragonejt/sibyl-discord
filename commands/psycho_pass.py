@@ -1,4 +1,5 @@
 from loguru import logger as log
+from sentry_sdk import start_transaction
 from discord import (
     ApplicationContext,
     Bot,
@@ -26,27 +27,28 @@ class PsychoPass(Cog):
         required=False,
     )
     async def psychopass(self, ctx: ApplicationContext, user: User) -> None:
-        log.debug("{} /psychopass user: @{}", ctx.guild_id, user)
-        await ctx.defer()
-        if user is not None:
-            log.info(
-                "@{} ({}) has requested the psycho-pass of @{} ({})",
-                ctx.user.name,
-                ctx.user.id,
-                user.name,
-                user.id,
-            )
-            psycho_pass = PsychoPasses.read(user.id)
-            await ctx.edit(embed=embed_psycho_pass(psycho_pass, ctx.user, user))
-        else:
-            log.info(
-                "@{} ({}) has requested the area stress level of {} ({})",
-                ctx.user.name,
-                ctx.user.id,
-                ctx.guild.name,
-                ctx.guild_id,
-            )
-            psycho_pass = CommmunityPsychoPasses.read(ctx.guild_id)
-            await ctx.edit(
-                embed=embed_community_psycho_pass(psycho_pass, ctx.user, ctx.guild)
-            )
+        with start_transaction(name="/psychopass"):
+            log.debug("{} /psychopass user: @{}", ctx.guild_id, user)
+            await ctx.defer()
+            if user is not None:
+                log.info(
+                    "@{} ({}) has requested the psycho-pass of @{} ({})",
+                    ctx.user.name,
+                    ctx.user.id,
+                    user.name,
+                    user.id,
+                )
+                psycho_pass = PsychoPasses.read(user.id)
+                await ctx.edit(embed=embed_psycho_pass(psycho_pass, ctx.user, user))
+            else:
+                log.info(
+                    "@{} ({}) has requested the area stress level of {} ({})",
+                    ctx.user.name,
+                    ctx.user.id,
+                    ctx.guild.name,
+                    ctx.guild_id,
+                )
+                psycho_pass = CommmunityPsychoPasses.read(ctx.guild_id)
+                await ctx.edit(
+                    embed=embed_community_psycho_pass(psycho_pass, ctx.user, ctx.guild)
+                )
