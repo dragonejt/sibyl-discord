@@ -12,7 +12,7 @@ from events.message import MessageEvents
 
 init_sentry(
     dsn="https://d53596644eef961a44fa0b22d56f22d1@o4507124907638784.ingest.us.sentry.io/4507125166702592",
-    traces_sample_rate=1 / 30,
+    traces_sample_rate=1,
     profiles_sample_rate=1,
     enable_tracing=True,
 )
