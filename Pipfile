@@ -8,10 +8,11 @@ requests = "*"
 py-cord = "*"
 loguru = "*"
 sentry-sdk = "*"
+audioop-lts = "*"
 
 [dev-packages]
 pylint = "*"
 black = "*"
 
 [requires]
-python_version = "3.12"
+python_version = "3.13"
