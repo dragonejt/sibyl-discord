@@ -22,22 +22,6 @@ jobs:
           branch: 'main'
           git_push_flags: --force
 
-  sentry:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
-
-      - name: Install Dependencies
-        run: |
-          python -m pip install pipenv
-          pipenv install --dev
-
       - name: Create Sentry Release
         uses: getsentry/action-release@v1
         env:
@@ -46,4 +30,3 @@ jobs:
           SENTRY_PROJECT: sibyl-discord
         with:
           environment: production
-          sourcemaps: ./
