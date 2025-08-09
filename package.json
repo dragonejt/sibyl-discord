@@ -7,9 +7,9 @@
         "start": "node sibyl-discord.js",
         "build": "npx tsc --build",
         "clean": "npx tsc --build --clean",
-        "dev": "node --loader ts-node/esm sibyl-discord.ts",
+        "dev": "vite-node sibyl-discord.ts",
         "test": "node --test --experimental-test-coverage",
-        "lint": "npx eslint --fix && npx prettier **/*.ts --write",
+        "lint": "oxlint --fix && prettier **/*.ts --write",
         "sentry:sourcemaps": "sentry-cli sourcemaps inject --org dragonejt --project sibyl-discord ./ && sentry-cli sourcemaps upload --org dragonejt --project sibyl-discord ./"
     },
     "type": "module",
@@ -30,13 +30,13 @@
         "discord.js": "*"
     },
     "devDependencies": {
-        "@eslint/js": "*",
-        "eslint": "*",
         "globals": "*",
+        "oxlint": "*",
         "prettier": "*",
         "ts-node": "*",
         "tslib": "*",
         "typescript": "*",
-        "typescript-eslint": "*"
+        "vite-node": "*",
+        "vitest": "^3.2.4"
     }
 }

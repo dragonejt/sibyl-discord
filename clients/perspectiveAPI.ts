@@ -17,8 +17,8 @@ export interface MessageAnalysis {
   };
   languages: string[];
   clientToken?: string;
-  userID?: string;
-  communityID?: string;
+  user_id?: string;
+  community_id?: string;
 }
 
 export async function analyzeComment(

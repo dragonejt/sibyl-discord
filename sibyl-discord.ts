@@ -23,7 +23,7 @@ init({
   tracesSampleRate: 1 / 30,
   // Set sampling rate for profiling - this is relative to tracesSampleRate
   profilesSampleRate: 1,
-  enableTracing: true,
+  sendDefaultPii: true,
   environment: process.env.NODE_ENV,
 });
 

@@ -18,10 +18,10 @@ export class CommunityPsychoPasses {
   static url = `${process.env.BACKEND_URL!}/psychopass/community`;
 
   static async read(
-    communityID: string,
+    community_id: string,
   ): Promise<CommunityPsychoPass | undefined> {
     try {
-      const response = await fetch(`${this.url}?id=${communityID}`, {
+      const response = await fetch(`${this.url}?id=${community_id}`, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -31,7 +31,7 @@ export class CommunityPsychoPasses {
       });
       if (!response.ok)
         throw new Error(
-          `GET ${this.url}?id=${communityID}: ${response.status} ${response.statusText}`,
+          `GET ${this.url}?id=${community_id}: ${response.status} ${response.statusText}`,
         );
       return await response.json();
     } catch (error) {
@@ -41,19 +41,19 @@ export class CommunityPsychoPasses {
 
   // For Removing a User Psycho-Pass from a Community Psycho-Pass Only
   static async update(
-    communityID: string,
-    userID: string,
+    community_id: string,
+    user_id: string,
   ): Promise<CommunityPsychoPass | undefined> {
     try {
       const response = await fetch(this.url, {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
           "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
           Authorization: `Token ${process.env.BACKEND_API_KEY!}`,
         },
-        body: JSON.stringify({ communityID, userID }),
+        body: JSON.stringify({ community_id, user_id }),
       });
       if (!response.ok)
         throw new Error(

@@ -2,7 +2,6 @@ interface Community {
   id: number;
   platform: number;
   community_id: string;
-  communityID?: string;
   discord_log_channel?: string;
   discord_notify_target?: string;
 }
@@ -10,7 +9,7 @@ interface Community {
 export default class Communities {
   static url = `${process.env.BACKEND_URL!}/community`;
 
-  static async create(communityID: string): Promise<Community | undefined> {
+  static async create(community_id: string): Promise<Community | undefined> {
     try {
       const response = await fetch(this.url, {
         method: "POST",
@@ -20,7 +19,7 @@ export default class Communities {
           "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
           Authorization: `Token ${process.env.BACKEND_API_KEY!}`,
         },
-        body: JSON.stringify({ communityID }),
+        body: JSON.stringify({ community_id }),
       });
       if (!response.ok)
         throw new Error(
@@ -32,9 +31,9 @@ export default class Communities {
     }
   }
 
-  static async read(communityID: string): Promise<Community | undefined> {
+  static async read(community_id: string): Promise<Community | undefined> {
     try {
-      const response = await fetch(`${this.url}?id=${communityID}`, {
+      const response = await fetch(`${this.url}?id=${community_id}`, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -44,7 +43,7 @@ export default class Communities {
       });
       if (!response.ok)
         throw new Error(
-          `GET ${this.url}?id=${communityID}: ${response.status} ${response.statusText}`,
+          `GET ${this.url}?id=${community_id}: ${response.status} ${response.statusText}`,
         );
       return await response.json();
     } catch (error) {
@@ -57,7 +56,7 @@ export default class Communities {
   ): Promise<Community | undefined> {
     try {
       const response = await fetch(this.url, {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -76,9 +75,9 @@ export default class Communities {
     }
   }
 
-  static async delete(communityID: string) {
+  static async delete(community_id: string) {
     try {
-      const response = await fetch(`${this.url}?id=${communityID}`, {
+      const response = await fetch(`${this.url}?id=${community_id}`, {
         method: "DELETE",
         headers: {
           "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
@@ -87,7 +86,7 @@ export default class Communities {
       });
       if (!response.ok)
         throw new Error(
-          `DELETE ${this.url}?id=${communityID}: ${response.status} ${response.statusText}`,
+          `DELETE ${this.url}?id=${community_id}: ${response.status} ${response.statusText}`,
         );
     } catch (error) {
       console.error(error);

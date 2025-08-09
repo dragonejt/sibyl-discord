@@ -20,8 +20,8 @@ const mockCommunityPsychoPass: CommunityPsychoPass = {
   },
 };
 
-const userID = Math.random().toString();
-const communityID = Math.random().toString();
+const user_id = Math.random().toString();
+const community_id = Math.random().toString();
 
 describe("CommunityPsychoPasses", () => {
   describe("read", () => {
@@ -33,12 +33,12 @@ describe("CommunityPsychoPasses", () => {
         });
       }).mock;
 
-      const result = await CommunityPsychoPasses.read(communityID);
+      const result = await CommunityPsychoPasses.read(community_id);
       assert.deepStrictEqual(result, mockCommunityPsychoPass);
 
       const call = mockFetch.calls[0];
       assert.deepStrictEqual(call.arguments, [
-        `${process.env.BACKEND_URL!}/psychopass/community?id=${communityID}`,
+        `${process.env.BACKEND_URL!}/psychopass/community?id=${community_id}`,
         {
           method: "GET",
           headers: {
@@ -64,12 +64,12 @@ describe("CommunityPsychoPasses", () => {
         (_: Error) => {},
       ).mock;
 
-      await CommunityPsychoPasses.read(communityID);
+      await CommunityPsychoPasses.read(community_id);
 
       const mockConsoleErrorCall = mockConsoleError.calls[0];
       assert.strictEqual(
         (mockConsoleErrorCall.arguments[0] as Error).message,
-        `GET ${process.env.BACKEND_URL!}/psychopass/community?id=${communityID}: 401 Unauthorized`,
+        `GET ${process.env.BACKEND_URL!}/psychopass/community?id=${community_id}: 401 Unauthorized`,
       );
     });
   });
@@ -83,21 +83,21 @@ describe("CommunityPsychoPasses", () => {
         });
       }).mock;
 
-      const result = await CommunityPsychoPasses.update(communityID, userID);
+      const result = await CommunityPsychoPasses.update(community_id, user_id);
       assert.deepStrictEqual(result, mockCommunityPsychoPass);
 
       const call = mockFetch.calls[0];
       assert.deepStrictEqual(call.arguments, [
         `${process.env.BACKEND_URL!}/psychopass/community`,
         {
-          method: "PUT",
+          method: "PATCH",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
             "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
             Authorization: `Token ${process.env.BACKEND_API_KEY!}`,
           },
-          body: JSON.stringify({ communityID, userID }),
+          body: JSON.stringify({ community_id, user_id }),
         },
       ]);
     });
@@ -116,7 +116,7 @@ describe("CommunityPsychoPasses", () => {
         (_: Error) => {},
       ).mock;
 
-      await CommunityPsychoPasses.update(communityID, userID);
+      await CommunityPsychoPasses.update(community_id, user_id);
 
       const mockConsoleErrorCall = mockConsoleError.calls[0];
       assert.strictEqual(

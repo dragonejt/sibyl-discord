@@ -18,9 +18,9 @@ export interface PsychoPass {
 export class PsychoPasses {
   static url = `${process.env.BACKEND_URL!}/psychopass/user`;
 
-  static async read(userID: string): Promise<PsychoPass | undefined> {
+  static async read(user_id: string): Promise<PsychoPass | undefined> {
     try {
-      const response = await fetch(`${this.url}?id=${userID}`, {
+      const response = await fetch(`${this.url}?id=${user_id}`, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -30,7 +30,7 @@ export class PsychoPasses {
       });
       if (!response.ok)
         throw new Error(
-          `GET ${this.url}?id=${userID}: ${response.status} ${response.statusText}`,
+          `GET ${this.url}?id=${user_id}: ${response.status} ${response.statusText}`,
         );
       return await response.json();
     } catch (error) {

@@ -1,7 +1,7 @@
 export interface MessageDominator {
   id: number;
   community: number;
-  communityID?: string;
+  community_id?: string;
 
   toxicity_action: number;
   toxicity_threshold: number;
@@ -23,10 +23,10 @@ export class MessageDominators {
   static url = `${process.env.BACKEND_URL!}/dominator/message`;
 
   static async read(
-    communityID: string,
+    community_id: string,
   ): Promise<MessageDominator | undefined> {
     try {
-      const response = await fetch(`${this.url}?id=${communityID}`, {
+      const response = await fetch(`${this.url}?id=${community_id}`, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -36,7 +36,7 @@ export class MessageDominators {
       });
       if (!response.ok)
         throw new Error(
-          `GET ${this.url}?id=${communityID}: ${response.status} ${response.statusText}`,
+          `GET ${this.url}?id=${community_id}: ${response.status} ${response.statusText}`,
         );
       return await response.json();
     } catch (error) {
@@ -49,7 +49,7 @@ export class MessageDominators {
   ): Promise<MessageDominator | undefined> {
     try {
       const response = await fetch(this.url, {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -68,9 +68,9 @@ export class MessageDominators {
     }
   }
 
-  static async delete(communityID: string) {
+  static async delete(community_id: string) {
     try {
-      const response = await fetch(`${this.url}?id=${communityID}`, {
+      const response = await fetch(`${this.url}?id=${community_id}`, {
         method: "DELETE",
         headers: {
           "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
@@ -79,7 +79,7 @@ export class MessageDominators {
       });
       if (!response.ok)
         throw new Error(
-          `DELETE ${this.url}?id=${communityID}: ${response.status} ${response.statusText}`,
+          `DELETE ${this.url}?id=${community_id}: ${response.status} ${response.statusText}`,
         );
     } catch (error) {
       console.error(error);

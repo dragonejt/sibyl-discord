@@ -34,7 +34,7 @@ describe("Communities", () => {
             "User-Agent": `${process.env.npm_package_name}/${process.env.npm_package_version!} node.js/${process.version}`,
             Authorization: `Token ${process.env.BACKEND_API_KEY!}`,
           },
-          body: JSON.stringify({ communityID: mockCommunity.community_id }),
+          body: JSON.stringify({ community_id: mockCommunity.community_id }),
         },
       ]);
     });
@@ -118,7 +118,7 @@ describe("Communities", () => {
       assert.deepStrictEqual(call.arguments, [
         `${process.env.BACKEND_URL!}/community`,
         {
-          method: "PUT",
+          method: "PATCH",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",

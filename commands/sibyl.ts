@@ -23,7 +23,7 @@ async function execute(interaction: ChatInputCommandInteraction) {
   if (interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)) {
     if (interaction.options.get("log_channel")) {
       await Communities.update({
-        communityID: interaction.guildId!,
+        community_id: interaction.guildId!,
         discord_log_channel: interaction.options
           .get("log_channel")!
           .value!.toString(),
@@ -34,7 +34,7 @@ async function execute(interaction: ChatInputCommandInteraction) {
     }
     if (interaction.options.get("notify_role")) {
       await Communities.update({
-        communityID: interaction.guildId!,
+        community_id: interaction.guildId!,
         discord_notify_target: interaction.options
           .get("notify_role")!
           .value!.toString(),

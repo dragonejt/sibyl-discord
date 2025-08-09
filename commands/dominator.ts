@@ -125,16 +125,16 @@ async function execute(interaction: ChatInputCommandInteraction) {
     const attribute = interaction.options.getString("attribute")!;
     if (attribute === "crime_coefficient_100" && action) {
       await dominator.update({
-        communityID: interaction.guildId,
+        community_id: interaction.guildId,
         crime_coefficient_100_action: action,
       } as Partial<MemberDominator>);
     } else if (attribute === "crime_coefficient_300" && action) {
       await dominator.update({
-        communityID: interaction.guildId,
+        community_id: interaction.guildId,
         crime_coefficient_300_action: action,
       } as Partial<MemberDominator>);
     } else if (ATTRIBUTES.includes(attribute)) {
-      const triggerData = { communityID: interaction.guildId } as
+      const triggerData = { community_id: interaction.guildId } as
         | Partial<MessageDominator>
         | Partial<MemberDominator>;
       if (action !== null && action !== undefined)

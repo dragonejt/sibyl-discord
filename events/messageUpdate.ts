@@ -52,8 +52,8 @@ async function messageUpdate(
       throw new Error(
         "messageUpdate: MessageAnalysis or MessageDominator undefined!",
       );
-    analysis.userID = newMessage.author.id;
-    analysis.communityID = newMessage.guildId!;
+    analysis.user_id = newMessage.author.id;
+    analysis.community_id = newMessage.guildId!;
     ingestMessage(analysis);
     let maxAction = ACTIONS.indexOf("NOTIFY");
     const reasons: Reason[] = [];

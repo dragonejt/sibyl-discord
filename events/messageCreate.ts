@@ -51,8 +51,8 @@ async function messageCreate(message: Message) {
       throw new Error(
         "messageCreate: MessageAnalysis or MessageDominator undefined!",
       );
-    analysis.userID = message.author.id;
-    analysis.communityID = message.guildId!;
+    analysis.user_id = message.author.id;
+    analysis.community_id = message.guildId!;
     ingestMessage(analysis);
     let maxAction = -1;
     const reasons: Reason[] = [];
